@@ -1,46 +1,65 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'package:rick_and_morty_app/features/characters/presentation/blocs/blocs.dart';
+import 'package:rick_and_morty_app/features/characters/domain/domain.dart';
 import 'package:rick_and_morty_app/features/characters/presentation/widgets/widgets.dart';
-import 'package:rick_and_morty_app/features/shared/widgets/widgets.dart';
 
-class CharactersView extends StatelessWidget {
+class CharactersView extends StatefulWidget {
+  final List<Character> characters;
+  final VoidCallback? loadNextPage;
+
   const CharactersView({
     super.key,
+    required this.characters,
+    this.loadNextPage,
   });
 
-  void showSnackbar(BuildContext context, String message) {
-    ScaffoldMessenger.of(context).hideCurrentSnackBar();
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-      ),
-    );
+  @override
+  State<CharactersView> createState() => _CharactersViewState();
+}
+
+class _CharactersViewState extends State<CharactersView> {
+  final controller = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    controller.addListener(() {
+      if (widget.loadNextPage == null) return;
+
+      if ((controller.position.pixels + 100) >=
+          controller.position.maxScrollExtent) {
+        widget.loadNextPage!();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<CharactersBloc, CharactersState>(
-      bloc: BlocProvider.of<CharactersBloc>(context),
-      listener: (context, state) {
-        if (state.errorMessage.isNotEmpty) {
-          showSnackbar(context, state.errorMessage);
-        }
-      },
-      child: BlocBuilder<CharactersBloc, CharactersState>(
-        bloc: BlocProvider.of<CharactersBloc>(context),
-        builder: (context, state) {
-          if (state.isLoading && state.characters.isEmpty) {
-            return const ScaffoldLoading();
-          }
-
-          return CharactersMansory(
-            characters: state.characters,
-            loadNextPage: context.read<CharactersBloc>().loadNextPage,
-          );
-        },
-      ),
+    return CustomScrollView(
+      controller: controller,
+      slivers: [
+        SliverAppBar(
+          floating: true,
+          flexibleSpace: const FlexibleSpaceBar(
+            title: Text("Personajes"),
+          ),
+          actions: [
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.search),
+            ),
+          ],
+        ),
+        CharactersMansory(
+          characters: widget.characters,
+        ),
+      ],
     );
   }
 }
