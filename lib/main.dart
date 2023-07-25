@@ -2,25 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:rick_and_morty_app/config/config.dart';
-import 'package:rick_and_morty_app/features/characters/infrastructure/infrastructure.dart';
-
-import 'features/characters/presentation/blocs/blocs.dart';
 
 Future<void> main() async {
   await Certificate.register();
   await Environment.initEnvironment();
+  HumanFormats.initializeDates();
 
   runApp(
     MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (_) {
-          final charactersRepository =
-              CharactersRepositoryImpl(CharactersDatasourceImpl());
-          return CharactersBloc(
-            charactersRepository: charactersRepository,
-          );
-        }),
-      ],
+      providers: blocProviders,
       child: const MainApp(),
     ),
   );
