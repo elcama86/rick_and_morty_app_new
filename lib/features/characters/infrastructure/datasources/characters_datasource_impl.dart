@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:rick_and_morty_app/config/constants/environment.dart';
 import 'package:rick_and_morty_app/features/characters/domain/domain.dart';
 import 'package:rick_and_morty_app/features/characters/infrastructure/infrastructure.dart';
+import 'package:rick_and_morty_app/features/shared/shared.dart';
 
 class CharactersDatasourceImpl extends CharactersDatasource {
   final dio = Dio(
@@ -77,8 +78,10 @@ class CharactersDatasourceImpl extends CharactersDatasource {
   }
 
   @override
-  Future<List<Character>?> searchCharacters(String query) async {
+  Future<List<Character>> searchCharacters(String query) async {
     try {
+      if (query.isEmpty) return [];
+
       final response = await dio.get(
         '/character',
         queryParameters: {

@@ -16,7 +16,7 @@ class CharactersRepositoryImpl extends CharactersRepository {
   }
 
   @override
-  Future<List<Character>?> searchCharacters(String query) {
+  Future<List<Character>> searchCharacters(String query) {
     return datasource.searchCharacters(query);
   }
 }
