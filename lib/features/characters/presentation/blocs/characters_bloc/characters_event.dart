@@ -1,6 +1,5 @@
 part of 'characters_bloc.dart';
 
-@immutable
 abstract class CharactersEvent {}
 
 class SetCharacters extends CharactersEvent {

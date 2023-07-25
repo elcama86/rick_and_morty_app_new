@@ -16,7 +16,6 @@ class CharactersState extends Equatable {
   });
 
   CharactersState copyWith({
-    bool? isFirstLoading,
     bool? isLoading,
     bool? isLastPage,
     int? page,
