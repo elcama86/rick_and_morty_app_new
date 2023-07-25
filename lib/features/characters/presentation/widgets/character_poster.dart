@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
+import 'package:go_router/go_router.dart';
 
 import 'package:rick_and_morty_app/features/characters/domain/domain.dart';
 
@@ -22,7 +23,7 @@ class CharacterPoster extends StatelessWidget {
       from: random.nextInt(100) + 80,
       delay: Duration(milliseconds: random.nextInt(450) + 0),
       child: GestureDetector(
-        onTap: () => {},
+        onTap: () => context.push('/characters/character/${character.id}'),
         child: Column(
           children: [
             _CharacterImage(
