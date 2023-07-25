@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rick_and_morty_app/features/characters/delegates/search_characters_delegate.dart';
 import 'package:rick_and_morty_app/features/characters/domain/domain.dart';
+import 'package:rick_and_morty_app/features/characters/presentation/blocs/blocs.dart';
 import 'package:rick_and_morty_app/features/characters/presentation/widgets/widgets.dart';
 
 class CharactersView extends StatefulWidget {
   final List<Character> characters;
+
   final VoidCallback? loadNextPage;
 
   const CharactersView({
@@ -41,17 +45,38 @@ class _CharactersViewState extends State<CharactersView> {
 
   @override
   Widget build(BuildContext context) {
+    final appBarTitleTheme = Theme.of(context).appBarTheme.titleTextStyle;
+
     return CustomScrollView(
       controller: controller,
       slivers: [
         SliverAppBar(
           floating: true,
-          flexibleSpace: const FlexibleSpaceBar(
-            title: Text("Personajes"),
+          flexibleSpace: FlexibleSpaceBar(
+            title: Text(
+              "Personajes",
+              style: appBarTitleTheme,
+            ),
           ),
           actions: [
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                final searchCharactersState =
+                    context.read<SearchCharactersBloc>().state;
+
+                final searchCharacters = context
+                    .read<SearchCharactersBloc>()
+                    .searchCharactersByQuery;
+
+                showSearch<Character?>(
+                  query: searchCharactersState.query,
+                  context: context,
+                  delegate: SearchCharactersDelegate(
+                    searchCharacters: searchCharacters,
+                    initialCharacters: searchCharactersState.results,
+                  ),
+                );
+              },
               icon: const Icon(Icons.search),
             ),
           ],
