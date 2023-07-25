@@ -8,6 +8,7 @@ class Character {
   final String origin;
   final String location;
   final String image;
+  final List<String> episodes;
   final DateTime created;
 
   Character({
@@ -20,6 +21,7 @@ class Character {
     required this.origin,
     required this.location,
     required this.image,
+    required this.episodes,
     required this.created,
   });
 }

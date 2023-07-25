@@ -12,6 +12,7 @@ class CharacterMapper {
         origin: result.origin.name,
         location: result.location.name,
         image: result.image,
+        episodes: List<String>.from(result.episode.map((e) => e)),
         created: result.created,
       );
 
@@ -27,6 +28,7 @@ class CharacterMapper {
         origin: characterDetails.origin.name,
         location: characterDetails.location.name,
         image: characterDetails.image,
+        episodes: List<String>.from(characterDetails.episode.map((e) => e)),
         created: characterDetails.created,
       );
 }
