@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rick_and_morty_app/features/characters/characters.dart';
+import 'package:rick_and_morty_app/features/episodes/episodes.dart';
 import 'package:rick_and_morty_app/features/home/home.dart';
 
 final appRouter = GoRouter(
@@ -16,6 +17,43 @@ final appRouter = GoRouter(
             key: state.pageKey,
             child: const CharactersScreen(),
           ),
+          routes: [
+            GoRoute(
+              path: 'character/:id',
+              pageBuilder: (context, state) {
+                final characterId = state.pathParameters['id'] ?? 'no-id';
+
+                return transitionAnimationPage(
+                  key: state.pageKey,
+                  child: CharacterScreen(
+                    characterId: characterId,
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
+        GoRoute(
+          path: 'episodes',
+          pageBuilder: (context, state) => transitionAnimationPage(
+            key: state.pageKey,
+            child: const EpisodesScreen(),
+          ),
+          routes: [
+            GoRoute(
+              path: 'episode/:id',
+              pageBuilder: (context, state) {
+                final episodeId = state.pathParameters['id'] ?? 'no-id';
+
+                return transitionAnimationPage(
+                  key: state.pageKey,
+                  child: EpisodeScreen(
+                    episodeId: episodeId,
+                  ),
+                );
+              },
+            ),
+          ],
         ),
       ],
     ),
