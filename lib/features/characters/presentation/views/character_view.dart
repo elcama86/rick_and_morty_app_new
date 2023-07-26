@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:rick_and_morty_app/config/helpers/human_formats.dart';
 import 'package:rick_and_morty_app/features/characters/domain/domain.dart';
+import 'package:rick_and_morty_app/features/shared/widgets/widgets.dart';
 
 class CharacterView extends StatelessWidget {
   final Character character;
@@ -202,7 +203,7 @@ class _CustomSliverAppBar extends StatelessWidget {
       foregroundColor: Colors.white,
       flexibleSpace: FlexibleSpaceBar(
         titlePadding: const EdgeInsets.only(bottom: 0.0),
-        title: _CustomGradient(
+        title: CustomGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           stops: const [0.7, 1.0],
@@ -224,7 +225,7 @@ class _CustomSliverAppBar extends StatelessWidget {
               ),
             ),
             // Back button background
-            const _CustomGradient(
+            const CustomGradient(
               begin: Alignment.topLeft,
               stops: [0.0, 0.3],
               colors: [
@@ -239,32 +240,3 @@ class _CustomSliverAppBar extends StatelessWidget {
   }
 }
 
-class _CustomGradient extends StatelessWidget {
-  final AlignmentGeometry begin;
-  final AlignmentGeometry end;
-  final List<double> stops;
-  final List<Color> colors;
-
-  const _CustomGradient({
-    this.begin = Alignment.centerLeft,
-    this.end = Alignment.centerRight,
-    required this.stops,
-    required this.colors,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox.expand(
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: begin,
-            end: end,
-            stops: stops,
-            colors: colors,
-          ),
-        ),
-      ),
-    );
-  }
-}
