@@ -9,7 +9,7 @@ class EpisodeUtils {
       case "S01":
         return Colors.blueGrey;
       case "S02":
-        return Colors.purple;
+        return Colors.blue;
       case "S03":
         return Colors.teal;
       case "S04":
