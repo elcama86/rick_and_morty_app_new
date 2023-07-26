@@ -158,9 +158,9 @@ class _CharacterItem extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     final textThemes = Theme.of(context).textTheme;
 
-    return GestureDetector(
-      onTap: () => context.push('/characters/character/${character.id}'),
-      child: FadeIn(
+    return FadeIn(
+      child: GestureDetector(
+        onTap: () => context.push('/characters/character/${character.id}'),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
           child: Row(
@@ -193,7 +193,7 @@ class _CharacterItem extends StatelessWidget {
                     const SizedBox(
                       height: 5.0,
                     ),
-                     _InfoWithIcon(
+                    _InfoWithIcon(
                       info: character.status,
                       icon: Icons.monitor_heart_outlined,
                     ),
