@@ -1,1 +1,1 @@
-export 'episode_card.dart';
+export 'episode_poster.dart';
