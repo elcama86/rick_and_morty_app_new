@@ -52,6 +52,12 @@ class _EpisodesViewState extends State<EpisodesView> {
               style: appBarTitleTheme,
             ),
           ),
+          actions: [
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.search),
+            ),
+          ],
         ),
         SliverList.builder(
           itemCount: widget.episodes.length,
