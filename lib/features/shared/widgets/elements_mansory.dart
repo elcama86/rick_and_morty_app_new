@@ -29,7 +29,7 @@ class ElementsMansory<T> extends StatelessWidget {
                 character: elements[index] as Character,
               );
             case Episode:
-              return EpisodeCard(
+              return EpisodePoster(
                 episode: elements[index] as Episode,
               );
             default:
