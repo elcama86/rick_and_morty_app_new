@@ -44,16 +44,21 @@ class _EpisodeScreenState extends State<EpisodeScreen> {
             );
           }
 
+          if (episode == null && errorMessage.isNotEmpty) {
+            return Scaffold(
+              appBar: AppBar(
+                title: Text('Episodio ${widget.episodeId}'),
+              ),
+              body: const CustomMessage(
+                message: "No se pudo cargar el episodio seleccionado",
+              ),
+            );
+          }
+
           return Scaffold(
-            appBar: AppBar(
-              title: Text('Episodio ${widget.episodeId}'),
+            body: EpisodeView(
+              episode: episode!,
             ),
-            body: episode == null && errorMessage.isNotEmpty
-                ? const CustomMessage(
-                    message: "No se pudo cargar el episodio seleccionado")
-                : EpisodeView(
-                    episode: episode!,
-                  ),
           );
         },
       ),
