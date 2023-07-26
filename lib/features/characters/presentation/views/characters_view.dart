@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rick_and_morty_app/features/characters/delegates/search_characters_delegate.dart';
 import 'package:rick_and_morty_app/features/characters/domain/domain.dart';
 import 'package:rick_and_morty_app/features/characters/presentation/blocs/blocs.dart';
-import 'package:rick_and_morty_app/features/characters/presentation/widgets/widgets.dart';
+import 'package:rick_and_morty_app/features/shared/widgets/widgets.dart';
 
 class CharactersView extends StatefulWidget {
   final List<Character> characters;
@@ -81,8 +81,8 @@ class _CharactersViewState extends State<CharactersView> {
             ),
           ],
         ),
-        CharactersMansory(
-          characters: widget.characters,
+        ElementsMansory(
+          elements: widget.characters,
         ),
       ],
     );
