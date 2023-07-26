@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rick_and_morty_app/features/episodes/episodes.dart';
+import 'package:rick_and_morty_app/features/shared/widgets/widgets.dart';
 
 class EpisodesView extends StatefulWidget {
   final List<Episode> episodes;
@@ -59,13 +60,8 @@ class _EpisodesViewState extends State<EpisodesView> {
             ),
           ],
         ),
-        SliverList.builder(
-          itemCount: widget.episodes.length,
-          itemBuilder: (context, index) {
-            return EpisodeCard(
-              episode: widget.episodes[index],
-            );
-          },
+        ElementsMansory(
+          elements: widget.episodes,
         ),
       ],
     );
