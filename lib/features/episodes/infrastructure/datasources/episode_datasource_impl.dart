@@ -46,6 +46,16 @@ class EpisodeDatasourceImpl extends EpisodesDatasource {
     }
   }
 
+  List<Episode> _jsonToEpisodes(Map<String, dynamic> json) {
+    final episodesResponse = EpisodesResponse.fromJson(json);
+
+    final episodes = episodesResponse.results
+        .map((result) => EpisodeMapper.resultToEntity(result))
+        .toList();
+
+    return episodes;
+  }
+
   @override
   Future<List<Episode>> getEpisodesByPage({int page = 1}) async {
     try {
@@ -56,13 +66,26 @@ class EpisodeDatasourceImpl extends EpisodesDatasource {
         },
       );
 
-      final episodesResponse = EpisodesResponse.fromJson(response.data);
+      return _jsonToEpisodes(response.data);
+    } on DioException catch (e) {
+      _checkDioException(e);
+      throw Exception();
+    } catch (e) {
+      throw Exception();
+    }
+  }
 
-      final episodes = episodesResponse.results
-          .map((result) => EpisodeMapper.resultToEntity(result))
-          .toList();
+  @override
+  Future<List<Episode>> searchEpisodes(String query) async {
+    try {
+      final response = await dio.get(
+        '/episode',
+        queryParameters: {
+          'name': query,
+        },
+      );
 
-      return episodes;
+      return _jsonToEpisodes(response.data);
     } on DioException catch (e) {
       _checkDioException(e);
       throw Exception();
