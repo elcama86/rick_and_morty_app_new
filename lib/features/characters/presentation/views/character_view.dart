@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:rick_and_morty_app/config/helpers/human_formats.dart';
 import 'package:rick_and_morty_app/features/characters/domain/domain.dart';
-import 'package:rick_and_morty_app/features/shared/widgets/widgets.dart';
+import 'package:rick_and_morty_app/features/shared/presentation/widgets/widgets.dart';
 
 class CharacterView extends StatelessWidget {
   final Character character;
@@ -83,7 +83,7 @@ class _BasicInfo extends StatelessWidget {
             borderRadius: BorderRadius.circular(20.0),
             child: Image.network(
               character.image,
-              height: 200.0,
+              height: 225.0,
               width: size.width * 0.3,
               fit: BoxFit.cover,
             ),
@@ -93,18 +93,10 @@ class _BasicInfo extends StatelessWidget {
           ),
           Expanded(
             child: SizedBox(
-              width: (size.width - 0.4) * 0.7,
+              width: (size.width - 0.5) * 0.7,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    character.name,
-                    textAlign: TextAlign.justify,
-                    style: textThemes.titleLarge,
-                  ),
-                  const SizedBox(
-                    height: 10.0,
-                  ),
                   _CustomTextInfo(
                     title: "Estado",
                     text: character.status,
@@ -163,23 +155,23 @@ class _CustomTextInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 2.0),
-      child: RichText(
-        textAlign: alignment,
-        text: TextSpan(
-          children: [
-            TextSpan(
-              text: "$title: ",
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-              ),
+    final textStyle = Theme.of(context).textTheme.titleSmall;
+
+    return RichText(
+      textAlign: alignment,
+      text: TextSpan(
+        style: textStyle,
+        children: [
+          TextSpan(
+            text: "$title: ",
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
             ),
-            TextSpan(
-              text: text.isEmpty ? "No especificado" : text,
-            ),
-          ],
-        ),
+          ),
+          TextSpan(
+            text: text.isEmpty ? "No especificado" : text,
+          ),
+        ],
       ),
     );
   }
@@ -196,18 +188,17 @@ class _CustomSliverAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final scaffoldBackgroundColor = Theme.of(context).scaffoldBackgroundColor;
+    final textStyle = Theme.of(context).textTheme.titleLarge;
 
     return SliverAppBar(
-      backgroundColor: Colors.black,
+      backgroundColor: scaffoldBackgroundColor,
       expandedHeight: size.height * 0.7,
       foregroundColor: Colors.white,
       flexibleSpace: FlexibleSpaceBar(
-        titlePadding: const EdgeInsets.only(bottom: 0.0),
-        title: CustomGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          stops: const [0.7, 1.0],
-          colors: [Colors.transparent, scaffoldBackgroundColor],
+        
+        title: Text(
+          character.name,
+          style: textStyle,
         ),
         background: Stack(
           children: [
@@ -233,10 +224,18 @@ class _CustomSliverAppBar extends StatelessWidget {
                 Colors.transparent,
               ],
             ),
+            CustomGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              stops: const [0.5, 1.0],
+              colors: [
+                Colors.transparent,
+                scaffoldBackgroundColor,
+              ],
+            ),
           ],
         ),
       ),
     );
   }
 }
-
