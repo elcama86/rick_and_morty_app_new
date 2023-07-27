@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rick_and_morty_app/config/config.dart';
-import 'package:rick_and_morty_app/features/shared/widgets/scaffold_background.dart';
+import 'package:rick_and_morty_app/features/shared/presentation/widgets/scaffold_background.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -22,21 +22,23 @@ class _HomeView extends StatelessWidget {
     return ScaffoldBackground(
       child: SafeArea(
         child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              const SizedBox(
-                height: 60.0,
-              ),
-              ...menuOptions.map(
-                (option) => _MenuOption(
-                  option: option,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                const SizedBox(
+                  height: 60.0,
                 ),
-              ),
-              const SizedBox(
-                height: 20.0,
-              ),
-            ],
+                ...menuOptions.map(
+                  (option) => _MenuOption(
+                    option: option,
+                  ),
+                ),
+                const SizedBox(
+                  height: 20.0,
+                ),
+              ],
+            ),
           ),
         ),
       ),
