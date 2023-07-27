@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rick_and_morty_app/features/characters/delegates/search_characters_delegate.dart';
+import 'package:rick_and_morty_app/features/shared/presentation/delegates/search_elements_delegate.dart';
 import 'package:rick_and_morty_app/features/characters/domain/domain.dart';
 import 'package:rick_and_morty_app/features/characters/presentation/blocs/blocs.dart';
-import 'package:rick_and_morty_app/features/shared/widgets/widgets.dart';
+import 'package:rick_and_morty_app/features/shared/presentation/widgets/widgets.dart';
 
 class CharactersView extends StatefulWidget {
   final List<Character> characters;
@@ -71,9 +71,9 @@ class _CharactersViewState extends State<CharactersView> {
                 showSearch<Character?>(
                   query: searchCharactersState.query,
                   context: context,
-                  delegate: SearchCharactersDelegate(
-                    searchCharacters: searchCharacters,
-                    initialCharacters: searchCharactersState.results,
+                  delegate: SearchElementsDelegate(
+                    searchElements: searchCharacters,
+                    initialElements: searchCharactersState.results,
                   ),
                 );
               },

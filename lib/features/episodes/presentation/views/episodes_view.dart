@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rick_and_morty_app/features/episodes/episodes.dart';
-import 'package:rick_and_morty_app/features/shared/widgets/widgets.dart';
+import 'package:rick_and_morty_app/features/shared/presentation/delegates/search_elements_delegate.dart';
+import 'package:rick_and_morty_app/features/shared/presentation/widgets/widgets.dart';
 
 class EpisodesView extends StatefulWidget {
   final List<Episode> episodes;
@@ -55,7 +57,22 @@ class _EpisodesViewState extends State<EpisodesView> {
           ),
           actions: [
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                final searchEpisodesState =
+                    context.read<SearchEpisodesBloc>().state;
+
+                final searchEpisodes =
+                    context.read<SearchEpisodesBloc>().searchEpisodesByQuery;
+
+                showSearch<Episode?>(
+                  query: searchEpisodesState.query,
+                  context: context,
+                  delegate: SearchElementsDelegate(
+                    searchElements: searchEpisodes,
+                    initialElements: searchEpisodesState.results,
+                  ),
+                );
+              },
               icon: const Icon(Icons.search),
             ),
           ],
