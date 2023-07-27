@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rick_and_morty_app/features/episodes/episodes.dart';
-import 'package:rick_and_morty_app/features/shared/widgets/widgets.dart';
+import 'package:rick_and_morty_app/features/shared/presentation/widgets/widgets.dart';
 
 class EpisodeView extends StatelessWidget {
   final Episode episode;
@@ -47,6 +47,7 @@ class _CustomSliverAppBar extends StatelessWidget {
 
     return SliverAppBar(
       expandedHeight: size.height * 0.3,
+      backgroundColor: scaffoldBackgroundColor,
       foregroundColor: Colors.white,
       actions: [
         IconButton(
