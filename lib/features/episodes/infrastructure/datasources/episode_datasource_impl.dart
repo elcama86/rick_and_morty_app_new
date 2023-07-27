@@ -78,6 +78,8 @@ class EpisodeDatasourceImpl extends EpisodesDatasource {
   @override
   Future<List<Episode>> searchEpisodes(String query) async {
     try {
+      if (query.isEmpty) return [];
+
       final response = await dio.get(
         '/episode',
         queryParameters: {
