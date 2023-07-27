@@ -51,20 +51,23 @@ class _EpisodeCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
 
-    return Card(
-      margin: const EdgeInsets.all(8.0),
-      clipBehavior: Clip.antiAlias,
-      shape: RoundedRectangleBorder(
-        borderRadius: const BorderRadius.all(
-          Radius.circular(20.0),
+    return SizedBox(
+      height: 180.0,
+      child: Card(
+        margin: const EdgeInsets.all(8.0),
+        clipBehavior: Clip.antiAlias,
+        shape: RoundedRectangleBorder(
+          borderRadius: const BorderRadius.all(
+            Radius.circular(20.0),
+          ),
+          side: BorderSide(
+            color: colors.outline,
+          ),
         ),
-        side: BorderSide(
-          color: colors.outline,
+        elevation: 30.0,
+        child: _ChildCard(
+          episode: episode,
         ),
-      ),
-      elevation: 30.0,
-      child: _ChildCard(
-        episode: episode,
       ),
     );
   }
@@ -83,7 +86,6 @@ class _ChildCard extends StatelessWidget {
     final textThemes = Theme.of(context).textTheme;
 
     return Container(
-      height: 180.0,
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
@@ -93,14 +95,11 @@ class _ChildCard extends StatelessWidget {
           stops: const [0.2, 1.0],
         ),
       ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-        child: Center(
-          child: Text(
-            'Episodio ${episode.id}',
-            textAlign: TextAlign.center,
-            style: textThemes.titleMedium,
-          ),
+      child: Center(
+        child: Text(
+          'Episodio ${episode.id}',
+          textAlign: TextAlign.center,
+          style: textThemes.titleMedium,
         ),
       ),
     );
