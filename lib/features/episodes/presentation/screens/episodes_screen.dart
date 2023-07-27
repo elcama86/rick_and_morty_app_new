@@ -32,27 +32,9 @@ class _EpisodesScreenState extends State<EpisodesScreen> {
       child: BlocBuilder<EpisodesBloc, EpisodesState>(
         bloc: BlocProvider.of<EpisodesBloc>(context),
         builder: (context, state) {
-          if (state.isLoading && state.episodes.isEmpty) {
-            return const Scaffold(
-              body: LoadingSpinner(),
-            );
-          }
-
-          if (state.episodes.isEmpty) {
-            return Scaffold(
-              appBar: AppBar(
-                title: const Text('Episodios'),
-              ),
-              body:
-                  const CustomMessage(message: "No existen episodios cargados"),
-            );
-          }
-
-          return Scaffold(
-            body: EpisodesView(
-              episodes: state.episodes,
-              loadNextPage: context.read<EpisodesBloc>().loadNextPage,
-            ),
+          return ScaffoldScreen(
+            elements: state.episodes,
+            isLoading: state.isLoading,
           );
         },
       ),

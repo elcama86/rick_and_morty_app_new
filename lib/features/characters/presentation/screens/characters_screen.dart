@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:rick_and_morty_app/features/characters/presentation/blocs/blocs.dart';
-import 'package:rick_and_morty_app/features/characters/presentation/views/views.dart';
 import 'package:rick_and_morty_app/features/shared/shared.dart';
 
 class CharactersScreen extends StatefulWidget {
@@ -33,28 +32,9 @@ class _CharactersScreenState extends State<CharactersScreen> {
       child: BlocBuilder<CharactersBloc, CharactersState>(
         bloc: BlocProvider.of<CharactersBloc>(context),
         builder: (context, state) {
-          if (state.isLoading && state.characters.isEmpty) {
-            return const Scaffold(
-              body: LoadingSpinner(),
-            );
-          }
-
-          if (state.characters.isEmpty) {
-            return Scaffold(
-              appBar: AppBar(
-                title: const Text('Personajes'),
-              ),
-              body: const CustomMessage(
-                message: "No existen personajes cargados",
-              ),
-            );
-          }
-
-          return Scaffold(
-            body: CharactersView(
-              characters: state.characters,
-              loadNextPage: context.read<CharactersBloc>().loadNextPage,
-            ),
+          return ScaffoldScreen(
+            elements: state.characters,
+            isLoading: state.isLoading,
           );
         },
       ),
