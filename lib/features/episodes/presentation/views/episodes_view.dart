@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:animate_do/animate_do.dart';
 import 'package:rick_and_morty_app/features/episodes/episodes.dart';
 import 'package:rick_and_morty_app/features/shared/presentation/delegates/search_elements_delegate.dart';
 import 'package:rick_and_morty_app/features/shared/presentation/widgets/widgets.dart';
@@ -26,6 +28,9 @@ class _EpisodesViewState extends State<EpisodesView> {
     super.initState();
     controller.addListener(() {
       if (widget.loadNextPage == null) return;
+      if (controller.position.userScrollDirection == ScrollDirection.forward) {
+        return;
+      }
 
       if ((controller.position.pixels + 100) >=
           controller.position.maxScrollExtent) {
@@ -56,24 +61,26 @@ class _EpisodesViewState extends State<EpisodesView> {
             ),
           ),
           actions: [
-            IconButton(
-              onPressed: () {
-                final searchEpisodesState =
-                    context.read<SearchEpisodesBloc>().state;
-
-                final searchEpisodes =
-                    context.read<SearchEpisodesBloc>().searchEpisodesByQuery;
-
-                showSearch<Episode?>(
-                  query: searchEpisodesState.query,
-                  context: context,
-                  delegate: SearchElementsDelegate(
-                    searchElements: searchEpisodes,
-                    initialElements: searchEpisodesState.results,
-                  ),
-                );
-              },
-              icon: const Icon(Icons.search),
+            FadeIn(
+              child: IconButton(
+                onPressed: () {
+                  final searchEpisodesState =
+                      context.read<SearchEpisodesBloc>().state;
+            
+                  final searchEpisodes =
+                      context.read<SearchEpisodesBloc>().searchEpisodesByQuery;
+            
+                  showSearch<Episode?>(
+                    query: searchEpisodesState.query,
+                    context: context,
+                    delegate: SearchElementsDelegate(
+                      searchElements: searchEpisodes,
+                      initialElements: searchEpisodesState.results,
+                    ),
+                  );
+                },
+                icon: const Icon(Icons.search),
+              ),
             ),
           ],
         ),
