@@ -21,7 +21,7 @@ class EpisodeSearchedItem extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _EpisodeCard(
+              EpisodeCard(
                 episode: episode,
               ),
               const SizedBox(
@@ -85,41 +85,4 @@ class _EpisodeDetails extends StatelessWidget {
   }
 }
 
-class _EpisodeCard extends StatelessWidget {
-  final Episode episode;
 
-  const _EpisodeCard({
-    required this.episode,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    final colors = Theme.of(context).colorScheme;
-    final textStyle = Theme.of(context).textTheme.titleMedium;
-
-    return SizedBox(
-      width: size.width * 0.3,
-      height: 165.0,
-      child: Card(
-        clipBehavior: Clip.antiAlias,
-        elevation: 30.0,
-        child: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(colors: [
-              colors.surfaceVariant,
-              EpisodeUtils.colorBySeason(episode.episode),
-            ]),
-          ),
-          child: Center(
-            child: Text(
-              'Episodio ${episode.id}',
-              textAlign: TextAlign.center,
-              style: textStyle,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
