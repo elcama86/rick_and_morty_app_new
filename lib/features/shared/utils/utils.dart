@@ -25,7 +25,6 @@ class Utils {
   }
 
   static String searchLabel<T>(T element) {
-  
     switch (element) {
       case Character:
         return 'Buscar personaje';
@@ -45,5 +44,15 @@ class Utils {
       default:
         return '';
     }
+  }
+
+  static List<String> getIdsFromUrl(List<String> urls) {
+    List<String> ids = urls
+        .map((url) => url.split('/'))
+        .toList()
+        .map((e) => e[e.length - 1])
+        .toList();
+
+    return ids;
   }
 }
