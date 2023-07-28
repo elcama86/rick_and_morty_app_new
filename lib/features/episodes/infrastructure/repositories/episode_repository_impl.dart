@@ -19,4 +19,9 @@ class EpisodeRepositoryImpl extends EpisodesRepository {
   Future<List<Episode>> searchEpisodes(String query) {
     return datasource.searchEpisodes(query);
   }
+
+  @override
+  Future<List<Episode>> getEpisodesByList(List<String> ids) {
+    return datasource.getEpisodesByList(ids);
+  }
 }

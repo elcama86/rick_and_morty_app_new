@@ -95,4 +95,14 @@ class EpisodeDatasourceImpl extends EpisodesDatasource {
       throw Exception();
     }
   }
+
+  @override
+  Future<List<Episode>> getEpisodesByList(List<String> ids) async {
+    final List<Future<Episode>> getEpisodesJob =
+        ids.map(getEpisodeById).toList();
+
+    final episodes = await Future.wait(getEpisodesJob);
+
+    return episodes;
+  }
 }
