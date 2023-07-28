@@ -59,9 +59,13 @@ class _CustomSliverAppBar extends StatelessWidget {
         ),
       ],
       flexibleSpace: FlexibleSpaceBar(
-        title: Text(
-          'Episodio ${episode.id}',
-          style: textStyle,
+        titlePadding: const EdgeInsets.only(bottom: 0.0),
+        title: TitleSliverAppBar(
+          title: 'Episodio ${episode.id}',
+          textStyle: textStyle,
+          gradientColor: scaffoldBackgroundColor,
+          bottom: 10.0,
+          left: 60.0,
         ),
         background: Stack(
           children: [
@@ -79,15 +83,6 @@ class _CustomSliverAppBar extends StatelessWidget {
               colors: [
                 Colors.black54,
                 Colors.transparent,
-              ],
-            ),
-            CustomGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              stops: const [0.7, 1.0],
-              colors: [
-                Colors.transparent,
-                scaffoldBackgroundColor,
               ],
             ),
           ],
