@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:rick_and_morty_app/config/helpers/human_formats.dart';
 import 'package:rick_and_morty_app/features/characters/domain/domain.dart';
+import 'package:rick_and_morty_app/features/characters/presentation/widgets/widgets.dart';
 import 'package:rick_and_morty_app/features/shared/presentation/widgets/widgets.dart';
 
 class CharacterView extends StatelessWidget {
@@ -53,6 +54,13 @@ class _CharacterDetails extends StatelessWidget {
           size: size,
           textThemes: textThemes,
         ),
+        const SizedBox(
+          height: 15.0,
+        ),
+        EpisodesByCharacter(
+          title: "Episodios en lo que aparece",
+          character: character,
+        ),
       ],
     );
   }
@@ -74,10 +82,9 @@ class _BasicInfo extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 15.0,
-        vertical: 15.0,
+        vertical: 10.0,
       ),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(20.0),
@@ -159,6 +166,7 @@ class _CustomTextInfo extends StatelessWidget {
 
     return RichText(
       textAlign: alignment,
+      textScaleFactor: 0.9,
       text: TextSpan(
         style: textStyle,
         children: [
@@ -195,10 +203,13 @@ class _CustomSliverAppBar extends StatelessWidget {
       expandedHeight: size.height * 0.7,
       foregroundColor: Colors.white,
       flexibleSpace: FlexibleSpaceBar(
-        
-        title: Text(
-          character.name,
-          style: textStyle,
+        titlePadding: const EdgeInsets.only(bottom: 0.0),
+        title: TitleSliverAppBar(
+          title: character.name,
+          textStyle: textStyle,
+          gradientColor: scaffoldBackgroundColor,
+          bottom: 10.0,
+          left: 60.0,
         ),
         background: Stack(
           children: [
@@ -222,15 +233,6 @@ class _CustomSliverAppBar extends StatelessWidget {
               colors: [
                 Colors.black87,
                 Colors.transparent,
-              ],
-            ),
-            CustomGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              stops: const [0.5, 1.0],
-              colors: [
-                Colors.transparent,
-                scaffoldBackgroundColor,
               ],
             ),
           ],
