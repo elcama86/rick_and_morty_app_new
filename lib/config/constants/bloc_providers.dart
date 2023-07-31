@@ -37,4 +37,9 @@ final List<BlocProvider> blocProviders = [
       searchEpisodes: episodesRepository.searchEpisodes,
     ),
   ),
+  BlocProvider<EpisodesByCharacterBloc>(
+    create: (_) => EpisodesByCharacterBloc(
+      getEpisodesByCharacter: episodesRepository.getEpisodesByList,
+    ),
+  ),
 ];
