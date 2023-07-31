@@ -46,6 +46,17 @@ class Utils {
     }
   }
 
+   static String loadingErrorMessage<T>(T element) {
+    switch (element) {
+      case Character:
+        return "No existen personajes cargados";
+      case Episode:
+        return "No existen episodios cargados";
+      default:
+        return '';
+    }
+  }
+
   static List<String> getIdsFromUrl(List<String> urls) {
     List<String> ids = urls
         .map((url) => url.split('/'))
