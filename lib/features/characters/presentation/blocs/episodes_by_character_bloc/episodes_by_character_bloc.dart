@@ -78,7 +78,10 @@ class EpisodesByCharacterBloc
     try {
       final loadedEpisodsCount =
           state.episodesByCharacter[characterId]!['loaded'];
-      if (loadedEpisodsCount == episodesIds.length) return;
+      if (loadedEpisodsCount == episodesIds.length) {
+        add(SetIsLoading(false));
+        return;
+      }
 
       late int endIndex;
 
