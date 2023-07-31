@@ -1,11 +1,8 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rick_and_morty_app/features/characters/characters.dart';
-import 'package:rick_and_morty_app/features/episodes/episodes.dart';
+import 'package:rick_and_morty_app/features/episodes/domain/domain.dart';
 import 'package:rick_and_morty_app/features/shared/shared.dart';
-
-final episodeRepository = EpisodeRepositoryImpl(EpisodeDatasourceImpl());
 
 class EpisodesByCharacter extends StatelessWidget {
   final String title;
@@ -43,7 +40,7 @@ class EpisodesByCharacter extends StatelessWidget {
   }
 }
 
-class _EpisodesList extends StatelessWidget {
+class _EpisodesList extends StatefulWidget {
   final Character character;
 
   const _EpisodesList({
@@ -51,88 +48,61 @@ class _EpisodesList extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    final ids = Utils.getIdsFromUrl(character.episodes);
-    final textStyle = Theme.of(context).textTheme.titleSmall;
-
-    return FutureBuilder(
-      future: episodeRepository.getEpisodesByList(ids),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const SizedBox(
-            height: 200.0,
-            child: Center(
-              child: LoadingSpinner(),
-            ),
-          );
-        }
-
-        if (snapshot.hasError) {
-          return  SizedBox(
-            height: 200.0,
-            child: Center(
-              child: Text('Los episodios no pudieron ser cargados', style: textStyle,),
-            ),
-          );
-        }
-
-        final episodes = snapshot.data ?? [];
-
-        return Expanded(
-          child: ListView.builder(
-            itemCount: episodes.length,
-            scrollDirection: Axis.horizontal,
-            physics: const BouncingScrollPhysics(),
-            itemBuilder: (context, index) {
-              return _Episode(
-                episode: episodes[index],
-              );
-            },
-          ),
-        );
-      },
-    );
-  }
+  State<_EpisodesList> createState() => _EpisodesListState();
 }
 
-class _Episode extends StatelessWidget {
-  final Episode episode;
-
-  const _Episode({
-    required this.episode,
-  });
+class _EpisodesListState extends State<_EpisodesList> {
+  @override
+  void initState() {
+    super.initState();
+    final episodes = context
+        .read<EpisodesByCharacterBloc>()
+        .state
+        .episodesByCharacter[widget.character.id.toString()]?['episodes'];
+    if (episodes == null) {
+      final ids = Utils.getIdsFromUrl(widget.character.episodes);
+      context
+          .read<EpisodesByCharacterBloc>()
+          .loadEpisodes(widget.character.id.toString(), ids);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    final episodes = context
+        .watch<EpisodesByCharacterBloc>()
+        .state
+        .episodesByCharacter[widget.character.id.toString()]?['episodes'];
+
+    final hasError = context.watch<EpisodesByCharacterBloc>().state.hasError;
+
     final textStyle = Theme.of(context).textTheme.titleSmall;
 
-    return GestureDetector(
-      onTap: () => context.go('/episodes/episode/${episode.id}'),
-      child: Container(
-        padding: const EdgeInsets.all(8.0),
-        width: 135.0,
-        child: Column(
-          children: [
-            FadeInRight(
-              child: EpisodeCard(
-                episode: episode,
-              ),
+    if (episodes == null) {
+      if (hasError) {
+        return SizedBox(
+          height: 200.0,
+          child: Center(
+            child: Text(
+              'Los episodios no pudieron ser cargados',
+              style: textStyle,
             ),
-            const SizedBox(
-              height: 5.0,
-            ),
-            Expanded(
-              child: Text(
-                episode.name,
-              
-                textAlign: TextAlign.center,
-                style: textStyle,
-                
-              ),
-            ),
-          ],
+          ),
+        );
+      }
+      return const SizedBox(
+        height: 200.0,
+        child: Center(
+          child: LoadingSpinner(),
         ),
-      ),
+      );
+    }
+
+    return ElementHorizontalListview(
+      elements: List<Episode>.from(episodes),
+      entityId: widget.character.id.toString(),
+      elementsIds: Utils.getIdsFromUrl(widget.character.episodes),
+      loadNextPage: context.read<EpisodesByCharacterBloc>().loadEpisodes,
     );
   }
 }
