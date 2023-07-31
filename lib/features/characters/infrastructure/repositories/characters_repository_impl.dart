@@ -19,4 +19,9 @@ class CharactersRepositoryImpl extends CharactersRepository {
   Future<List<Character>> searchCharacters(String query) {
     return datasource.searchCharacters(query);
   }
+
+  @override
+  Future<List<Character>> getCharactersByList(List<String> ids) {
+    return datasource.getCharactersByList(ids);
+  }
 }

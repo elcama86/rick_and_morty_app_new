@@ -97,4 +97,21 @@ class CharactersDatasourceImpl extends CharactersDatasource {
       throw Exception();
     }
   }
+
+  @override
+  Future<List<Character>> getCharactersByList(List<String> ids) async {
+    try {
+      final List<Future<Character>> getCharactersJob =
+          ids.map(getCharacterById).toList();
+
+      final characters = await Future.wait(getCharactersJob);
+
+      return characters;
+    } on DioException catch (e) {
+      _checkDioException(e);
+      throw Exception();
+    } catch (e) {
+      throw Exception();
+    }
+  }
 }
