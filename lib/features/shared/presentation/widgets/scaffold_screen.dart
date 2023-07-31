@@ -53,8 +53,8 @@ class _ScaffoldBody<T> extends StatelessWidget {
     }
 
     if (elements.isEmpty) {
-      return const CustomMessage(
-        message: "No existen personajes cargados",
+      return CustomMessage(
+        message: Utils.loadingErrorMessage(T),
       );
     }
 
