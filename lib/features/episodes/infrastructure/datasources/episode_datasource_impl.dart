@@ -98,11 +98,18 @@ class EpisodeDatasourceImpl extends EpisodesDatasource {
 
   @override
   Future<List<Episode>> getEpisodesByList(List<String> ids) async {
-    final List<Future<Episode>> getEpisodesJob =
-        ids.map(getEpisodeById).toList();
+    try {
+      final List<Future<Episode>> getEpisodesJob =
+          ids.map(getEpisodeById).toList();
 
-    final episodes = await Future.wait(getEpisodesJob);
+      final episodes = await Future.wait(getEpisodesJob);
 
-    return episodes;
+      return episodes;
+    } on DioException catch (e) {
+      _checkDioException(e);
+      throw Exception();
+    } catch (e) {
+      throw Exception();
+    }
   }
 }
