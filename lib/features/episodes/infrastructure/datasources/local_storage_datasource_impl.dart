@@ -26,7 +26,7 @@ class LocalStorageDatasourceImpl extends LocalStorageDatasource {
   }
 
   @override
-  Future<List<Episode>> loadEpisodes({int limit = 10, int offset = 0}) {
+  Future<List<Episode>> loadEpisodes({int limit = 20, int offset = 0}) {
     return isar!.episodes.where().offset(offset).limit(limit).findAll();
   }
 
