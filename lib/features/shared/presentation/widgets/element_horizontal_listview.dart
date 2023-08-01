@@ -3,29 +3,29 @@ import 'package:flutter/rendering.dart';
 import 'package:go_router/go_router.dart';
 import 'package:animate_do/animate_do.dart';
 
-import 'package:rick_and_morty_app/features/episodes/domain/domain.dart';
-import 'package:rick_and_morty_app/features/episodes/presentation/widgets/widgets.dart';
+import 'package:rick_and_morty_app/features/characters/characters.dart';
+import 'package:rick_and_morty_app/features/episodes/episodes.dart';
+import 'package:rick_and_morty_app/features/shared/shared.dart';
 
-class ElementHorizontalListview<T> extends StatefulWidget {
+class ElementHorizontalListview<T, K> extends StatefulWidget {
   final List<T> elements;
-  final String entityId;
-  final List<String> elementsIds;
-  final Future<void> Function(String, List<String>) loadNextPage;
+  final K entity;
+  final void Function(K entity, BuildContext context) loadNextElements;
 
   const ElementHorizontalListview({
     super.key,
     required this.elements,
-    required this.entityId,
-    required this.elementsIds,
-    required this.loadNextPage,
+    required this.entity,
+    required this.loadNextElements,
   });
 
   @override
-  State<ElementHorizontalListview> createState() =>
-      _ElementHorizontalListviewState();
+  State<ElementHorizontalListview<T, K>> createState() =>
+      _ElementHorizontalListviewState<T, K>();
 }
 
-class _ElementHorizontalListviewState extends State<ElementHorizontalListview> {
+class _ElementHorizontalListviewState<T, K>
+    extends State<ElementHorizontalListview<T, K>> {
   final controller = ScrollController();
 
   @override
@@ -38,7 +38,7 @@ class _ElementHorizontalListviewState extends State<ElementHorizontalListview> {
 
       if ((controller.position.pixels + 200) >=
           controller.position.maxScrollExtent) {
-        widget.loadNextPage(widget.entityId, widget.elementsIds);
+        widget.loadNextElements(widget.entity, context);
       }
     });
   }
@@ -58,10 +58,14 @@ class _ElementHorizontalListviewState extends State<ElementHorizontalListview> {
         scrollDirection: Axis.horizontal,
         physics: const BouncingScrollPhysics(),
         itemBuilder: (context, index) {
-          switch (widget.runtimeType) {
-            case const (ElementHorizontalListview<Episode>):
-              return _Episode(
-                episode: widget.elements[index],
+          switch (T) {
+            case Episode:
+              return _Element(
+                element: widget.elements[index] as Episode,
+              );
+            case Character:
+              return _Element(
+                element: widget.elements[index] as Character,
               );
             default:
               return const SizedBox();
@@ -72,11 +76,11 @@ class _ElementHorizontalListviewState extends State<ElementHorizontalListview> {
   }
 }
 
-class _Episode extends StatelessWidget {
-  final Episode episode;
+class _Element<T> extends StatelessWidget {
+  final T element;
 
-  const _Episode({
-    required this.episode,
+  const _Element({
+    required this.element,
   });
 
   @override
@@ -84,23 +88,21 @@ class _Episode extends StatelessWidget {
     final textStyle = Theme.of(context).textTheme.titleSmall;
 
     return GestureDetector(
-      onTap: () => context.go('/episodes/episode/${episode.id}'),
+      onTap: () => context.go(Utils.getElementRoute(element)),
       child: Container(
         padding: const EdgeInsets.all(8.0),
         width: 135.0,
         child: Column(
           children: [
             FadeInRight(
-              child: EpisodeCard(
-                episode: episode,
-              ),
+              child: Utils.getChildWidget(element),
             ),
             const SizedBox(
               height: 5.0,
             ),
             Expanded(
               child: Text(
-                episode.name,
+                Utils.getElementName(element),
                 textAlign: TextAlign.center,
                 style: textStyle,
               ),
