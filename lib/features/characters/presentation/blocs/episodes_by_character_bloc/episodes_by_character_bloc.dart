@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:rick_and_morty_app/features/episodes/episodes.dart';
+import 'package:rick_and_morty_app/features/shared/shared.dart';
 
 part 'episodes_by_character_event.dart';
 part 'episodes_by_character_state.dart';
@@ -76,23 +77,17 @@ class EpisodesByCharacterBloc
   Future<void> _verifyEpisodesByCharacter(
       String characterId, episodesIds) async {
     try {
-      final loadedEpisodsCount =
+      final loadedEpisodesCount =
           state.episodesByCharacter[characterId]!['loaded'];
-      if (loadedEpisodsCount == episodesIds.length) {
+      if (loadedEpisodesCount == episodesIds.length) {
         add(SetIsLoading(false));
         return;
       }
 
-      late int endIndex;
-
-      if (loadedEpisodsCount + 10 > episodesIds.length) {
-        endIndex = episodesIds.length;
-      } else {
-        endIndex = loadedEpisodsCount + 10;
-      }
+      int endIndex = Utils.getEndIndex(loadedEpisodesCount, episodesIds.length);
 
       final episodes = await getEpisodesByCharacter(
-          episodesIds.sublist(loadedEpisodsCount, endIndex));
+          episodesIds.sublist(loadedEpisodesCount, endIndex));
 
       add(SetNextEpisodes(characterId, episodes, endIndex));
       add(SetIsLoading(false));
@@ -105,7 +100,9 @@ class EpisodesByCharacterBloc
   Future<void> loadEpisodes(
       String characterId, List<String> episodesIds) async {
     try {
-      if (state.isLoading) return;
+      if (state.isLoading && state.episodesByCharacter[characterId] != null) {
+        return;
+      }
 
       add(SetIsLoading(true));
       add(SetHasError(false));
