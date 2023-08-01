@@ -54,7 +54,7 @@ class _CharacterImage extends StatelessWidget {
       borderRadius: BorderRadius.circular(20.0),
       child: FadeInImage(
         height: 180.0,
-        fit: BoxFit.cover,
+        fit: BoxFit.fill,
         placeholder: const AssetImage('assets/images/cargando.gif'),
         image: NetworkImage(
           imageUrl,
