@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:rick_and_morty_app/config/helpers/human_formats.dart';
 import 'package:rick_and_morty_app/features/characters/domain/domain.dart';
-import 'package:rick_and_morty_app/features/characters/presentation/widgets/widgets.dart';
 import 'package:rick_and_morty_app/features/shared/presentation/widgets/widgets.dart';
 
 class CharacterView extends StatelessWidget {
@@ -55,11 +54,11 @@ class _CharacterDetails extends StatelessWidget {
           textThemes: textThemes,
         ),
         const SizedBox(
-          height: 15.0,
+          height: 20.0,
         ),
-        EpisodesByCharacter(
+        ElementsByEntity(
           title: "Episodios en lo que aparece",
-          character: character,
+          entity: character,
         ),
       ],
     );
@@ -82,7 +81,7 @@ class _BasicInfo extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 15.0,
-        vertical: 10.0,
+        vertical: 20.0,
       ),
       child: Row(
         children: [
@@ -90,9 +89,9 @@ class _BasicInfo extends StatelessWidget {
             borderRadius: BorderRadius.circular(20.0),
             child: Image.network(
               character.image,
-              height: 225.0,
+              height: 210.0,
               width: size.width * 0.3,
-              fit: BoxFit.cover,
+              fit: BoxFit.fill,
             ),
           ),
           const SizedBox(
@@ -216,7 +215,7 @@ class _CustomSliverAppBar extends StatelessWidget {
             SizedBox.expand(
               child: Image.network(
                 character.image,
-                fit: BoxFit.cover,
+                fit: BoxFit.fill,
                 loadingBuilder: (context, child, loadingProgress) {
                   if (loadingProgress != null) return const SizedBox();
 
