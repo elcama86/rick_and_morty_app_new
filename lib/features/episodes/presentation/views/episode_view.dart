@@ -122,6 +122,13 @@ class _EpisodeDetails extends StatelessWidget {
           subtitle: EpisodeUtils.transformAirDate(episode.airDate),
           icon: Icons.today_outlined,
         ),
+        const SizedBox(
+          height: 20.0,
+        ),
+        ElementsByEntity(
+          title: 'Personajes que aparecen en este episodio',
+          entity: episode,
+        ),
       ],
     );
   }
