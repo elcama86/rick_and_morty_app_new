@@ -1,4 +1,10 @@
+import 'package:isar/isar.dart';
+
+part 'episode.g.dart';
+
+@collection
 class Episode {
+  Id isarId = Isar.autoIncrement;
   final int id;
   final String name;
   final String airDate;
