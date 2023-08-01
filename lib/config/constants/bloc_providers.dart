@@ -42,4 +42,9 @@ final List<BlocProvider> blocProviders = [
       getEpisodesByCharacter: episodesRepository.getEpisodesByList,
     ),
   ),
+   BlocProvider<CharactersByEpisodeBloc>(
+    create: (_) => CharactersByEpisodeBloc(
+      getCharactersByEpisode: charactersRepository.getCharactersByList,
+    ),
+  ),
 ];
