@@ -27,7 +27,7 @@ class ScaffoldBackground extends StatelessWidget {
               color: Colors.black,
               image: DecorationImage(
                 opacity: 0.4,
-                fit: BoxFit.cover,
+                fit: BoxFit.fill,
                 image: AssetImage('assets/images/background.jpg'),
               ),
             ),
