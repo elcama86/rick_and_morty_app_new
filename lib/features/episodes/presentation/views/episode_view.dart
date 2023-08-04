@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rick_and_morty_app/features/episodes/episodes.dart';
 import 'package:rick_and_morty_app/features/shared/presentation/widgets/widgets.dart';
 
@@ -51,10 +52,18 @@ class _CustomSliverAppBar extends StatelessWidget {
       foregroundColor: Colors.white,
       actions: [
         IconButton(
-          onPressed: () {},
-          icon: const Icon(
-            Icons.favorite_outline,
-            color: Colors.red,
+          onPressed: () async {
+            await context.read<FavoritesEpisodesBloc>().toggleFavorite(episode);
+          },
+          icon: BlocBuilder<FavoritesEpisodesBloc, FavoritesEpisodesState>(
+            builder: (context, state) {
+              final isFavorite = state.favoritesEpisodes[episode.id] != null;
+
+              return Icon(
+                isFavorite ? Icons.favorite : Icons.favorite_outline,
+                color: Colors.red,
+              );
+            },
           ),
         ),
       ],
