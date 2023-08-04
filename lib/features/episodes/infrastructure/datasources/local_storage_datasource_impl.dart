@@ -54,4 +54,15 @@ class LocalStorageDatasourceImpl extends LocalStorageDatasource {
 
     db.writeTxnSync(() => db.episodes.putSync(episode));
   }
+
+  @override
+  Future<Episode?> loadEpisodeByIndex(int index) async {
+    final db = await isar;
+
+    final List<Episode> episodes = await db.episodes.where().findAll();
+
+    if (episodes.length == index) return null;
+
+    return episodes[index];
+  }
 }
