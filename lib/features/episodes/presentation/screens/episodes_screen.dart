@@ -21,18 +21,36 @@ class EpisodesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<EpisodesBloc, EpisodesState>(
-      bloc: BlocProvider.of<EpisodesBloc>(context),
-      builder: (context, state) {
-        return Scaffold(
-          appBar: Utils.appBarContain(state.episodes, "Episodios"),
-          body: navigationShell,
-          bottomNavigationBar: CustomBottomNavigation(
-            index: navigationShell.currentIndex,
-            onItemTapped: _goBranch,
-          ),
+    final index = navigationShell.currentIndex;
+
+    late PreferredSizeWidget? appBar;
+
+    switch (index) {
+      case 0:
+        appBar = context.select(
+          (EpisodesBloc episodesBloc) =>
+              Utils.appBarContain(episodesBloc.state.episodes, "Episodios"),
         );
-      },
+        break;
+      case 1:
+        appBar = context.select(
+          (FavoritesEpisodesBloc favoritesEpisodesBloc) => Utils.appBarContain(
+              favoritesEpisodesBloc.state.favoritesEpisodes.values.toList(),
+              "Favoritos"),
+        );
+        break;
+      default:
+        appBar = null;
+        break;
+    }
+
+    return Scaffold(
+      appBar: appBar,
+      body: navigationShell,
+      bottomNavigationBar: CustomBottomNavigation(
+        index: index,
+        onItemTapped: _goBranch,
+      ),
     );
   }
 }
