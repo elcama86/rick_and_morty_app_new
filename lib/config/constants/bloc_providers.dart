@@ -5,6 +5,8 @@ import 'package:rick_and_morty_app/features/episodes/episodes.dart';
 final charactersRepository =
     CharactersRepositoryImpl(CharactersDatasourceImpl());
 final episodesRepository = EpisodeRepositoryImpl(EpisodeDatasourceImpl());
+final localStorageRepository =
+    LocalStorageRepositoryImpl(LocalStorageDatasourceImpl());
 
 final List<BlocProvider> blocProviders = [
   BlocProvider<CharactersBloc>(
@@ -42,9 +44,14 @@ final List<BlocProvider> blocProviders = [
       getEpisodesByCharacter: episodesRepository.getEpisodesByList,
     ),
   ),
-   BlocProvider<CharactersByEpisodeBloc>(
+  BlocProvider<CharactersByEpisodeBloc>(
     create: (_) => CharactersByEpisodeBloc(
       getCharactersByEpisode: charactersRepository.getCharactersByList,
+    ),
+  ),
+  BlocProvider<FavoritesEpisodesBloc>(
+    create: (_) => FavoritesEpisodesBloc(
+      localStorageRepository: localStorageRepository,
     ),
   ),
 ];
