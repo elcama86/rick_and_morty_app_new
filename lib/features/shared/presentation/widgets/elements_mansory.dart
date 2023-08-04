@@ -4,7 +4,6 @@ import 'package:rick_and_morty_app/features/characters/domain/domain.dart';
 import 'package:rick_and_morty_app/features/characters/presentation/widgets/widgets.dart';
 import 'package:rick_and_morty_app/features/episodes/episodes.dart';
 
-
 class ElementsMansory<T> extends StatelessWidget {
   final List<T> elements;
 
@@ -16,7 +15,7 @@ class ElementsMansory<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverPadding(
-      padding: const EdgeInsets.only(right: 10.0, left: 10.0, bottom: 10.0),
+     padding: const EdgeInsets.only(right: 10.0, left: 10.0, bottom: 10.0),
       sliver: SliverMasonryGrid.count(
         crossAxisCount: 3,
         crossAxisSpacing: 10,
