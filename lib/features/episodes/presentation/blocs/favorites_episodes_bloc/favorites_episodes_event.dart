@@ -20,3 +20,9 @@ class SetFavorites extends FavoritesEpisodesEvent {
 
   SetFavorites(this.newFavorites);
 }
+
+class SetShowIcon extends FavoritesEpisodesEvent {
+  final bool value;
+
+  SetShowIcon(this.value);
+}

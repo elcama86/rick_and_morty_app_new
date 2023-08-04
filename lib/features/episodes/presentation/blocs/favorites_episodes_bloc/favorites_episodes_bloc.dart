@@ -15,11 +15,13 @@ class FavoritesEpisodesBloc
             favoritesEpisodes: {},
             offset: 0,
             limit: 20,
+            showIcon: false,
           ),
         ) {
     on<AddFavoriteEpisode>(_addFavoriteEpisode);
     on<RemoveFavoriteEpisode>(_removeFavoriteEpisode);
     on<SetFavorites>(_setFavorites);
+    on<SetShowIcon>(_setShowIcon);
   }
 
   void _addFavoriteEpisode(
@@ -32,18 +34,32 @@ class FavoritesEpisodesBloc
         },
         offset: state.offset,
         limit: state.limit,
+        showIcon: state.showIcon,
       ),
     );
   }
 
   void _removeFavoriteEpisode(
-      RemoveFavoriteEpisode event, Emitter<FavoritesEpisodesState> emit) {
+      RemoveFavoriteEpisode event, Emitter<FavoritesEpisodesState> emit) async {
+    int favoritesLength = state.favoritesEpisodes.values.length;
+
+    Episode? episode;
+
+    if (favoritesLength == state.offset) {
+      final int index = state.offset - 1;
+      episode = await localStorageRepository.loadEpisodeByIndex(index);
+    }
+
     state.favoritesEpisodes.remove(event.episodeId);
+
     emit(
       FavoritesEpisodesUpdate(
-        favoritesEpisodes: state.favoritesEpisodes,
+        favoritesEpisodes: episode != null
+            ? {...state.favoritesEpisodes, episode.id: episode}
+            : state.favoritesEpisodes,
         offset: state.offset,
         limit: state.limit,
+        showIcon: state.showIcon,
       ),
     );
   }
@@ -54,6 +70,18 @@ class FavoritesEpisodesBloc
         favoritesEpisodes: {...state.favoritesEpisodes, ...event.newFavorites},
         offset: state.offset + state.limit,
         limit: state.limit,
+        showIcon: state.showIcon,
+      ),
+    );
+  }
+
+  void _setShowIcon(SetShowIcon event, Emitter<FavoritesEpisodesState> emit) {
+    emit(
+      FavoritesEpisodesUpdate(
+        favoritesEpisodes: state.favoritesEpisodes,
+        offset: state.offset,
+        limit: state.limit,
+        showIcon: event.value,
       ),
     );
   }
@@ -76,11 +104,22 @@ class FavoritesEpisodesBloc
   }
 
   Future<bool> isFavorite(int episodeId) async {
-    return localStorageRepository.isEpisodeFavorite(episodeId);
+    final isEpisodeFavorite =
+        await localStorageRepository.isEpisodeFavorite(episodeId);
+
+    add(SetShowIcon(isEpisodeFavorite));
+
+    return isEpisodeFavorite;
   }
 
   Future<void> toggleFavorite(Episode episode) async {
     await localStorageRepository.toggleFavorite(episode);
+
+    final isEpisodeFavorite = await isFavorite(episode.id);
+
+    add(SetShowIcon(isEpisodeFavorite));
+
+    int favoritesLength = state.favoritesEpisodes.values.length;
 
     final bool isEpisodeInFavorites =
         state.favoritesEpisodes[episode.id] != null;
@@ -88,6 +127,7 @@ class FavoritesEpisodesBloc
     if (isEpisodeInFavorites) {
       add(RemoveFavoriteEpisode(episode.id));
     } else {
+      if (favoritesLength == state.offset) return;
       add(AddFavoriteEpisode(episode.id, episode));
     }
   }
