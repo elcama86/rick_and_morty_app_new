@@ -13,17 +13,6 @@ class Utils {
     );
   }
 
-  static String appBarTitle<T>(T element) {
-    switch (element) {
-      case Character:
-        return "Personajes";
-      case Episode:
-        return "Episodios";
-      default:
-        return "";
-    }
-  }
-
   static String searchLabel<T>(T element) {
     switch (element) {
       case Character:
@@ -41,17 +30,6 @@ class Utils {
         return context.watch<SearchCharactersBloc>().state.errorMessage;
       case Episode:
         return context.watch<SearchEpisodesBloc>().state.errorMessage;
-      default:
-        return '';
-    }
-  }
-
-  static String loadingErrorMessage<T>(T element) {
-    switch (element) {
-      case Character:
-        return "No existen personajes cargados";
-      case Episode:
-        return "No existen episodios cargados";
       default:
         return '';
     }
@@ -196,5 +174,15 @@ class Utils {
       default:
         return const SizedBox();
     }
+  }
+
+  static PreferredSizeWidget? appBarContain<T>(List<T> elements, String title) {
+    if (elements.isEmpty) {
+      return AppBar(
+        title: Text(title),
+      );
+    }
+
+    return null;
   }
 }
