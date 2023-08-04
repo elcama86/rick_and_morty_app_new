@@ -1,43 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rick_and_morty_app/features/episodes/episodes.dart';
 import 'package:rick_and_morty_app/features/shared/shared.dart';
 
-class EpisodesScreen extends StatefulWidget {
-  const EpisodesScreen({super.key});
+class EpisodesScreen extends StatelessWidget {
+  final StatefulNavigationShell navigationShell;
 
-  @override
-  State<EpisodesScreen> createState() => _EpisodesScreenState();
-}
+  const EpisodesScreen({
+    super.key,
+    required this.navigationShell,
+  });
 
-class _EpisodesScreenState extends State<EpisodesScreen> {
-  @override
-  void initState() {
-    super.initState();
-    final episodesState = context.read<EpisodesBloc>().state;
-    if (episodesState.episodes.isEmpty) {
-      context.read<EpisodesBloc>().loadNextPage();
-    }
+  void _goBranch(int index) {
+    navigationShell.goBranch(
+      index,
+      initialLocation: index == navigationShell.currentIndex,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<EpisodesBloc, EpisodesState>(
+    return BlocBuilder<EpisodesBloc, EpisodesState>(
       bloc: BlocProvider.of<EpisodesBloc>(context),
-      listener: (context, state) {
-        if (state.errorMessage.isNotEmpty && !state.isLoading) {
-          Utils.showSnackbar(context, state.errorMessage);
-        }
+      builder: (context, state) {
+        return Scaffold(
+          appBar: Utils.appBarContain(state.episodes, "Episodios"),
+          body: navigationShell,
+          bottomNavigationBar: CustomBottomNavigation(
+            index: navigationShell.currentIndex,
+            onItemTapped: _goBranch,
+          ),
+        );
       },
-      child: BlocBuilder<EpisodesBloc, EpisodesState>(
-        bloc: BlocProvider.of<EpisodesBloc>(context),
-        builder: (context, state) {
-          return ScaffoldScreen(
-            elements: state.episodes,
-            isLoading: state.isLoading,
-          );
-        },
-      ),
     );
   }
 }
