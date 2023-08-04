@@ -59,7 +59,7 @@ class _MenuOption extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
 
     return GestureDetector(
-      onTap: () => context.push(option.link),
+      onTap: () => context.go(option.link),
       child: Card(
         elevation: 50.0,
         clipBehavior: Clip.hardEdge,
