@@ -38,13 +38,16 @@ final appRouter = GoRouter(
             ),
           ],
         ),
-        StatefulShellRoute.indexedStack(
+        StatefulShellRoute(
           pageBuilder: (context, state, navigationShell) =>
               transitionAnimationPage(
             key: state.pageKey,
-            child: EpisodesScreen(
-              navigationShell: navigationShell,
-            ),
+            child: navigationShell,
+          ),
+          navigatorContainerBuilder: (context, navigationShell, children) =>
+              EpisodesScreen(
+            navigationShell: navigationShell,
+            children: children,
           ),
           branches: [
             StatefulShellBranch(
@@ -52,10 +55,7 @@ final appRouter = GoRouter(
               routes: [
                 GoRoute(
                   path: 'episodes',
-                  pageBuilder: (context, state) => transitionAnimationPage(
-                    key: state.pageKey,
-                    child: const EpisodesView(),
-                  ),
+                  builder: (context, state) => const EpisodesView(),
                   routes: [
                     GoRoute(
                       path: 'episode/:id',
@@ -79,10 +79,7 @@ final appRouter = GoRouter(
               routes: [
                 GoRoute(
                   path: 'favorites',
-                  pageBuilder: (context, state) => transitionAnimationPage(
-                    key: state.pageKey,
-                    child: const FavoritesEpisodesView(),
-                  ),
+                  builder: (context, state) => const FavoritesEpisodesView(),
                 ),
               ],
             ),
