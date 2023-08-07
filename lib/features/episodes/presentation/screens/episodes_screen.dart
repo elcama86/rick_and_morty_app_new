@@ -6,11 +6,13 @@ import 'package:rick_and_morty_app/features/shared/shared.dart';
 
 class EpisodesScreen extends StatelessWidget {
   final StatefulNavigationShell navigationShell;
+  final List<Widget> children;
 
   const EpisodesScreen({
-    super.key,
+    Key? key,
     required this.navigationShell,
-  });
+    required this.children,
+  }) : super(key: key ?? const ValueKey<String>('EpisodesScreen'));
 
   void _goBranch(int index) {
     navigationShell.goBranch(
@@ -32,13 +34,6 @@ class EpisodesScreen extends StatelessWidget {
               Utils.appBarContain(episodesBloc.state.episodes, "Episodios"),
         );
         break;
-      case 1:
-        appBar = context.select(
-          (FavoritesEpisodesBloc favoritesEpisodesBloc) => Utils.appBarContain(
-              favoritesEpisodesBloc.state.favoritesEpisodes.values.toList(),
-              "Favoritos"),
-        );
-        break;
       default:
         appBar = null;
         break;
@@ -46,11 +41,66 @@ class EpisodesScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: appBar,
-      body: navigationShell,
+      body: AnimatedBranchContainer(
+        currentIndex: index,
+        children: children,
+      ),
       bottomNavigationBar: CustomBottomNavigation(
         index: index,
         onItemTapped: _goBranch,
       ),
+    );
+  }
+}
+
+class AnimatedBranchContainer extends StatefulWidget {
+  /// The index (in [children]) of the branch Navigator to display.
+  final int currentIndex;
+
+  /// The children (branch Navigators) to display in this container.
+  final List<Widget> children;
+
+  const AnimatedBranchContainer({
+    super.key,
+    required this.currentIndex,
+    required this.children,
+  });
+
+  @override
+  State<AnimatedBranchContainer> createState() =>
+      _AnimatedBranchContainerState();
+}
+
+class _AnimatedBranchContainerState extends State<AnimatedBranchContainer> {
+  late PageController pageController;
+
+  @override
+  void initState() {
+    super.initState();
+    pageController = PageController(keepPage: true);
+  }
+
+  @override
+  void dispose() {
+    pageController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (pageController.hasClients) {
+      pageController.animateToPage(
+        widget.currentIndex,
+        curve: Curves.easeInOut,
+        duration: const Duration(milliseconds: 250),
+      );
+    }
+
+    return PageView(
+      //* Esto evita que rebote
+      physics: const NeverScrollableScrollPhysics(),
+      controller: pageController,
+      children: widget.children,
     );
   }
 }
