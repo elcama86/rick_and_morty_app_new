@@ -17,13 +17,9 @@ class CharacterCard extends StatelessWidget {
       height: 165.0,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20.0),
-        child: FadeInImage(
+        child: CharacterCachedImage(
           height: 165.0,
-          fit: BoxFit.fill,
-          placeholder: const AssetImage('assets/images/cargando.gif'),
-          image: NetworkImage(
-            character.image,
-          ),
+          imageUrl: character.image,
         ),
       ),
     );
