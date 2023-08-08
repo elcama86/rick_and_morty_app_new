@@ -51,9 +51,13 @@ class _CharacterImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(20.0),
-      child: CharacterCachedImage(
+      child: FadeInImage(
         height: 180.0,
-        imageUrl: imageUrl,
+        fit: BoxFit.fill,
+        placeholder: const AssetImage('assets/images/cargando.gif'),
+        image: NetworkImage(
+          imageUrl,
+        ),
       ),
     );
   }

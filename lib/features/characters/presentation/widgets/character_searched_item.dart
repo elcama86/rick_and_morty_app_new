@@ -27,9 +27,11 @@ class CharacterSearchedItem extends StatelessWidget {
                 width: size.width * 0.3,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10.0),
-                  child: CharacterCachedImage(
+                  child: FadeInImage(
                     height: 150.0,
-                    imageUrl: character.image,
+                    placeholder: const AssetImage('assets/images/cargando.gif'),
+                    image: NetworkImage(character.image),
+                    fit: BoxFit.cover,
                   ),
                 ),
               ),
