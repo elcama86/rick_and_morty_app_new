@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:rick_and_morty_app/config/helpers/human_formats.dart';
-import 'package:rick_and_morty_app/features/characters/domain/domain.dart';
+import 'package:rick_and_morty_app/features/characters/characters.dart';
 import 'package:rick_and_morty_app/features/shared/presentation/widgets/widgets.dart';
 
 class CharacterView extends StatelessWidget {
@@ -176,7 +176,7 @@ class _CustomTextInfo extends StatelessWidget {
             ),
           ),
           TextSpan(
-            text: text.isEmpty ? "No especificado" : text,
+            text: CharacterUtils.getValue(title, text),
           ),
         ],
       ),
