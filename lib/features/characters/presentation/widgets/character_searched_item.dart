@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:animate_do/animate_do.dart';
-import 'package:rick_and_morty_app/features/characters/domain/domain.dart';
+import 'package:rick_and_morty_app/features/characters/characters.dart';
 
 class CharacterSearchedItem extends StatelessWidget {
   final Character character;
 
-  const CharacterSearchedItem({super.key, 
+  const CharacterSearchedItem({
+    super.key,
     required this.character,
   });
 
@@ -26,11 +27,9 @@ class CharacterSearchedItem extends StatelessWidget {
                 width: size.width * 0.3,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10.0),
-                  child: FadeInImage(
+                  child: CharacterCachedImage(
                     height: 150.0,
-                    placeholder: const AssetImage('assets/images/cargando.gif'),
-                    image: NetworkImage(character.image),
-                    fit: BoxFit.cover,
+                    imageUrl: character.image,
                   ),
                 ),
               ),
