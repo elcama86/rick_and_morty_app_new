@@ -39,15 +39,18 @@ class EpisodesScreen extends StatelessWidget {
         break;
     }
 
-    return Scaffold(
-      appBar: appBar,
-      body: AnimatedBranchContainer(
-        currentIndex: index,
-        children: children,
-      ),
-      bottomNavigationBar: CustomBottomNavigation(
-        index: index,
-        onItemTapped: _goBranch,
+    return BlocProvider(
+      create: (_) => BottomNavBarCubit(),
+      child: Scaffold(
+        appBar: appBar,
+        body: AnimatedBranchContainer(
+          currentIndex: index,
+          children: children,
+        ),
+        bottomNavigationBar: CustomBottomNavigation(
+          index: index,
+          onItemTapped: _goBranch,
+        ),
       ),
     );
   }
