@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:go_router/go_router.dart';
@@ -71,25 +70,12 @@ class _EpisodesViewContain extends StatefulWidget {
 }
 
 class _EpisodesViewContainState extends State<_EpisodesViewContain> {
-  final controller = ScrollController();
+  late ScrollController controller;
 
   @override
   void initState() {
     super.initState();
-    controller.addListener(() {
-      if (widget.loadNextPage == null) return;
-      if (controller.position.userScrollDirection == ScrollDirection.forward) {
-        context.read<BottomNavBarCubit>().show();
-        return;
-      }
-
-      context.read<BottomNavBarCubit>().hide();
-
-      if ((controller.position.pixels + 100) >=
-          controller.position.maxScrollExtent) {
-        widget.loadNextPage!();
-      }
-    });
+    controller = ScrollController();
   }
 
   @override
@@ -100,51 +86,40 @@ class _EpisodesViewContainState extends State<_EpisodesViewContain> {
 
   @override
   Widget build(BuildContext context) {
-    final appBarTitleTheme = Theme.of(context).appBarTheme.titleTextStyle;
-
-    return CustomScrollView(
+    return ElementsScrollView(
       controller: controller,
-      slivers: [
-        SliverAppBar(
-          floating: true,
-          flexibleSpace: FlexibleSpaceBar(
-            title: Text(
-              "Episodios",
-              style: appBarTitleTheme,
-            ),
-          ),
-          leading: IconButton(
-            onPressed: () => context.pop(),
-            icon: const Icon(Icons.arrow_back),
-          ),
-          actions: [
-            FadeIn(
-              child: IconButton(
-                onPressed: () {
-                  final searchEpisodesState =
-                      context.read<SearchEpisodesBloc>().state;
+      elements: widget.episodes,
+      title: "Episodios",
+      leading: IconButton(
+        onPressed: () => context.pop(),
+        icon: const Icon(Icons.arrow_back),
+      ),
+      actions: [
+        FadeIn(
+          child: IconButton(
+            onPressed: () {
+              final searchEpisodesState =
+                  context.read<SearchEpisodesBloc>().state;
 
-                  final searchEpisodes =
-                      context.read<SearchEpisodesBloc>().searchEpisodesByQuery;
+              final searchEpisodes =
+                  context.read<SearchEpisodesBloc>().searchEpisodesByQuery;
 
-                  showSearch<Episode?>(
-                    query: searchEpisodesState.query,
-                    context: context,
-                    delegate: SearchElementsDelegate(
-                      searchElements: searchEpisodes,
-                      initialElements: searchEpisodesState.results,
-                    ),
-                  );
-                },
-                icon: const Icon(Icons.search),
-              ),
-            ),
-          ],
-        ),
-        ElementsMansory(
-          elements: widget.episodes,
+              showSearch<Episode?>(
+                query: searchEpisodesState.query,
+                context: context,
+                delegate: SearchElementsDelegate(
+                  searchElements: searchEpisodes,
+                  initialElements: searchEpisodesState.results,
+                ),
+              );
+            },
+            icon: const Icon(Icons.search),
+          ),
         ),
       ],
+      loadNextPage: widget.loadNextPage,
+      showBottomNavBar: context.read<BottomNavBarCubit>().show,
+      hideBottomNavBar: context.read<BottomNavBarCubit>().hide,
     );
   }
 }
