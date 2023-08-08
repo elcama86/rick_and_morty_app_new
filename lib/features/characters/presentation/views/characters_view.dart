@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:rick_and_morty_app/features/shared/presentation/delegates/search_elements_delegate.dart';
@@ -23,23 +22,12 @@ class CharactersView extends StatefulWidget {
 }
 
 class _CharactersViewState extends State<CharactersView> {
-  final controller = ScrollController();
+  late ScrollController controller;
 
   @override
   void initState() {
     super.initState();
-
-    controller.addListener(() {
-      if (widget.loadNextPage == null) return;
-      if (controller.position.userScrollDirection == ScrollDirection.forward) {
-        return;
-      }
-
-      if ((controller.position.pixels + 100) >=
-          controller.position.maxScrollExtent) {
-        widget.loadNextPage!();
-      }
-    });
+    controller = ScrollController();
   }
 
   @override
@@ -50,48 +38,34 @@ class _CharactersViewState extends State<CharactersView> {
 
   @override
   Widget build(BuildContext context) {
-    final appBarTitleTheme = Theme.of(context).appBarTheme.titleTextStyle;
-
-    return CustomScrollView(
+    return ElementsScrollView(
       controller: controller,
-      slivers: [
-        SliverAppBar(
-          floating: true,
-          flexibleSpace: FlexibleSpaceBar(
-            title: Text(
-              "Personajes",
-              style: appBarTitleTheme,
-            ),
+      elements: widget.characters,
+      title: "Personajes",
+      actions: [
+        FadeIn(
+          child: IconButton(
+            onPressed: () {
+              final searchCharactersState =
+                  context.read<SearchCharactersBloc>().state;
+
+              final searchCharacters =
+                  context.read<SearchCharactersBloc>().searchCharactersByQuery;
+
+              showSearch<Character?>(
+                query: searchCharactersState.query,
+                context: context,
+                delegate: SearchElementsDelegate(
+                  searchElements: searchCharacters,
+                  initialElements: searchCharactersState.results,
+                ),
+              );
+            },
+            icon: const Icon(Icons.search),
           ),
-          actions: [
-            FadeIn(
-              child: IconButton(
-                onPressed: () {
-                  final searchCharactersState =
-                      context.read<SearchCharactersBloc>().state;
-
-                  final searchCharacters = context
-                      .read<SearchCharactersBloc>()
-                      .searchCharactersByQuery;
-
-                  showSearch<Character?>(
-                    query: searchCharactersState.query,
-                    context: context,
-                    delegate: SearchElementsDelegate(
-                      searchElements: searchCharacters,
-                      initialElements: searchCharactersState.results,
-                    ),
-                  );
-                },
-                icon: const Icon(Icons.search),
-              ),
-            ),
-          ],
-        ),
-        ElementsMansory(
-          elements: widget.characters,
         ),
       ],
+      loadNextPage: widget.loadNextPage,
     );
   }
 }
