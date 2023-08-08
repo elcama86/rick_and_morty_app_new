@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rick_and_morty_app/features/episodes/episodes.dart';
@@ -13,7 +12,7 @@ class FavoritesEpisodesView extends StatefulWidget {
 }
 
 class _FavoritesEpisodesViewState extends State<FavoritesEpisodesView> {
-  final controller = ScrollController();
+  late ScrollController controller;
 
   bool isLoading = false;
   bool isLastPage = false;
@@ -22,19 +21,7 @@ class _FavoritesEpisodesViewState extends State<FavoritesEpisodesView> {
   void initState() {
     super.initState();
     loadNextFavorites();
-    controller.addListener(() {
-      if (controller.position.userScrollDirection == ScrollDirection.forward) {
-        context.read<BottomNavBarCubit>().show();
-        return;
-      }
-
-      context.read<BottomNavBarCubit>().hide();
-
-      if ((controller.position.pixels + 100) >=
-          controller.position.maxScrollExtent) {
-        loadNextFavorites();
-      }
-    });
+    controller = ScrollController();
   }
 
   @override
@@ -74,28 +61,17 @@ class _FavoritesEpisodesViewState extends State<FavoritesEpisodesView> {
                 message: "No existen episodios favoritos");
           }
 
-          final appBarTitleTheme = Theme.of(context).appBarTheme.titleTextStyle;
-
-          return CustomScrollView(
+          return ElementsScrollView(
             controller: controller,
-            slivers: [
-              SliverAppBar(
-                floating: true,
-                flexibleSpace: FlexibleSpaceBar(
-                  title: Text(
-                    "Favoritos",
-                    style: appBarTitleTheme,
-                  ),
-                ),
-                leading: IconButton(
-                  onPressed: () => context.pop(),
-                  icon: const Icon(Icons.arrow_back),
-                ),
-              ),
-              ElementsMansory(
-                elements: favoritesEpisodes,
-              ),
-            ],
+            elements: favoritesEpisodes,
+            title: "Favoritos",
+            leading: IconButton(
+              onPressed: () => context.pop(),
+              icon: const Icon(Icons.arrow_back),
+            ),
+            loadNextPage: loadNextFavorites,
+            showBottomNavBar: context.read<BottomNavBarCubit>().show,
+            hideBottomNavBar: context.read<BottomNavBarCubit>().hide,
           );
         },
       ),
