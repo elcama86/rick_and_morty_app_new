@@ -24,8 +24,11 @@ class _FavoritesEpisodesViewState extends State<FavoritesEpisodesView> {
     loadNextFavorites();
     controller.addListener(() {
       if (controller.position.userScrollDirection == ScrollDirection.forward) {
+        context.read<BottomNavBarCubit>().show();
         return;
       }
+
+      context.read<BottomNavBarCubit>().hide();
 
       if ((controller.position.pixels + 100) >=
           controller.position.maxScrollExtent) {
@@ -76,7 +79,7 @@ class _FavoritesEpisodesViewState extends State<FavoritesEpisodesView> {
           return CustomScrollView(
             controller: controller,
             slivers: [
-               SliverAppBar(
+              SliverAppBar(
                 floating: true,
                 flexibleSpace: FlexibleSpaceBar(
                   title: Text(

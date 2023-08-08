@@ -79,8 +79,11 @@ class _EpisodesViewContainState extends State<_EpisodesViewContain> {
     controller.addListener(() {
       if (widget.loadNextPage == null) return;
       if (controller.position.userScrollDirection == ScrollDirection.forward) {
+        context.read<BottomNavBarCubit>().show();
         return;
       }
+
+      context.read<BottomNavBarCubit>().hide();
 
       if ((controller.position.pixels + 100) >=
           controller.position.maxScrollExtent) {
