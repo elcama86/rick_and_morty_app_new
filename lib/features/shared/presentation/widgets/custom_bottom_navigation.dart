@@ -15,11 +15,12 @@ class CustomBottomNavigation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
-    final bottomNavBarState = context.watch<BottomNavBarCubit>().state;
+    final scaffoldBackgroundColor = Theme.of(context).scaffoldBackgroundColor;
 
     return AnimatedContainer(
       duration: const Duration(milliseconds: 200),
-      height: bottomNavBarState.isVisible ? kBottomNavigationBarHeight : 0.0,
+      height: context.select((BottomNavBarCubit bottomNavBarCubit) =>
+          bottomNavBarCubit.state.isVisible ? kBottomNavigationBarHeight : 0.0),
       child: Wrap(
         children: [
           BottomNavigationBar(
@@ -27,9 +28,19 @@ class CustomBottomNavigation extends StatelessWidget {
             currentIndex: index,
             onTap: onItemTapped,
             selectedItemColor: colors.primary,
-            type: BottomNavigationBarType.shifting,
             showUnselectedLabels: true,
             unselectedItemColor: colors.secondary,
+            backgroundColor: context.select(
+              (BottomNavBarCubit bottomNavBarCubit) {
+                final position =
+                    bottomNavBarCubit.state.scrollPositions[index] ?? 0.0;
+                final appBarHeight = bottomNavBarCubit.state.appBarHeight;
+
+                return position > appBarHeight
+                    ? colors.onInverseSurface
+                    : scaffoldBackgroundColor;
+              },
+            ),
             items: const [
               BottomNavigationBarItem(
                 icon: Icon(Icons.video_label_outlined),
