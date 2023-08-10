@@ -120,6 +120,7 @@ class _EpisodesViewContainState extends State<_EpisodesViewContain> {
       loadNextPage: widget.loadNextPage,
       showBottomNavBar: context.read<BottomNavBarCubit>().show,
       hideBottomNavBar: context.read<BottomNavBarCubit>().hide,
+      setScrollPositions: context.read<BottomNavBarCubit>().setScrollPositions,
     );
   }
 }
