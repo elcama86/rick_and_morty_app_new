@@ -72,6 +72,8 @@ class _FavoritesEpisodesViewState extends State<FavoritesEpisodesView> {
             loadNextPage: loadNextFavorites,
             showBottomNavBar: context.read<BottomNavBarCubit>().show,
             hideBottomNavBar: context.read<BottomNavBarCubit>().hide,
+            setScrollPositions:
+                context.read<BottomNavBarCubit>().setScrollPositions,
           );
         },
       ),
