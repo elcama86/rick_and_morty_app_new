@@ -91,7 +91,12 @@ class _AnimatedBranchContainerState extends State<AnimatedBranchContainer> {
 
   @override
   Widget build(BuildContext context) {
+    final appBarHeight = kToolbarHeight + MediaQuery.of(context).padding.top;
+
+    context.read<BottomNavBarCubit>().setAppBarHeight(appBarHeight);
+    
     if (pageController.hasClients) {
+      context.read<BottomNavBarCubit>().setCurrentIndex(widget.currentIndex);
       pageController.animateToPage(
         widget.currentIndex,
         curve: Curves.easeInOut,
