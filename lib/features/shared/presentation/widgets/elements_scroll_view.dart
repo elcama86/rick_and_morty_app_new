@@ -12,6 +12,7 @@ class ElementsScrollView<T> extends StatefulWidget {
   final VoidCallback? loadNextPage;
   final VoidCallback? showBottomNavBar;
   final VoidCallback? hideBottomNavBar;
+  final void Function(double, ScrollDirection)? setScrollPositions;
 
   const ElementsScrollView({
     super.key,
@@ -23,6 +24,7 @@ class ElementsScrollView<T> extends StatefulWidget {
     this.loadNextPage,
     this.showBottomNavBar,
     this.hideBottomNavBar,
+    this.setScrollPositions,
   });
 
   @override
@@ -44,6 +46,12 @@ class _ElementsScrollViewState<T> extends State<ElementsScrollView<T>> {
 
   void listen() {
     if (widget.loadNextPage == null) return;
+
+    if (widget.setScrollPositions != null) {
+      widget.setScrollPositions!(widget.controller.position.pixels,
+          widget.controller.position.userScrollDirection);
+    }
+
     if (widget.controller.position.userScrollDirection ==
         ScrollDirection.forward) {
       if (widget.showBottomNavBar != null) widget.showBottomNavBar!();
