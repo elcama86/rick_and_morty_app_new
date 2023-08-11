@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:rick_and_morty_app/config/config.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:card_swiper/card_swiper.dart';
+import 'package:rick_and_morty_app/features/characters/characters.dart';
 import 'package:rick_and_morty_app/features/shared/shared.dart';
 
 class HomeView extends StatelessWidget {
@@ -8,87 +9,94 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const ScaffoldBackground(
-      child: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                SizedBox(
-                  height: 60.0,
-                ),
-                // ...menuOptions.map(
-                //   (option) => _MenuOption(
-                //     option: option,
-                //   ),
-                // ),
-                SizedBox(
-                  height: 20.0,
-                ),
-              ],
+    return ScaffoldBackground(
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 20.0,
             ),
-          ),
+            BlocBuilder<CharactersSlideCubit, CharactersSlideState>(
+              builder: (context, state) {
+                return _CharactersSlideShow(
+                  characters: state.characters,
+                );
+              },
+            ),
+            const SizedBox(
+              height: 20.0,
+            ),
+          ],
         ),
       ),
     );
   }
 }
 
-class _MenuOption extends StatelessWidget {
-  final MenuOption option;
+class _CharactersSlideShow extends StatelessWidget {
+  final List<Character> characters;
 
-  const _MenuOption({
-    required this.option,
+  const _CharactersSlideShow({
+    required this.characters,
   });
 
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
 
-    return GestureDetector(
-      onTap: () => context.go(option.link),
-      child: Card(
-        elevation: 50.0,
-        clipBehavior: Clip.hardEdge,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(50.0),
+    return SizedBox(
+      height: 220.0,
+      width: double.infinity,
+      child: Swiper(
+        viewportFraction: 0.8,
+        scale: 0.8,
+        autoplay: true,
+        pagination: SwiperPagination(
+          margin: const EdgeInsets.only(top: 0.0),
+          builder: DotSwiperPaginationBuilder(
+            activeColor: colors.primary,
+            color: colors.secondary,
+          ),
         ),
-        shadowColor: colors.primary,
-        margin: const EdgeInsets.symmetric(
-          horizontal: 30.0,
-          vertical: 30.0,
+        itemCount: characters.length,
+        itemBuilder: (context, index) => _Slide(
+          character: characters[index],
         ),
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            Image.asset(
-              option.image,
-              height: 180.0,
-              width: 180.0,
-              fit: BoxFit.cover,
-            ),
-            DecoratedBox(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(50),
-                gradient: const LinearGradient(
-                  stops: [0.5, 1.0],
-                  colors: [
-                    Colors.black54,
-                    Colors.black45,
-                  ],
-                ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: Text(
-                  option.title,
-                  style: textTheme.titleLarge,
-                ),
-              ),
-            ),
-          ],
+      ),
+    );
+  }
+}
+
+class _Slide extends StatelessWidget {
+  final Character character;
+
+  const _Slide({
+    required this.character,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final decoration = BoxDecoration(
+      borderRadius: BorderRadius.circular(20.0),
+      boxShadow: const [
+        BoxShadow(
+          color: Colors.black87,
+          blurRadius: 10.0,
+          offset: Offset(0, 10),
+        ),
+      ],
+    );
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 30.0),
+      child: DecoratedBox(
+        decoration: decoration,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20.0),
+          child: FadeInImage(
+            image: NetworkImage(character.image),
+            placeholder: const AssetImage("assets/images/cargando.gif"),
+            fit: BoxFit.fill,
+          ),
         ),
       ),
     );
