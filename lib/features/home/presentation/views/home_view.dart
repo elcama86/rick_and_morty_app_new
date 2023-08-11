@@ -11,25 +11,27 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScaffoldBackground(
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 20.0,
-            ),
-            BlocBuilder<CharactersSlideCubit, CharactersSlideState>(
-              builder: (context, state) {
-                return CharactersSlideShow(
-                  characters: state.characters,
-                );
-              },
-            ),
-            const SizedBox(
-              height: 20.0,
-            ),
-            const TrailerVideo(),
-          ],
-        ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          const SizedBox(
+            height: 20.0,
+          ),
+          BlocBuilder<CharactersSlideCubit, CharactersSlideState>(
+            builder: (context, state) {
+              return CharactersSlideShow(
+                characters: state.characters,
+              );
+            },
+          ),
+          const SizedBox(
+            height: 20.0,
+          ),
+          const TrailerVideo(),
+          const SizedBox(
+            height: 20.0,
+          ),
+        ],
       ),
     );
   }
