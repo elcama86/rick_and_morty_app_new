@@ -7,4 +7,7 @@ class Environment {
 
   static String apiUrl =
       dotenv.env['API_URL'] ?? "No está configurado el API_URL";
+
+  static String videoUrl =
+      dotenv.env['VIDEO_URL'] ?? "No está configurado el VIDEO_URL";
 }
