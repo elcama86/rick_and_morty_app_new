@@ -13,10 +13,11 @@ class CharactersSlideShow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     final colors = Theme.of(context).colorScheme;
 
     return SizedBox(
-      height: 220.0,
+      height: size.height * 0.35,
       width: double.infinity,
       child: Swiper(
         viewportFraction: 0.8,
