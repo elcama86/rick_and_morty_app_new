@@ -12,7 +12,7 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScaffoldBackground(
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: context.select((CharactersSlideCubit charactersSlideCubit) => charactersSlideCubit.state.characters.isNotEmpty ? MainAxisAlignment.spaceBetween : MainAxisAlignment.start),
         children: [
           const SizedBox(
             height: 20.0,
