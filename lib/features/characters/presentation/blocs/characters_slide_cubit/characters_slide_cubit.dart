@@ -13,16 +13,24 @@ class CharactersSlideCubit extends Cubit<CharactersSlideState> {
     required this.getCharactersByIds,
   }) : super(const CharactersSlideState());
 
+  List<String> idsList() {
+    Random random = Random();
+
+    List<String> ids = <String>[];
+
+    do {
+      String id = random.nextInt(827).toString();
+      if (!ids.contains(id)) {
+        ids.add(id);
+      }
+    } while (ids.length < 6);
+
+    return ids;
+  }
+
   Future<void> getCharactersSlide() async {
     try {
-      Random random = Random();
-
-      List<String> ids = List<String>.generate(
-        6,
-        (_) => random.nextInt(826).toString(),
-      );
-
-      final characters = await getCharactersByIds(ids);
+      final characters = await getCharactersByIds(idsList());
 
       emit(
         state.copyWith(
