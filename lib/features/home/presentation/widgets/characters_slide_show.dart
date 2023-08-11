@@ -16,6 +16,10 @@ class CharactersSlideShow extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     final colors = Theme.of(context).colorScheme;
 
+    if (characters.isEmpty) {
+      return const SizedBox();
+    }
+
     return SizedBox(
       height: size.height * 0.35,
       width: double.infinity,
