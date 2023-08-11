@@ -25,7 +25,9 @@ class _HomeScreenState extends State<HomeScreen> {
     return BlocBuilder<CharactersSlideCubit, CharactersSlideState>(
       builder: (context, state) {
         if (state.isLoading) {
-          return const LoadingSpinner();
+          return const Scaffold(
+            body: LoadingSpinner(),
+          );
         }
 
         return BlocProvider(
