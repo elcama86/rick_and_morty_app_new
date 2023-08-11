@@ -54,4 +54,9 @@ final List<BlocProvider> blocProviders = [
       localStorageRepository: localStorageRepository,
     ),
   ),
+  BlocProvider<CharactersSlideCubit>(
+    create: (_) => CharactersSlideCubit(
+      getCharactersByIds: charactersRepository.getCharactersByList,
+    ),
+  ),
 ];
