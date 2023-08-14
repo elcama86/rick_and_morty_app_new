@@ -52,6 +52,8 @@ class CharacterUtils {
         return "Masculino";
       case "Female":
         return "Femenino";
+      case "Genderless":
+        return "Sin Género";
       case "unknown":
         return "Desconocido";
       case "":
