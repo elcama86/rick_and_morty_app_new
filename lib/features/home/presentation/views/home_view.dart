@@ -88,9 +88,7 @@ class _ErrorMessageRetry extends StatelessWidget {
               'Reintentar',
               style: textStyles.titleSmall,
             ),
-            onPressed: isRetrying
-                ? null
-                : context.read<CharactersSlideCubit>().getCharactersSlide,
+            onPressed: context.read<CharactersSlideCubit>().getCharactersSlide,
           ),
         ],
       ),
