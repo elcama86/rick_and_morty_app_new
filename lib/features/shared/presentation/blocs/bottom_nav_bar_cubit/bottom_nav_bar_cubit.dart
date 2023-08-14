@@ -18,6 +18,8 @@ class BottomNavBarCubit extends Cubit<BottomNavBarState> {
   }
 
   void hide() {
+    double position = state.scrollPositions[state.currentIndex] ?? 0.0;
+    if (position < state.appBarHeight) return;
     if (state.isVisible) {
       emit(
         state.copyWith(
@@ -46,7 +48,7 @@ class BottomNavBarCubit extends Cubit<BottomNavBarState> {
   void setScrollPositions(double position, ScrollDirection direction) {
     if (state.scrollPositions[state.currentIndex] != null) {
       checkScrollPosition(position, direction);
-      
+
       emit(
         state.copyWith(
           scrollPositions: {...state.scrollPositions},
