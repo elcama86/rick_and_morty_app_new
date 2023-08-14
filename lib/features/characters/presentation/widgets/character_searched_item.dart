@@ -52,15 +52,15 @@ class CharacterSearchedItem extends StatelessWidget {
                       height: 5.0,
                     ),
                     _InfoWithIcon(
-                      info: character.status,
+                      info: CharacterUtils.getStatus(character.status),
                       icon: Icons.monitor_heart_outlined,
                     ),
                     _InfoWithIcon(
-                      info: character.species,
+                      info: CharacterUtils.getSpecies(character.species),
                       icon: Icons.hourglass_empty,
                     ),
                     _InfoWithIcon(
-                      info: character.gender,
+                      info: CharacterUtils.getGender(character.gender),
                       icon: Icons.wc,
                     ),
                   ],
@@ -76,7 +76,7 @@ class CharacterSearchedItem extends StatelessWidget {
 
 class _InfoWithIcon extends StatelessWidget {
   const _InfoWithIcon({
-    this.info = "No especificado",
+    required this.info,
     required this.icon,
   });
 
