@@ -30,12 +30,23 @@ class CharactersSlideCubit extends Cubit<CharactersSlideState> {
 
   Future<void> getCharactersSlide() async {
     try {
+      if (state.hasError) {
+        emit(
+          state.copyWith(
+            isRetrying: true,
+          ),
+        );
+      }
+
+      await Future.delayed(const Duration(milliseconds: 500));
+
       final characters = await getCharactersByIds(idsList());
 
       emit(
         state.copyWith(
           isLoading: false,
           hasError: false,
+          isRetrying: false,
           characters: characters,
         ),
       );
@@ -44,6 +55,7 @@ class CharactersSlideCubit extends Cubit<CharactersSlideState> {
         state.copyWith(
           isLoading: false,
           hasError: true,
+          isRetrying: false,
         ),
       );
     }
