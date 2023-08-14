@@ -37,6 +37,7 @@ class _CharactersScreenState extends State<CharactersScreen> {
           return _ScaffoldScreen(
             characters: state.characters,
             isLoading: state.isLoading,
+            hasError: state.errorMessage.isNotEmpty,
           );
         },
       ),
@@ -47,9 +48,12 @@ class _CharactersScreenState extends State<CharactersScreen> {
 class _ScaffoldScreen extends StatelessWidget {
   final List<Character> characters;
   final bool isLoading;
+  final bool hasError;
+
   const _ScaffoldScreen({
     required this.characters,
     required this.isLoading,
+    required this.hasError,
   });
 
   @override
@@ -60,6 +64,14 @@ class _ScaffoldScreen extends StatelessWidget {
         characters: characters,
         isLoading: isLoading,
       ),
+      floatingActionButton: hasError && !isLoading
+          ? FloatingActionButton(
+              onPressed: context.read<CharactersBloc>().loadNextPage,
+              child: const Icon(
+                Icons.refresh,
+              ),
+            )
+          : null,
     );
   }
 }
