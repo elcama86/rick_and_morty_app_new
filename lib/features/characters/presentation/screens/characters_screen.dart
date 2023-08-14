@@ -64,7 +64,7 @@ class _ScaffoldScreen extends StatelessWidget {
         characters: characters,
         isLoading: isLoading,
       ),
-      floatingActionButton: hasError && !isLoading
+      floatingActionButton: hasError && !isLoading && characters.isEmpty
           ? FloatingActionButton(
               onPressed: context.read<CharactersBloc>().loadNextPage,
               child: const Icon(
