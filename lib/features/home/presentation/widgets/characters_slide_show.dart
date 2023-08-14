@@ -15,30 +15,34 @@ class CharactersSlideShow extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final colors = Theme.of(context).colorScheme;
-
-    if (characters.isEmpty) {
-      return const SizedBox();
-    }
+    final textStyle = Theme.of(context).textTheme;
 
     return SizedBox(
       height: size.height * 0.35,
       width: double.infinity,
-      child: Swiper(
-        viewportFraction: 0.8,
-        scale: 0.8,
-        autoplay: true,
-        pagination: SwiperPagination(
-          margin: const EdgeInsets.only(top: 0.0),
-          builder: DotSwiperPaginationBuilder(
-            activeColor: colors.primary,
-            color: colors.secondary,
-          ),
-        ),
-        itemCount: characters.length,
-        itemBuilder: (context, index) => _Slide(
-          character: characters[index],
-        ),
-      ),
+      child: characters.isEmpty
+          ? Center(
+              child: Text(
+                "No se encontraron personajes",
+                style: textStyle.titleLarge,
+              ),
+            )
+          : Swiper(
+              viewportFraction: 0.8,
+              scale: 0.8,
+              autoplay: true,
+              pagination: SwiperPagination(
+                margin: const EdgeInsets.only(top: 0.0),
+                builder: DotSwiperPaginationBuilder(
+                  activeColor: colors.primary,
+                  color: colors.secondary,
+                ),
+              ),
+              itemCount: characters.length,
+              itemBuilder: (context, index) => _Slide(
+                character: characters[index],
+              ),
+            ),
     );
   }
 }
