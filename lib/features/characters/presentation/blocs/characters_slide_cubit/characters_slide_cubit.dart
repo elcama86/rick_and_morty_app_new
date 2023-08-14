@@ -30,7 +30,7 @@ class CharactersSlideCubit extends Cubit<CharactersSlideState> {
 
   Future<void> getCharactersSlide() async {
     try {
-      if (state.isLoading || state.isRetrying) return;
+      if (state.isRetrying) return;
 
       if (state.hasError) {
         emit(
