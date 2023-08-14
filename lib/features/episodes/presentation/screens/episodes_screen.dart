@@ -51,6 +51,19 @@ class EpisodesScreen extends StatelessWidget {
           index: index,
           onItemTapped: _goBranch,
         ),
+        floatingActionButton: BlocBuilder<EpisodesBloc, EpisodesState>(
+          bloc: BlocProvider.of<EpisodesBloc>(context),
+          builder: (context, state) {
+            if (!state.isLoading && state.errorMessage.isNotEmpty && state.episodes.isEmpty) {
+              return FloatingActionButton(
+                onPressed: context.read<EpisodesBloc>().loadNextPage,
+                child: const Icon(Icons.refresh),
+              );
+            }
+
+            return const SizedBox();
+          },
+        ),
       ),
     );
   }
@@ -94,7 +107,7 @@ class _AnimatedBranchContainerState extends State<AnimatedBranchContainer> {
     final appBarHeight = kToolbarHeight + MediaQuery.of(context).padding.top;
 
     context.read<BottomNavBarCubit>().setAppBarHeight(appBarHeight);
-    
+
     if (pageController.hasClients) {
       context.read<BottomNavBarCubit>().setCurrentIndex(widget.currentIndex);
       pageController.animateToPage(
