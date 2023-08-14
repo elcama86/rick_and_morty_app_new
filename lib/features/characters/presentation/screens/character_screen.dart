@@ -52,6 +52,12 @@ class _CharacterScreenState extends State<CharacterScreen> {
               ),
               body: const CustomMessage(
                   message: 'No se pudo cargar el personaje seleccionado'),
+              floatingActionButton: FloatingActionButton(
+                child: const Icon(Icons.refresh),
+                onPressed: () => context
+                    .read<CharacterBloc>()
+                    .getCharacter(widget.characterId),
+              ),
             );
           }
 
