@@ -107,6 +107,8 @@ class EpisodesByCharacterBloc
       add(SetIsLoading(true));
       add(SetHasError(false));
 
+      await Future.delayed(const Duration(milliseconds: 500));
+
       if (state.episodesByCharacter[characterId] != null) {
         _verifyEpisodesByCharacter(characterId, episodesIds);
         return;

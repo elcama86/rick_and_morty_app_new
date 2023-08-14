@@ -66,6 +66,8 @@ class EpisodesBloc extends Bloc<EpisodesEvent, EpisodesState> {
       add(SetLoadingEpisodes(true));
       add(SetErrorMessage(''));
 
+      await Future.delayed(const Duration(milliseconds: 500));
+
       final episodes = await getEpisodesByPage(page: state.page);
 
       add(SetLoadingEpisodes(false));

@@ -36,6 +36,8 @@ class CharacterBloc extends Bloc<CharacterEvent, CharacterState> {
       if (state.charactersMap[id] != null) return;
       add(SetCharacterErrorMessage(''));
 
+      await Future.delayed(const Duration(milliseconds: 500));
+
       final character = await getCharacterById(id);
 
       add(SetCharacter(id, character));

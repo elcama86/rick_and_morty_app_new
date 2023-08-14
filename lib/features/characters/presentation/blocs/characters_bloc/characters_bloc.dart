@@ -67,6 +67,8 @@ class CharactersBloc extends Bloc<CharactersEvent, CharactersState> {
       add(SetLoadingCharacters(true));
       add(SetErrorMessage(''));
 
+      await Future.delayed(const Duration(milliseconds: 500));
+
       final characters = await getCharactersByPage(page: state.page);
 
       add(SetLoadingCharacters(false));

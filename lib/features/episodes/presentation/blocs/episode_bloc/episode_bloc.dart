@@ -40,6 +40,8 @@ class EpisodeBloc extends Bloc<EpisodeEvent, EpisodeState> {
       if (state.episodesMap[id] != null) return;
       add(SetEpisodeErrorMessage(''));
 
+      await Future.delayed(const Duration(milliseconds: 500));
+
       final episode = await getEpisodeById(id);
 
       add(SetEpisode(id, episode));
