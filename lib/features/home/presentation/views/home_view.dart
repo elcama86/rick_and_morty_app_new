@@ -59,12 +59,17 @@ class _ErrorMessageRetry extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: Text(
-              "Ocurrió un error cargando la información",
-              textAlign: TextAlign.center,
-              style: textStyles.titleLarge,
+          SizedBox(
+            height: 100.0,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: isRetrying
+                  ? const LoadingSpinner()
+                  : Text(
+                      "Ocurrió un error cargando la información",
+                      textAlign: TextAlign.center,
+                      style: textStyles.titleLarge,
+                    ),
             ),
           ),
           const SizedBox(
