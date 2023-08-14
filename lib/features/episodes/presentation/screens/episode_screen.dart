@@ -52,6 +52,11 @@ class _EpisodeScreenState extends State<EpisodeScreen> {
               body: const CustomMessage(
                 message: "No se pudo cargar el episodio seleccionado",
               ),
+              floatingActionButton: FloatingActionButton(
+                onPressed: () =>
+                    context.read<EpisodeBloc>().getEpisode(widget.episodeId),
+                child: const Icon(Icons.refresh),
+              ),
             );
           }
 
