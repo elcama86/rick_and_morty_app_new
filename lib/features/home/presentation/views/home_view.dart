@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rick_and_morty_app/features/characters/characters.dart';
@@ -11,25 +12,78 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScaffoldBackground(
-      child: Column(
-        mainAxisAlignment: context.select((CharactersSlideCubit charactersSlideCubit) => charactersSlideCubit.state.characters.isNotEmpty ? MainAxisAlignment.spaceBetween : MainAxisAlignment.start),
-        children: [
-          const SizedBox(
-            height: 20.0,
-          ),
-          BlocBuilder<CharactersSlideCubit, CharactersSlideState>(
-            builder: (context, state) {
-              return CharactersSlideShow(
+      child: BlocBuilder<CharactersSlideCubit, CharactersSlideState>(
+        builder: (context, state) {
+          if (state.hasError) {
+            return _ErrorMessageRetry(
+              isRetrying: state.isRetrying,
+            );
+          }
+
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const SizedBox(
+                height: 20.0,
+              ),
+              CharactersSlideShow(
                 characters: state.characters,
-              );
-            },
+              ),
+              const SizedBox(
+                height: 20.0,
+              ),
+              const TrailerVideo(),
+              const SizedBox(
+                height: 20.0,
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+}
+
+class _ErrorMessageRetry extends StatelessWidget {
+  final bool isRetrying;
+
+  const _ErrorMessageRetry({
+    required this.isRetrying,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final textStyles = Theme.of(context).textTheme;
+
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: Text(
+              "Ocurrió un error cargando la información",
+              textAlign: TextAlign.center,
+              style: textStyles.titleLarge,
+            ),
           ),
           const SizedBox(
             height: 20.0,
           ),
-          const TrailerVideo(),
-          const SizedBox(
-            height: 20.0,
+          ElevatedButton.icon(
+            icon: isRetrying
+                ? SpinPerfect(
+                    duration: const Duration(seconds: 20),
+                    spins: 10,
+                    infinite: true,
+                    child: const Icon(Icons.refresh_rounded),
+                  )
+                : const Icon(Icons.refresh_rounded),
+            label: Text(
+              'Reintentar',
+              style: textStyles.titleSmall,
+            ),
+            onPressed: context.read<CharactersSlideCubit>().getCharactersSlide,
           ),
         ],
       ),
