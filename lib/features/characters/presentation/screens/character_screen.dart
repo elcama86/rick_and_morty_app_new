@@ -30,7 +30,7 @@ class _CharacterScreenState extends State<CharacterScreen> {
       listener: (context, state) {
         if (state.errorMessage.isNotEmpty &&
             state.charactersMap[widget.characterId] == null) {
-          Utils.showSnackbar(context, state.errorMessage);
+          SharedUtils.showSnackbar(context, state.errorMessage);
         }
       },
       child: BlocBuilder<CharacterBloc, CharacterState>(

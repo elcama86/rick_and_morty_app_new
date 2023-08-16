@@ -30,7 +30,7 @@ class _EpisodesViewState extends State<EpisodesView> {
       bloc: BlocProvider.of<EpisodesBloc>(context),
       listener: (context, state) {
         if (state.errorMessage.isNotEmpty && !state.isLoading) {
-          Utils.showSnackbar(context, state.errorMessage);
+          SharedUtils.showSnackbar(context, state.errorMessage);
         }
       },
       child: BlocBuilder<EpisodesBloc, EpisodesState>(

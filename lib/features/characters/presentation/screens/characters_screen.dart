@@ -28,7 +28,7 @@ class _CharactersScreenState extends State<CharactersScreen> {
       bloc: BlocProvider.of<CharactersBloc>(context),
       listener: (context, state) {
         if (state.errorMessage.isNotEmpty && !state.isLoading) {
-          Utils.showSnackbar(context, state.errorMessage);
+          SharedUtils.showSnackbar(context, state.errorMessage);
         }
       },
       child: BlocBuilder<CharactersBloc, CharactersState>(
@@ -59,7 +59,7 @@ class _ScaffoldScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: Utils.appBarContain(characters, "Personajes"),
+      appBar: SharedUtils.appBarContain(characters, "Personajes"),
       body: _ScaffoldBody(
         characters: characters,
         isLoading: isLoading,

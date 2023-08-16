@@ -31,7 +31,7 @@ class EpisodesScreen extends StatelessWidget {
       case 0:
         appBar = context.select(
           (EpisodesBloc episodesBloc) =>
-              Utils.appBarContain(episodesBloc.state.episodes, "Episodios"),
+              SharedUtils.appBarContain(episodesBloc.state.episodes, "Episodios"),
         );
         break;
       default:

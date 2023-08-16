@@ -88,21 +88,21 @@ class _Element<T> extends StatelessWidget {
     final textStyle = Theme.of(context).textTheme.titleSmall;
 
     return GestureDetector(
-      onTap: () => context.go(Utils.getElementRoute(element)),
+      onTap: () => context.go(SharedUtils.getElementRoute(element)),
       child: Container(
         padding: const EdgeInsets.all(8.0),
         width: 135.0,
         child: Column(
           children: [
             FadeInRight(
-              child: Utils.getChildWidget(element),
+              child: SharedUtils.getChildWidget(element),
             ),
             const SizedBox(
               height: 5.0,
             ),
             Expanded(
               child: Text(
-                Utils.getElementName(element),
+                SharedUtils.getElementName(element),
                 textAlign: TextAlign.center,
                 style: textStyle,
               ),

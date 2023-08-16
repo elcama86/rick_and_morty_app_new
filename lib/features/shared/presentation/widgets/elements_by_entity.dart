@@ -54,17 +54,17 @@ class _ElementListState extends State<_ElementList> {
   @override
   void initState() {
     super.initState();
-    final elements = Utils.getElements(widget.entity, context);
+    final elements = SharedUtils.getElements(widget.entity, context);
     if (elements == null) {
-      Utils.loadElements(widget.entity, context);
+      SharedUtils.loadElements(widget.entity, context);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final elements = Utils.watchElements(widget.entity, context);
+    final elements = SharedUtils.watchElements(widget.entity, context);
 
-    final hasError = Utils.watchElementHasError(widget.entity, context);
+    final hasError = SharedUtils.watchElementHasError(widget.entity, context);
 
     final textStyle = Theme.of(context).textTheme.titleSmall;
 
@@ -74,7 +74,7 @@ class _ElementListState extends State<_ElementList> {
           height: 200.0,
           child: Center(
             child: Text(
-              Utils.getLoadingElementMessageError(widget.entity),
+              SharedUtils.getLoadingElementMessageError(widget.entity),
               style: textStyle,
             ),
           ),
@@ -93,13 +93,13 @@ class _ElementListState extends State<_ElementList> {
         return ElementHorizontalListview(
           elements: List<Episode>.from(elements),
           entity: widget.entity as Character,
-          loadNextElements: Utils.loadElements,
+          loadNextElements: SharedUtils.loadElements,
         );
       case Episode:
         return ElementHorizontalListview(
           elements: List<Character>.from(elements),
           entity: widget.entity as Episode,
-          loadNextElements: Utils.loadElements,
+          loadNextElements: SharedUtils.loadElements,
         );
       default:
         return const SizedBox();

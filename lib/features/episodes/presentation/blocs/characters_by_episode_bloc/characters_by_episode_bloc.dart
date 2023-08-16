@@ -86,7 +86,7 @@ class CharactersByEpisodeBloc
       }
 
       int endIndex =
-          Utils.getEndIndex(loadedCharactersCount, charactersIds.length);
+          SharedUtils.getEndIndex(loadedCharactersCount, charactersIds.length);
 
       final characters = await getCharactersByEpisode(
           charactersIds.sublist(loadedCharactersCount, endIndex));

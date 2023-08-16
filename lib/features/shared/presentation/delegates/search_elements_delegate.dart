@@ -42,7 +42,7 @@ class SearchElementsDelegate<T> extends SearchDelegate<T?> {
   }
 
   @override
-  String get searchFieldLabel => Utils.searchLabel(T);
+  String get searchFieldLabel => SharedUtils.searchLabel(T);
 
   @override
   TextStyle? get searchFieldStyle => const TextStyle(fontSize: 24.0);
@@ -52,7 +52,7 @@ class SearchElementsDelegate<T> extends SearchDelegate<T?> {
       initialData: initialElements,
       stream: debounceElements.stream,
       builder: (context, snapshot) {
-        final errorMessage = Utils.watchError(T, context);
+        final errorMessage = SharedUtils.watchError(T, context);
 
         final elements = snapshot.data ?? [];
 

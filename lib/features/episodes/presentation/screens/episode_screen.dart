@@ -29,7 +29,7 @@ class _EpisodeScreenState extends State<EpisodeScreen> {
       listener: (context, state) {
         if (state.errorMessage.isNotEmpty &&
             state.episodesMap[widget.episodeId] == null) {
-          Utils.showSnackbar(context, state.errorMessage);
+          SharedUtils.showSnackbar(context, state.errorMessage);
         }
       },
       child: BlocBuilder<EpisodeBloc, EpisodeState>(

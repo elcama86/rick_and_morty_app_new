@@ -84,7 +84,7 @@ class EpisodesByCharacterBloc
         return;
       }
 
-      int endIndex = Utils.getEndIndex(loadedEpisodesCount, episodesIds.length);
+      int endIndex = SharedUtils.getEndIndex(loadedEpisodesCount, episodesIds.length);
 
       final episodes = await getEpisodesByCharacter(
           episodesIds.sublist(loadedEpisodesCount, endIndex));
