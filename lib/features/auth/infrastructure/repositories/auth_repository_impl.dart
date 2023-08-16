@@ -29,4 +29,7 @@ class AuthRepositoryImpl extends AuthRepository {
 
   @override
   Stream<User> get user => datasource.user;
+  
+  @override
+  User get currentUser => datasource.currentUser;
 }

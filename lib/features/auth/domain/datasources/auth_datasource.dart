@@ -2,6 +2,7 @@ import '../entities/user.dart';
 
 abstract class AuthDatasource {
   Stream<User> get user;
+  User get currentUser;
   Future<void> signUp({required String email, required String password});
   Future<void> logInWithGoogle();
   Future<void> logInWithEmailAndPassword(
