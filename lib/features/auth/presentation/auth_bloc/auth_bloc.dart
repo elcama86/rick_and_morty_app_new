@@ -40,10 +40,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   static Future<void> initializeServices() async {
-    final authRepository = AuthRepositoryImpl(AuthDatasourceImpl());
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
+    
+    final authRepository = AuthRepositoryImpl(AuthDatasourceImpl());
     await authRepository.user.first;
   }
 
