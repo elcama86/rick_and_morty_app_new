@@ -2,11 +2,16 @@ import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:rick_and_morty_app/features/auth/domain/domain.dart';
 import 'package:rick_and_morty_app/features/auth/infrastructure/infrastructure.dart';
+import 'package:rick_and_morty_app/features/shared/infrastructure/services/cache_client_service.dart';
+import 'package:rick_and_morty_app/features/shared/shared.dart';
 
 class AuthDatasourceImpl extends AuthDatasource {
   final firebase_auth.FirebaseAuth _firebaseAuth =
       firebase_auth.FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn.standard();
+  final CacheClientService _cache = CacheClientServiceImpl();
+
+  static const userCacheKey = '__user_cache_key__';
 
   @override
   Future<void> logInWithEmailAndPassword(
@@ -74,7 +79,11 @@ class AuthDatasourceImpl extends AuthDatasource {
     return _firebaseAuth.authStateChanges().map((firebaseUser) {
       final user =
           firebaseUser == null ? User.empty : UserMapper.toUser(firebaseUser);
+      _cache.write(key: userCacheKey, value: user);
       return user;
     });
   }
+
+  @override
+  User get currentUser => _cache.read<User>(key: userCacheKey) ?? User.empty;
 }
