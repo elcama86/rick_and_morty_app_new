@@ -6,7 +6,7 @@ part 'favorites_episodes_state.dart';
 
 class FavoritesEpisodesBloc
     extends Bloc<FavoritesEpisodesEvent, FavoritesEpisodesState> {
-  final LocalStorageRepositoryImpl localStorageRepository;
+  final LocalStorageRepository localStorageRepository;
 
   FavoritesEpisodesBloc({
     required this.localStorageRepository,
