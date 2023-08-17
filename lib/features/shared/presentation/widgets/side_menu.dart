@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rick_and_morty_app/config/config.dart';
-import 'package:rick_and_morty_app/features/home/home.dart';
+import 'package:rick_and_morty_app/features/shared/shared.dart';
 
 class SideMenu extends StatelessWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
