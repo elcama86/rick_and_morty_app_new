@@ -66,5 +66,10 @@ final List<BlocProvider> blocProviders = [
     create: (_) => AuthBloc(
       authServices: authRepository,
     ),
+  ),
+   BlocProvider<LoginCubit>(
+    create: (_) => LoginCubit(
+      authRepository: authRepository,
+    ),
   )
 ];
