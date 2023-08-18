@@ -28,6 +28,10 @@ class SignUpWithEmailAndPasswordFailure implements Exception {
         return const SignUpWithEmailAndPasswordFailure(
           message: 'Por favor, ingrese una contraseña más segura.',
         );
+      case 'network-request-failed':
+        return const SignUpWithEmailAndPasswordFailure(
+          message: 'Sin conexión a Internet.',
+        );
       default:
         return const SignUpWithEmailAndPasswordFailure();
     }
@@ -58,6 +62,10 @@ class LogInWithEmailAndPasswordFailure implements Exception {
       case 'wrong-password':
         return const LogInWithEmailAndPasswordFailure(
           message: 'Contraseña incorrecta. Por favor, intente nuevamente.',
+        );
+      case 'network-request-failed':
+        return const LogInWithEmailAndPasswordFailure(
+          message: 'Sin conexión a Internet.',
         );
       default:
         return const LogInWithEmailAndPasswordFailure();
@@ -106,6 +114,13 @@ class LogInWithGoogleFailure implements Exception {
         return const LogInWithGoogleFailure(
           message: 'El ID de verificación recibido no es válido.',
         );
+      case 'network-request-failed':
+        return const LogInWithGoogleFailure(
+          message: 'Sin conexión a Internet.',
+        );
+      case 'network_error':
+        return const LogInWithGoogleFailure(
+            message: 'Sin conexión a Internet.');
       default:
         return const LogInWithGoogleFailure();
     }
