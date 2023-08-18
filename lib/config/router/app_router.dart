@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:rick_and_morty_app/features/auth/presentation/screens/screens.dart';
 import 'package:rick_and_morty_app/features/characters/characters.dart';
 import 'package:rick_and_morty_app/features/episodes/episodes.dart';
 import 'package:rick_and_morty_app/features/home/home.dart';
@@ -9,9 +10,13 @@ final _shellNavigatorEpisodesKey =
     GlobalKey<NavigatorState>(debugLabel: 'shellEpisodes');
 
 final appRouter = GoRouter(
-  initialLocation: '/',
+  initialLocation: '/login',
   navigatorKey: _rootNavigatorKey,
   routes: [
+    GoRoute(
+        path: '/login',
+        builder: (context, state) => const LoginScreen(),
+      ),
     GoRoute(
       path: '/',
       builder: (context, state) => const HomeScreen(),
