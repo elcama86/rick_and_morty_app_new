@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
+import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:rick_and_morty_app/features/auth/domain/domain.dart';
 import 'package:rick_and_morty_app/features/auth/infrastructure/infrastructure.dart';
@@ -42,6 +43,8 @@ class AuthDatasourceImpl extends AuthDatasource {
 
       await _firebaseAuth.signInWithCredential(credential);
     } on firebase_auth.FirebaseAuthException catch (e) {
+      throw LogInWithGoogleFailure.fromCode(e.code);
+    } on PlatformException catch (e) {
       throw LogInWithGoogleFailure.fromCode(e.code);
     } catch (_) {
       throw const LogInWithGoogleFailure();
