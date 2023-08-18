@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "241902607021-e0ult0ea6foeijjfbq81uqteue78lkvs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hectormontilla.rick_and_morty_app",
+            "certificate_hash": "b473d2d97214e8867ec7ec6f45cd7da7e419d9ac"
+          }
+        },
+        {
           "client_id": "241902607021-if7a47epfjulrmlembqdvcg3o1i88dc5.apps.googleusercontent.com",
           "client_type": 3
         }
