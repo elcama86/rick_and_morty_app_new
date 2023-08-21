@@ -1,9 +1,9 @@
 import 'package:rick_and_morty_app/features/episodes/episodes.dart';
 
-class EpisodeRepositoryImpl extends EpisodesRepository {
+class EpisodesRepositoryImpl extends EpisodesRepository {
   final EpisodesDatasource datasource;
 
-  EpisodeRepositoryImpl(this.datasource);
+  EpisodesRepositoryImpl(this.datasource);
 
   @override
   Future<Episode> getEpisodeById(String id) {
