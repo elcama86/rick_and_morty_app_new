@@ -1,111 +1,155 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:rick_and_morty_app/config/router/app_router_notifier.dart';
+import 'package:rick_and_morty_app/features/auth/presentation/blocs/auth_bloc/auth_bloc.dart';
 import 'package:rick_and_morty_app/features/auth/presentation/screens/screens.dart';
 import 'package:rick_and_morty_app/features/characters/characters.dart';
 import 'package:rick_and_morty_app/features/episodes/episodes.dart';
 import 'package:rick_and_morty_app/features/home/home.dart';
 
-final _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
-final _shellNavigatorEpisodesKey =
-    GlobalKey<NavigatorState>(debugLabel: 'shellEpisodes');
+class AppRouter {
+  late final GoRouterNotifier goRouterNotifier;
 
-final appRouter = GoRouter(
-  initialLocation: '/login',
-  navigatorKey: _rootNavigatorKey,
-  routes: [
-    GoRoute(
+  AppRouter(this.goRouterNotifier);
+
+  GoRouter get router => _goRouter;
+
+  final _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
+  final _shellNavigatorEpisodesKey =
+      GlobalKey<NavigatorState>(debugLabel: 'shellEpisodes');
+
+  late final GoRouter _goRouter = GoRouter(
+    initialLocation: '/splash',
+    navigatorKey: _rootNavigatorKey,
+    refreshListenable: goRouterNotifier,
+    routes: [
+      GoRoute(
+        path: '/splash',
+        builder: (context, state) => const CheckAuthStatusScreen(),
+      ),
+      GoRoute(
         path: '/login',
         builder: (context, state) => const LoginScreen(),
       ),
-    GoRoute(
-      path: '/',
-      builder: (context, state) => const HomeScreen(),
-      routes: [
-        GoRoute(
-          path: 'characters',
-          pageBuilder: (context, state) => transitionAnimationPage(
-            key: state.pageKey,
-            child: const CharactersScreen(),
-          ),
-          routes: [
-            GoRoute(
-              path: 'character/:id',
-              pageBuilder: (context, state) {
-                final characterId = state.pathParameters['id'] ?? 'no-id';
-
-                return transitionAnimationPage(
-                  key: state.pageKey,
-                  child: CharacterScreen(
-                    characterId: characterId,
-                  ),
-                );
-              },
+      GoRoute(
+        path: '/register',
+        builder: (context, state) => const RegisterScreen(),
+      ),
+      GoRoute(
+        path: '/',
+        builder: (context, state) => const HomeScreen(),
+        routes: [
+          GoRoute(
+            path: 'characters',
+            pageBuilder: (context, state) => transitionAnimationPage(
+              key: state.pageKey,
+              child: const CharactersScreen(),
             ),
-          ],
-        ),
-        StatefulShellRoute(
-          pageBuilder: (context, state, navigationShell) =>
-              transitionAnimationPage(
-            key: state.pageKey,
-            child: navigationShell,
-          ),
-          navigatorContainerBuilder: (context, navigationShell, children) =>
-              EpisodesScreen(
-            navigationShell: navigationShell,
-            children: children,
-          ),
-          branches: [
-            StatefulShellBranch(
-              navigatorKey: _shellNavigatorEpisodesKey,
-              routes: [
-                GoRoute(
-                  path: 'episodes',
-                  builder: (context, state) => const EpisodesView(),
-                  routes: [
-                    GoRoute(
-                      path: 'episode/:id',
-                      parentNavigatorKey: _rootNavigatorKey,
-                      pageBuilder: (context, state) {
-                        final episodeId = state.pathParameters['id'] ?? 'no-id';
+            routes: [
+              GoRoute(
+                path: 'character/:id',
+                pageBuilder: (context, state) {
+                  final characterId = state.pathParameters['id'] ?? 'no-id';
 
-                        return transitionAnimationPage(
-                          key: state.pageKey,
-                          child: EpisodeScreen(
-                            episodeId: episodeId,
-                          ),
-                        );
-                      },
+                  return transitionAnimationPage(
+                    key: state.pageKey,
+                    child: CharacterScreen(
+                      characterId: characterId,
                     ),
-                  ],
-                ),
-              ],
+                  );
+                },
+              ),
+            ],
+          ),
+          StatefulShellRoute(
+            pageBuilder: (context, state, navigationShell) =>
+                transitionAnimationPage(
+              key: state.pageKey,
+              child: navigationShell,
             ),
-            StatefulShellBranch(
-              routes: [
-                GoRoute(
-                  path: 'favorites',
-                  builder: (context, state) => const FavoritesEpisodesView(),
-                ),
-              ],
+            navigatorContainerBuilder: (context, navigationShell, children) =>
+                EpisodesScreen(
+              navigationShell: navigationShell,
+              children: children,
             ),
-          ],
-        ),
-      ],
-    ),
-  ],
-);
+            branches: [
+              StatefulShellBranch(
+                navigatorKey: _shellNavigatorEpisodesKey,
+                routes: [
+                  GoRoute(
+                    path: 'episodes',
+                    builder: (context, state) => const EpisodesView(),
+                    routes: [
+                      GoRoute(
+                        path: 'episode/:id',
+                        parentNavigatorKey: _rootNavigatorKey,
+                        pageBuilder: (context, state) {
+                          final episodeId =
+                              state.pathParameters['id'] ?? 'no-id';
 
-CustomTransitionPage<void> transitionAnimationPage({
-  required LocalKey key,
-  required Widget child,
-}) {
-  return CustomTransitionPage<void>(
-      key: key,
-      child: child,
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        return FadeTransition(
-          opacity: CurveTween(curve: Curves.easeInOut).animate(animation),
-          child: child,
-        );
-      });
+                          return transitionAnimationPage(
+                            key: state.pageKey,
+                            child: EpisodeScreen(
+                              episodeId: episodeId,
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              StatefulShellBranch(
+                routes: [
+                  GoRoute(
+                    path: 'favorites',
+                    builder: (context, state) => const FavoritesEpisodesView(),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
+      ),
+    ],
+    redirect: (context, state) {
+      final isGoingTo = state.matchedLocation;
+      final authStatus = goRouterNotifier.authStatus;
+
+      if (isGoingTo == '/splash' && authStatus == AuthStatus.checking) {
+        return null;
+      }
+
+      if (authStatus == AuthStatus.unauthenticated) {
+        if (isGoingTo == '/login' || isGoingTo == '/register') return null;
+
+        return '/login';
+      }
+
+      if (authStatus == AuthStatus.authenticated) {
+        if (isGoingTo == '/login' ||
+            isGoingTo == '/register' ||
+            isGoingTo == '/splash') {
+          return '/';
+        }
+      }
+
+      return null;
+    },
+  );
+
+  CustomTransitionPage<void> transitionAnimationPage({
+    required LocalKey key,
+    required Widget child,
+  }) {
+    return CustomTransitionPage<void>(
+        key: key,
+        child: child,
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(
+            opacity: CurveTween(curve: Curves.easeInOut).animate(animation),
+            child: child,
+          );
+        });
+  }
 }
