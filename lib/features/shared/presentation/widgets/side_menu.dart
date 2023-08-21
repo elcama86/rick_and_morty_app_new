@@ -69,7 +69,7 @@ class SideMenu extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: SizedBox(
-            height: 60.0,
+            height: 50.0,
             width: double.infinity,
             child: CustomFilledButton(
               buttonColor: colors.outlineVariant,
@@ -92,7 +92,7 @@ class _UserAccountInfo extends StatelessWidget {
       bloc: BlocProvider.of<AuthBloc>(context),
       builder: (context, state) => UserAccountsDrawerHeader(
         accountName: Text(
-          state.user.name.isNotEmpty ? state.user.name : "No especificado",
+          state.user.name.isNotEmpty ? state.user.name : '',
           style: textThemes.titleSmall?.copyWith(fontWeight: FontWeight.bold),
         ),
         accountEmail: Text(
