@@ -27,7 +27,8 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-   
+    final authStatus = context.watch<AuthBloc>().state.status;
+    final appRouter = AppRouter(GoRouterNotifier(authStatus)).router;
 
     return MaterialApp.router(
       routerConfig: appRouter,
