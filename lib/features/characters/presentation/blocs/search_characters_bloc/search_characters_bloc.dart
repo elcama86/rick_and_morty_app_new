@@ -47,28 +47,27 @@ class SearchCharactersBloc
 
   Future<List<Character>> searchCharactersByQuery(String query) async {
     try {
+      add(SetQueryValue(query));
+
       final List<Character> results = await searchCharacters(query);
 
-      add(SetQueryValue(query));
       add(SetQueryResults(results));
       add(SetQueryErrorMessage(''));
 
       return results;
     } on CharacterNotFound {
-      add(SetQueryValue(query));
       add(SetQueryResults([]));
       add(SetQueryErrorMessage(
           "No se encontraron personajes con el nombre $query"));
 
       return [];
     } on CustomError catch (e) {
-      add(SetQueryValue(query));
       add(SetQueryResults([]));
-      add(SetQueryErrorMessage("Ha ocurrido un error durante la búsqueda: ${e.message}"));
+      add(SetQueryErrorMessage(
+          "Ha ocurrido un error durante la búsqueda: ${e.message}"));
 
       return [];
     } catch (e) {
-      add(SetQueryValue(query));
       add(SetQueryResults([]));
       add(SetQueryErrorMessage("Ocurrió un error inesperado"));
 

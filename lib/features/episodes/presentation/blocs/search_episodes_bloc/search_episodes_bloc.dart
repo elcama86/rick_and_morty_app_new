@@ -46,29 +46,27 @@ class SearchEpisodesBloc
 
   Future<List<Episode>> searchEpisodesByQuery(String query) async {
     try {
+      add(SetQueryValue(query));
+
       final List<Episode> results = await searchEpisodes(query);
 
-      add(SetQueryValue(query));
       add(SetQueryResults(results));
       add(SetQueryErrorMessage(''));
 
       return results;
     } on EpisodeNotFound {
-      add(SetQueryValue(query));
       add(SetQueryResults([]));
       add(SetQueryErrorMessage(
           "No se encontraron episodios con el nombre $query"));
 
       return [];
     } on CustomError catch (e) {
-      add(SetQueryValue(query));
       add(SetQueryResults([]));
       add(SetQueryErrorMessage(
           "Ha ocurrido un error durante la búsqueda: ${e.message}"));
 
       return [];
     } catch (e) {
-      add(SetQueryValue(query));
       add(SetQueryResults([]));
       add(SetQueryErrorMessage("Ocurrió un error inesperado"));
 
