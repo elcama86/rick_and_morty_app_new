@@ -4,72 +4,80 @@ import 'package:rick_and_morty_app/features/auth/auth.dart';
 import 'package:rick_and_morty_app/features/characters/characters.dart';
 import 'package:rick_and_morty_app/features/episodes/episodes.dart';
 
-final charactersRepository =
-    CharactersRepositoryImpl(CharactersDatasourceImpl());
-final episodesRepository = EpisodeRepositoryImpl(EpisodeDatasourceImpl());
-final localStorageRepository =
-    LocalStorageRepositoryImpl(LocalStorageDatasourceImpl());
-final authRepository = AuthRepositoryImpl(AuthDatasourceImpl());
+final List<RepositoryProvider> repositoryProviders = [
+  RepositoryProvider<CharactersRepository>(
+    create: (context) => CharactersRepositoryImpl(CharactersDatasourceImpl()),
+  ),
+  RepositoryProvider<EpisodesRepository>(
+    create: (context) => EpisodesRepositoryImpl(EpisodeDatasourceImpl()),
+  ),
+  RepositoryProvider<LocalStorageRepository>(
+    create: (context) =>
+        LocalStorageRepositoryImpl(LocalStorageDatasourceImpl()),
+  ),
+  RepositoryProvider<AuthRepository>(
+    create: (context) => AuthRepositoryImpl(AuthDatasourceImpl()),
+  ),
+];
 
 final List<BlocProvider> blocProviders = [
   BlocProvider<CharactersBloc>(
-    create: (_) => CharactersBloc(
-      getCharactersByPage: charactersRepository.getCharactersByPage,
+    create: (context) => CharactersBloc(
+      getCharactersByPage:
+          context.read<CharactersRepository>().getCharactersByPage,
     ),
   ),
   BlocProvider<CharacterBloc>(
-    create: (_) => CharacterBloc(
-      getCharacterById: charactersRepository.getCharacterById,
+    create: (context) => CharacterBloc(
+      getCharacterById: context.read<CharactersRepository>().getCharacterById,
     ),
   ),
   BlocProvider<SearchCharactersBloc>(
-    create: (_) => SearchCharactersBloc(
-      searchCharacters: charactersRepository.searchCharacters,
+    create: (context) => SearchCharactersBloc(
+      searchCharacters: context.read<CharactersRepository>().searchCharacters,
     ),
   ),
   BlocProvider<EpisodesBloc>(
-    create: (_) => EpisodesBloc(
-      getEpisodesByPage: episodesRepository.getEpisodesByPage,
+    create: (context) => EpisodesBloc(
+      getEpisodesByPage: context.read<EpisodesRepository>().getEpisodesByPage,
     ),
   ),
   BlocProvider<EpisodeBloc>(
-    create: (_) => EpisodeBloc(
-      getEpisodeById: episodesRepository.getEpisodeById,
+    create: (context) => EpisodeBloc(
+      getEpisodeById: context.read<EpisodesRepository>().getEpisodeById,
     ),
   ),
   BlocProvider<SearchEpisodesBloc>(
-    create: (_) => SearchEpisodesBloc(
-      searchEpisodes: episodesRepository.searchEpisodes,
+    create: (context) => SearchEpisodesBloc(
+      searchEpisodes: context.read<EpisodesRepository>().searchEpisodes,
     ),
   ),
   BlocProvider<EpisodesByCharacterBloc>(
-    create: (_) => EpisodesByCharacterBloc(
-      getEpisodesByCharacter: episodesRepository.getEpisodesByList,
+    create: (context) => EpisodesByCharacterBloc(
+      getEpisodesByCharacter:
+          context.read<EpisodesRepository>().getEpisodesByList,
     ),
   ),
   BlocProvider<CharactersByEpisodeBloc>(
-    create: (_) => CharactersByEpisodeBloc(
-      getCharactersByEpisode: charactersRepository.getCharactersByList,
+    create: (context) => CharactersByEpisodeBloc(
+      getCharactersByEpisode:
+          context.read<CharactersRepository>().getCharactersByList,
     ),
   ),
   BlocProvider<FavoritesEpisodesBloc>(
-    create: (_) => FavoritesEpisodesBloc(
-      localStorageRepository: localStorageRepository,
+    create: (context) => FavoritesEpisodesBloc(
+      localStorageRepository: context.read<LocalStorageRepository>(),
     ),
   ),
   BlocProvider<CharactersSlideCubit>(
-    create: (_) => CharactersSlideCubit(
-      getCharactersByIds: charactersRepository.getCharactersByList,
+    create: (context) => CharactersSlideCubit(
+      getCharactersByIds:
+          context.read<CharactersRepository>().getCharactersByList,
     ),
   ),
   BlocProvider<AuthBloc>(
-    create: (_) => AuthBloc(
-      authServices: authRepository,
+    create: (context) => AuthBloc(
+      authServices: context.read<AuthRepository>(),
     ),
   ),
-   BlocProvider<LoginCubit>(
-    create: (_) => LoginCubit(
-      authRepository: authRepository,
-    ),
-  )
 ];
