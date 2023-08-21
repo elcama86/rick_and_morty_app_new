@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:rick_and_morty_app/config/config.dart';
+import 'package:rick_and_morty_app/config/router/app_router_notifier.dart';
 import 'package:rick_and_morty_app/features/auth/presentation/presentation.dart';
 
 Future<void> main() async {
@@ -11,9 +12,12 @@ Future<void> main() async {
   HumanFormats.initializeDates();
 
   runApp(
-    MultiBlocProvider(
-      providers: blocProviders,
-      child: const MainApp(),
+    MultiRepositoryProvider(
+      providers: repositoryProviders,
+      child: MultiBlocProvider(
+        providers: blocProviders,
+        child: const MainApp(),
+      ),
     ),
   );
 }
@@ -23,6 +27,8 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+   
+
     return MaterialApp.router(
       routerConfig: appRouter,
       theme: AppTheme().getTheme(),
