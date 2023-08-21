@@ -14,20 +14,28 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthRepository authServices;
   late final StreamSubscription<User> _userSubscription;
 
-  AuthBloc({required this.authServices})
-      : super(authServices.currentUser.isNotEmpty
-            ? AuthState.authenticated(authServices.currentUser)
-            : const AuthState.unauthenticated()) {
-    on<UserChanged>(_onUserChanged);
-    on<LogoutRequest>(_onLogoutRequested);
-    _userSubscription = authServices.user.listen(
-      (user) => add(
-        UserChanged(user),
-      ),
-    );
+  AuthBloc({required this.authServices}) : super(const AuthState._()) {
+    _chekAuthStatus().then((_) {
+      on<UserChanged>(_onUserChanged);
+      on<LogoutRequest>(_onLogoutRequested);
+
+      _userSubscription = authServices.user.listen(
+        (user) => add(
+          UserChanged(user),
+        ),
+      );
+    });
   }
 
-  void _onUserChanged(UserChanged event, Emitter<AuthState> emit) {
+  Future<void> _chekAuthStatus() async {
+    await Future.delayed(const Duration(milliseconds: 500));
+    authServices.currentUser.isNotEmpty
+        ? AuthState.authenticated(authServices.currentUser)
+        : const AuthState.unauthenticated();
+  }
+
+  void _onUserChanged(UserChanged event, Emitter<AuthState> emit) async {
+    await Future.delayed(const Duration(milliseconds: 500));
     emit(
       event.user.isNotEmpty
           ? AuthState.authenticated(event.user)
@@ -35,15 +43,19 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
   }
 
-  void _onLogoutRequested(LogoutRequest event, Emitter<AuthState> emit) {
-    unawaited(authServices.logOut());
+  void _onLogoutRequested(LogoutRequest event, Emitter<AuthState> emit) async {
+    emit(
+      const AuthState.loading(),
+    );
+
+    await authServices.logOut();
   }
 
   static Future<void> initializeServices() async {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
-    
+
     final authRepository = AuthRepositoryImpl(AuthDatasourceImpl());
     await authRepository.user.first;
   }
