@@ -1,13 +1,29 @@
 import 'package:flutter/material.dart';
 
 class LoadingSpinner extends StatelessWidget {
-  const LoadingSpinner({super.key});
+  final String message;
+
+  const LoadingSpinner({
+    super.key,
+    this.message = 'Cargando...',
+  });
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: CircularProgressIndicator(
-        strokeWidth: 2.0,
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const CircularProgressIndicator(
+            strokeWidth: 2.0,
+          ),
+          const SizedBox(
+            height: 10.0,
+          ),
+          Text(
+            message,
+          ),
+        ],
       ),
     );
   }
