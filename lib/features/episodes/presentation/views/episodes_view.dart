@@ -37,7 +37,9 @@ class _EpisodesViewState extends State<EpisodesView> {
         bloc: BlocProvider.of<EpisodesBloc>(context),
         builder: (context, state) {
           if (state.isLoading && state.episodes.isEmpty) {
-            return const LoadingSpinner();
+            return const LoadingSpinner(
+              message: 'Cargando episodios...',
+            );
           }
 
           if (state.episodes.isEmpty) {

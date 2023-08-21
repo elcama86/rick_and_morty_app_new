@@ -40,7 +40,9 @@ class _EpisodeScreenState extends State<EpisodeScreen> {
 
           if (episode == null && errorMessage.isEmpty) {
             return const Scaffold(
-              body: LoadingSpinner(),
+              body: LoadingSpinner(
+                message: 'Cargando episodio...',
+              ),
             );
           }
 

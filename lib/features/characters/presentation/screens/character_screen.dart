@@ -40,8 +40,10 @@ class _CharacterScreenState extends State<CharacterScreen> {
           final errorMessage = state.errorMessage;
 
           if (character == null && errorMessage.isEmpty) {
-            return const Scaffold(
-              body: LoadingSpinner(),
+            return  const Scaffold(
+              body: LoadingSpinner(
+                message: 'Cargando personaje...',
+              ),
             );
           }
 

@@ -88,7 +88,9 @@ class _ScaffoldBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (isLoading && characters.isEmpty) {
-      return const LoadingSpinner();
+      return const LoadingSpinner(
+        message: 'Cargando personajes...',
+      );
     }
 
     if (characters.isEmpty) {
