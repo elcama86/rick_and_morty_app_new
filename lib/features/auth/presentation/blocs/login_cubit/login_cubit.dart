@@ -50,11 +50,6 @@ class LoginCubit extends Cubit<LoginState> {
         email: state.email.value,
         password: state.password.value,
       );
-      emit(
-        state.copyWith(
-          isPosting: false,
-        ),
-      );
     } on LogInWithEmailAndPasswordFailure catch (e) {
       emit(
         state.copyWith(
@@ -84,11 +79,6 @@ class LoginCubit extends Cubit<LoginState> {
 
     try {
       await authRepository.logInWithGoogle();
-      emit(
-        state.copyWith(
-          isLoadingGoogle: false,
-        ),
-      );
     } on LogInWithGoogleFailure catch (e) {
       emit(
         state.copyWith(
