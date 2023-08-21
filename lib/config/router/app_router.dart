@@ -25,7 +25,13 @@ class AppRouter {
     routes: [
       GoRoute(
         path: '/splash',
-        builder: (context, state) => const CheckAuthStatusScreen(),
+        builder: (context, state) {
+          final authStatus = goRouterNotifier.authStatus;
+          
+          return CheckAuthStatusScreen(
+            status: authStatus,
+          );
+        },
       ),
       GoRoute(
         path: '/login',
@@ -116,7 +122,9 @@ class AppRouter {
       final isGoingTo = state.matchedLocation;
       final authStatus = goRouterNotifier.authStatus;
 
-      if (isGoingTo == '/splash' && authStatus == AuthStatus.checking) {
+      if (isGoingTo == '/splash' &&
+          (authStatus == AuthStatus.checking ||
+              authStatus == AuthStatus.loading)) {
         return null;
       }
 
