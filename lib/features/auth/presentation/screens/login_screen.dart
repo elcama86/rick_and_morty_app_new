@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
+import 'package:rick_and_morty_app/features/auth/domain/domain.dart';
 import 'package:rick_and_morty_app/features/auth/presentation/blocs/blocs.dart';
 import 'package:rick_and_morty_app/features/shared/shared.dart';
 
@@ -23,16 +25,16 @@ class LoginScreen extends StatelessWidget {
                 height: 80.0,
               ),
               SizedBox(
-                height: 100.0,
+                height: 90.0,
                 child: Image.asset(
                   'assets/images/app_bar_background.png',
                 ),
               ),
               const SizedBox(
-                height: 80.0,
+                height: 50.0,
               ),
               Container(
-                height: size.height - 260.0,
+                height: size.height - 220.0,
                 width: double.infinity,
                 decoration: BoxDecoration(
                   color: colors.onBackground.withOpacity(0.9),
@@ -40,7 +42,12 @@ class LoginScreen extends StatelessWidget {
                     topLeft: Radius.circular(100.0),
                   ),
                 ),
-                child: const _LoginForm(),
+                child: BlocProvider(
+                  create: (_) => LoginCubit(
+                    authRepository: context.read<AuthRepository>(),
+                  ),
+                  child: const _LoginForm(),
+                ),
               ),
             ],
           ),
@@ -125,7 +132,7 @@ class _CreateAccount extends StatelessWidget {
           ),
         ),
         TextButton(
-          onPressed: () {},
+          onPressed: () => context.push('/register'),
           child: Text(
             'Crea una aquí',
             style: TextStyle(
@@ -183,7 +190,6 @@ class _EmailTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<LoginCubit, LoginState>(
       bloc: BlocProvider.of<LoginCubit>(context),
-      buildWhen: (previous, current) => previous.email != current.email,
       builder: (context, state) => CustomTextFormField(
         label: "Correo Electrónico",
         keyboardType: TextInputType.emailAddress,
