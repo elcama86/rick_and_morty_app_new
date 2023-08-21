@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rick_and_morty_app/config/config.dart';
+import 'package:rick_and_morty_app/features/auth/presentation/blocs/auth_bloc/auth_bloc.dart';
 import 'package:rick_and_morty_app/features/shared/shared.dart';
 
 class SideMenu extends StatelessWidget {
@@ -15,6 +16,7 @@ class SideMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textThemes = Theme.of(context).textTheme;
+    final colors = Theme.of(context).colorScheme;
     final hasNotch = MediaQuery.of(context).viewPadding.top > 35;
 
     return NavigationDrawer(
@@ -32,29 +34,7 @@ class SideMenu extends StatelessWidget {
         });
       },
       children: [
-        UserAccountsDrawerHeader(
-          accountName: Text(
-            "AppMaking.co",
-            style: textThemes.titleSmall?.copyWith(fontWeight: FontWeight.bold),
-          ),
-          accountEmail: Text(
-            "sundar@appmaking.co",
-            style: textThemes.titleSmall?.copyWith(fontWeight: FontWeight.w500),
-          ),
-          currentAccountPicture: const CircleAvatar(
-            // backgroundImage: NetworkImage(""),
-            child: Icon(Icons.person),
-          ),
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              opacity: 0.4,
-              image: AssetImage(
-                "assets/images/drawer_background.webp",
-              ),
-              fit: BoxFit.fill,
-            ),
-          ),
-        ),
+        _UserAccountInfo(),
         Padding(
           padding: EdgeInsets.fromLTRB(28, hasNotch ? 0 : 20, 16, 10),
           child: Text(
@@ -75,7 +55,67 @@ class SideMenu extends StatelessWidget {
             ),
           ),
         ),
+        const Padding(
+          padding: EdgeInsets.fromLTRB(28, 16, 28, 10),
+          child: Divider(),
+        ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(28, 10, 16, 10),
+          child: Text(
+            'Otras opciones',
+            style: textThemes.titleLarge,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: SizedBox(
+            height: 60.0,
+            width: double.infinity,
+            child: CustomFilledButton(
+              buttonColor: colors.outlineVariant,
+              onPressed: () => context.read<AuthBloc>().add(LogoutRequest()),
+              text: 'Cerrar sesión',
+            ),
+          ),
+        ),
       ],
+    );
+  }
+}
+
+class _UserAccountInfo extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final textThemes = Theme.of(context).textTheme;
+
+    return BlocBuilder<AuthBloc, AuthState>(
+      bloc: BlocProvider.of<AuthBloc>(context),
+      builder: (context, state) => UserAccountsDrawerHeader(
+        accountName: Text(
+          state.user.name.isNotEmpty ? state.user.name : "No especificado",
+          style: textThemes.titleSmall?.copyWith(fontWeight: FontWeight.bold),
+        ),
+        accountEmail: Text(
+          state.user.email.isNotEmpty ? state.user.email : '',
+          style: textThemes.titleSmall?.copyWith(fontWeight: FontWeight.w500),
+        ),
+        currentAccountPicture: CircleAvatar(
+          backgroundImage: state.user.imageUrl.isNotEmpty
+              ? NetworkImage(state.user.imageUrl)
+              : null,
+          child:
+              state.user.imageUrl.isNotEmpty ? null : const Icon(Icons.person),
+        ),
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            opacity: 0.4,
+            image: AssetImage(
+              "assets/images/drawer_background.webp",
+            ),
+            fit: BoxFit.fill,
+          ),
+        ),
+      ),
     );
   }
 }
