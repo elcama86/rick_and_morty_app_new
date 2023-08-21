@@ -41,13 +41,17 @@ class CustomBottomNavigation extends StatelessWidget {
                     : scaffoldBackgroundColor;
               },
             ),
-            items: const [
+            items: [
               BottomNavigationBarItem(
-                icon: Icon(Icons.video_label_outlined),
+                icon: Icon(
+                  index == 0 ? Icons.home : Icons.home_outlined,
+                ),
                 label: 'Inicio',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.favorite_outline),
+                icon: Icon(
+                  index == 1 ? Icons.favorite : Icons.favorite_outline,
+                ),
                 label: 'Favoritos',
               ),
             ],
