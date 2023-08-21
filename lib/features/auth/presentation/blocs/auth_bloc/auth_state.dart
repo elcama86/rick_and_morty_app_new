@@ -2,6 +2,7 @@ part of 'auth_bloc.dart';
 
 enum AuthStatus {
   checking,
+  loading,
   authenticated,
   unauthenticated,
 }
@@ -28,7 +29,7 @@ class AuthState extends Equatable {
 
   const AuthState.loading()
       : this._(
-          status: AuthStatus.checking,
+          status: AuthStatus.loading,
         );
 
   @override
