@@ -55,10 +55,12 @@ class _FavoritesEpisodesViewState extends State<FavoritesEpisodesView> {
 
           if (favoritesEpisodes.isEmpty) {
             if (isLoading) {
-              return const LoadingSpinner();
+              return const LoadingSpinner(
+                message: 'Cargando favoritos...',
+              );
             }
             return const CustomMessage(
-                message: "No existen episodios favoritos");
+                message: "No existen episodios favoritos seleccionados");
           }
 
           return ElementsScrollView(
