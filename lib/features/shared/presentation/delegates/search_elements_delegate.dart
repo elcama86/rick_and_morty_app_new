@@ -22,7 +22,10 @@ class SearchElementsDelegate<T> extends SearchDelegate<T?> {
   Timer? _debouncerTimer;
 
   void _onQueryChanged(String query) {
+    print('on query changed');
+    print('query $query ${query.isNotEmpty}');
     if (query.isNotEmpty) isLoadingStream.add(true);
+    print('debouncer ${_debouncerTimer?.isActive}');
     if (_debouncerTimer?.isActive ?? false) _debouncerTimer!.cancel();
 
     _debouncerTimer = Timer(const Duration(milliseconds: 500), () async {
@@ -39,6 +42,15 @@ class SearchElementsDelegate<T> extends SearchDelegate<T?> {
   void clearStreams() {
     debounceElements.close();
     isLoadingStream.close();
+  }
+
+  @override
+  ThemeData appBarTheme(BuildContext context) {
+    return Theme.of(context).copyWith(
+      inputDecorationTheme: const InputDecorationTheme(
+        border: InputBorder.none,
+      ),
+    );
   }
 
   @override
@@ -93,6 +105,7 @@ class SearchElementsDelegate<T> extends SearchDelegate<T?> {
         initialData: false,
         stream: isLoadingStream.stream,
         builder: (context, snapshot) {
+          print(snapshot.data);
           if (snapshot.data ?? false) {
             return SpinPerfect(
               duration: const Duration(seconds: 20),
@@ -144,6 +157,7 @@ class SearchElementsDelegate<T> extends SearchDelegate<T?> {
 
   @override
   Widget buildSuggestions(BuildContext context) {
+    print('entre');
     _onQueryChanged(query);
     return _buildSuggestionsAndResults(context);
   }
