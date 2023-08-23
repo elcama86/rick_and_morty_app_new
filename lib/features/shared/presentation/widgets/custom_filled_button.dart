@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class CustomFilledButton extends StatelessWidget {
   final void Function()? onPressed;
   final String text;
+  final IconData? icon;
   final Color? buttonColor;
   final Color? textColor;
   final bool isPosting;
@@ -12,6 +13,7 @@ class CustomFilledButton extends StatelessWidget {
     super.key,
     this.onPressed,
     required this.text,
+    this.icon,
     this.buttonColor,
     this.textColor = Colors.white70,
     this.isPosting = false,
@@ -44,12 +46,28 @@ class CustomFilledButton extends StatelessWidget {
               strokeWidth: 2,
               color: buttonColor,
             )
-          : Text(
-              text,
-              style: TextStyle(
-                color: textColor,
-              ),
-            ),
+          : icon != null
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Icon(
+                      icon,
+                      color: textColor,
+                    ),
+                    Text(
+                      text,
+                      style: TextStyle(
+                        color: textColor,
+                      ),
+                    ),
+                  ],
+                )
+              : Text(
+                  text,
+                  style: TextStyle(
+                    color: textColor,
+                  ),
+                ),
     );
   }
 }
