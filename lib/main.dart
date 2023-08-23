@@ -7,6 +7,7 @@ import 'package:rick_and_morty_app/features/auth/presentation/presentation.dart'
 
 Future<void> main() async {
   await Certificate.register();
+  await OrientationSetting.setDefaultOrientation();
   await Environment.initEnvironment();
   await AuthBloc.initializeServices();
   HumanFormats.initializeDates();
