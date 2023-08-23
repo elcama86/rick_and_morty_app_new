@@ -62,6 +62,7 @@ class _LoginForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
     final textStyles = Theme.of(context).textTheme;
 
     return BlocListener<LoginCubit, LoginState>(
@@ -84,7 +85,7 @@ class _LoginForm extends StatelessWidget {
               ),
               Text(
                 'Inicio de sesión',
-                style: textStyles.titleLarge?.copyWith(color: Colors.black),
+                style: textStyles.titleLarge?.copyWith(color: colors.background),
               ),
               const SizedBox(
                 height: 60.0,
@@ -125,14 +126,17 @@ class _CreateAccount extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text(
+        Text(
           '¿No tienes cuenta?',
           style: TextStyle(
-            color: Colors.black,
+            color: colors.background,
           ),
         ),
         TextButton(
-          onPressed: () => context.push('/register'),
+          onPressed: () {
+            FocusManager.instance.primaryFocus?.unfocus();
+            context.push('/register');
+          },
           child: Text(
             'Crea una aquí',
             style: TextStyle(
@@ -155,11 +159,13 @@ class _LoginButton extends StatelessWidget {
         height: 60.0,
         child: CustomFilledButton(
           text: 'Ingresar',
-          buttonColor: Colors.black,
           isPosting: state.isPosting,
           onPressed: state.isLoadingGoogle
               ? null
-              : context.read<LoginCubit>().loginWithCredentials,
+              : () {
+                  FocusManager.instance.primaryFocus?.unfocus();
+                  context.read<LoginCubit>().loginWithCredentials();
+                },
         ),
       ),
     );
@@ -203,45 +209,22 @@ class _EmailTextField extends StatelessWidget {
 class _GoogleLoginButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    const radius = Radius.circular(10);
-
     return BlocBuilder<LoginCubit, LoginState>(
       bloc: BlocProvider.of<LoginCubit>(context),
       builder: (context, state) => SizedBox(
         width: double.infinity,
         height: 60.0,
-        child: state.isLoadingGoogle
-            ? CustomFilledButton(
-                text: '',
-                buttonColor: Colors.black,
-                isPosting: state.isLoadingGoogle,
-              )
-            : ElevatedButton.icon(
-                label: const Text(
-                  'Iniciar sesión con Google',
-                  style: TextStyle(
-                    color: Colors.white70,
-                  ),
-                ),
-                style: ElevatedButton.styleFrom(
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: radius,
-                      bottomRight: radius,
-                      topLeft: radius,
-                    ),
-                  ),
-                  backgroundColor: Colors.black,
-                  disabledBackgroundColor: Colors.black.withOpacity(0.5),
-                ),
-                icon: const Icon(
-                  FontAwesomeIcons.google,
-                  color: Colors.white70,
-                ),
-                onPressed: state.isPosting
-                    ? null
-                    : context.read<LoginCubit>().loginWithGoogle,
-              ),
+        child: CustomFilledButton(
+          text: 'Iniciar sesión con Google',
+          icon: FontAwesomeIcons.google,
+          isPosting: state.isLoadingGoogle,
+          onPressed: state.isPosting
+              ? null
+              : () {
+                  FocusManager.instance.primaryFocus?.unfocus();
+                  context.read<LoginCubit>().loginWithGoogle();
+                },
+        ),
       ),
     );
   }
