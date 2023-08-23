@@ -86,6 +86,7 @@ class SideMenu extends StatelessWidget {
             width: double.infinity,
             child: CustomFilledButton(
               buttonColor: colors.outlineVariant,
+              textColor: colors.onSurface,
               onPressed: () => context.read<AuthBloc>().add(LogoutRequest()),
               text: 'Cerrar sesión',
             ),
@@ -123,11 +124,11 @@ class _UserAccountInfo extends StatelessWidget {
       builder: (context, state) => UserAccountsDrawerHeader(
         accountName: Text(
           state.user.name.isNotEmpty ? state.user.name : '',
-          style: textThemes.titleSmall?.copyWith(fontWeight: FontWeight.bold),
+          style: textThemes.titleMedium,
         ),
         accountEmail: Text(
           state.user.email.isNotEmpty ? state.user.email : '',
-          style: textThemes.titleSmall?.copyWith(fontWeight: FontWeight.w500),
+          style: textThemes.titleSmall?.copyWith(fontWeight: FontWeight.bold),
         ),
         currentAccountPicture: CircleAvatar(
           backgroundImage: state.user.imageUrl.isNotEmpty
