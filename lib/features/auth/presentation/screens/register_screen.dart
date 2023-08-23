@@ -31,10 +31,10 @@ class RegisterScreen extends StatelessWidget {
                       if (!context.canPop()) return;
                       context.pop();
                     },
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.arrow_back,
                       size: 40.0,
-                      color: Colors.white,
+                      color: colors.onSurface,
                     ),
                   ),
                   const Spacer(
@@ -90,7 +90,7 @@ class _RegisterForm extends StatelessWidget {
           previous.errorMessage != current.errorMessage,
       listener: (context, state) {
         if (state.errorMessage.isNotEmpty) {
-          SharedUtils.showSnackbar(context, state.errorMessage);
+          SharedUtils.showSnackbar(context, state.errorMessage, colors.background, colors.onSurface);
         }
       },
       child: Padding(
@@ -137,6 +137,7 @@ class _RegisterForm extends StatelessWidget {
 class _SignUpButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
     return BlocBuilder<RegisterCubit, RegisterState>(
       bloc: BlocProvider.of<RegisterCubit>(context),
       builder: (context, state) => SizedBox(
@@ -144,6 +145,7 @@ class _SignUpButton extends StatelessWidget {
         height: 60.0,
         child: CustomFilledButton(
           text: 'Crear',
+          textColor: colors.onSurface,
           isPosting: state.isPosting,
           onPressed: () {
             FocusManager.instance.primaryFocus?.unfocus();
