@@ -4,11 +4,18 @@ import 'package:rick_and_morty_app/features/characters/characters.dart';
 import 'package:rick_and_morty_app/features/episodes/episodes.dart';
 
 class SharedUtils {
-  static void showSnackbar(BuildContext context, String message) {
+  static void showSnackbar(BuildContext context, String message,
+      [Color? color, Color? textColor]) {
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(message),
+        content: Text(
+          message,
+          style: TextStyle(
+            color: textColor,
+          ),
+        ),
+        backgroundColor: color,
       ),
     );
   }
