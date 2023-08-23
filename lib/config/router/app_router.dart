@@ -6,6 +6,7 @@ import 'package:rick_and_morty_app/features/auth/presentation/screens/screens.da
 import 'package:rick_and_morty_app/features/characters/characters.dart';
 import 'package:rick_and_morty_app/features/episodes/episodes.dart';
 import 'package:rick_and_morty_app/features/home/home.dart';
+import 'package:rick_and_morty_app/features/shared/shared.dart';
 
 class AppRouter {
   late final GoRouterNotifier goRouterNotifier;
@@ -27,7 +28,7 @@ class AppRouter {
         path: '/splash',
         builder: (context, state) {
           final authStatus = goRouterNotifier.authStatus;
-          
+
           return CheckAuthStatusScreen(
             status: authStatus,
           );
@@ -114,6 +115,13 @@ class AppRouter {
                 ],
               ),
             ],
+          ),
+          GoRoute(
+            path: 'settings',
+            pageBuilder: (context, state) => transitionAnimationPage(
+              key: state.pageKey,
+              child: const SettingsScreen(),
+            ),
           ),
         ],
       ),
