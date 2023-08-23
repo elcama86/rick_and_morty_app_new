@@ -81,6 +81,7 @@ class _RegisterForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
     final textThemes = Theme.of(context).textTheme;
 
     return BlocListener<RegisterCubit, RegisterState>(
@@ -102,7 +103,8 @@ class _RegisterForm extends StatelessWidget {
               ),
               Text(
                 'Nueva cuenta',
-                style: textThemes.titleLarge?.copyWith(color: Colors.black),
+                style:
+                    textThemes.titleLarge?.copyWith(color: colors.background),
               ),
               const SizedBox(
                 height: 60.0,
@@ -142,9 +144,11 @@ class _SignUpButton extends StatelessWidget {
         height: 60.0,
         child: CustomFilledButton(
           text: 'Crear',
-          buttonColor: Colors.black,
           isPosting: state.isPosting,
-          onPressed: context.read<RegisterCubit>().signUpFormSubmitted,
+          onPressed: () {
+            FocusManager.instance.primaryFocus?.unfocus();
+            context.read<RegisterCubit>().signUpFormSubmitted();
+          },
         ),
       ),
     );
@@ -222,14 +226,15 @@ class _HaveAccount extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text(
+        Text(
           '¿Ya tienes cuenta?',
           style: TextStyle(
-            color: Colors.black,
+            color: colors.background,
           ),
         ),
         TextButton(
           onPressed: () {
+            FocusManager.instance.primaryFocus?.unfocus();
             if (context.canPop()) {
               return context.pop();
             }
