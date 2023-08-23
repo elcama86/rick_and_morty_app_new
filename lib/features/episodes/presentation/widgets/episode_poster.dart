@@ -64,7 +64,7 @@ class _EpisodeCard extends StatelessWidget {
             color: colors.outline,
           ),
         ),
-        elevation: 30.0,
+        elevation: 5.0,
         child: _ChildCard(
           episode: episode,
         ),
