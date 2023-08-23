@@ -200,7 +200,6 @@ class _CustomSliverAppBar extends StatelessWidget {
     return SliverAppBar(
       backgroundColor: scaffoldBackgroundColor,
       expandedHeight: size.height * 0.7,
-      foregroundColor: Colors.white,
       flexibleSpace: FlexibleSpaceBar(
         titlePadding: const EdgeInsets.only(bottom: 0.0),
         title: TitleSliverAppBar(
