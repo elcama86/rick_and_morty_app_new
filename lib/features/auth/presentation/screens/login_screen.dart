@@ -71,7 +71,7 @@ class _LoginForm extends StatelessWidget {
           previous.errorMessage != current.errorMessage,
       listener: (context, state) {
         if (state.errorMessage.isNotEmpty) {
-          SharedUtils.showSnackbar(context, state.errorMessage);
+          SharedUtils.showSnackbar(context, state.errorMessage, colors.background, colors.onSurface);
         }
       },
       child: Padding(
@@ -85,7 +85,8 @@ class _LoginForm extends StatelessWidget {
               ),
               Text(
                 'Inicio de sesión',
-                style: textStyles.titleLarge?.copyWith(color: colors.background),
+                style:
+                    textStyles.titleLarge?.copyWith(color: colors.background),
               ),
               const SizedBox(
                 height: 60.0,
@@ -152,6 +153,8 @@ class _CreateAccount extends StatelessWidget {
 class _LoginButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+
     return BlocBuilder<LoginCubit, LoginState>(
       bloc: BlocProvider.of<LoginCubit>(context),
       builder: (context, state) => SizedBox(
@@ -159,6 +162,7 @@ class _LoginButton extends StatelessWidget {
         height: 60.0,
         child: CustomFilledButton(
           text: 'Ingresar',
+          textColor: colors.onSurface,
           isPosting: state.isPosting,
           onPressed: state.isLoadingGoogle
               ? null
@@ -209,6 +213,8 @@ class _EmailTextField extends StatelessWidget {
 class _GoogleLoginButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+
     return BlocBuilder<LoginCubit, LoginState>(
       bloc: BlocProvider.of<LoginCubit>(context),
       builder: (context, state) => SizedBox(
@@ -216,6 +222,7 @@ class _GoogleLoginButton extends StatelessWidget {
         height: 60.0,
         child: CustomFilledButton(
           text: 'Iniciar sesión con Google',
+          textColor: colors.onSurface,
           icon: FontAwesomeIcons.google,
           isPosting: state.isLoadingGoogle,
           onPressed: state.isPosting
