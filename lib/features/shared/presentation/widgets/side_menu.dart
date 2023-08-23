@@ -42,19 +42,19 @@ class SideMenu extends StatelessWidget {
             style: textThemes.titleLarge,
           ),
         ),
-        ...menuOptions.map(
-          (option) => NavigationDrawerDestination(
-            icon: CircleAvatar(
-              backgroundImage: AssetImage(option.image),
-            ),
-            label: Text(
-              option.title,
-              style: textThemes.titleSmall?.copyWith(
-                fontSize: 26.0,
+        ...menuOptions.sublist(0, 2).map(
+              (option) => NavigationDrawerDestination(
+                icon: _IconOption(
+                  option: option,
+                ),
+                label: Text(
+                  option.title,
+                  style: textThemes.titleSmall?.copyWith(
+                    fontSize: 26.0,
+                  ),
+                ),
               ),
             ),
-          ),
-        ),
         const Padding(
           padding: EdgeInsets.fromLTRB(28, 16, 28, 10),
           child: Divider(),
@@ -66,8 +66,21 @@ class SideMenu extends StatelessWidget {
             style: textThemes.titleLarge,
           ),
         ),
+        ...menuOptions.sublist(2).map(
+              (option) => NavigationDrawerDestination(
+                icon: _IconOption(
+                  option: option,
+                ),
+                label: Text(
+                  option.title,
+                  style: textThemes.titleSmall?.copyWith(
+                    fontSize: 26.0,
+                  ),
+                ),
+              ),
+            ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
           child: SizedBox(
             height: 50.0,
             width: double.infinity,
@@ -80,6 +93,23 @@ class SideMenu extends StatelessWidget {
         ),
       ],
     );
+  }
+}
+
+class _IconOption extends StatelessWidget {
+  final MenuOption option;
+
+  const _IconOption({
+    required this.option,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return option.image.isEmpty
+        ? Icon(option.icon)
+        : CircleAvatar(
+            backgroundImage: AssetImage(option.image),
+          );
   }
 }
 
