@@ -50,7 +50,6 @@ class _CustomSliverAppBar extends StatelessWidget {
     return SliverAppBar(
       expandedHeight: size.height * 0.3,
       backgroundColor: scaffoldBackgroundColor,
-      foregroundColor: Colors.white,
       actions: [
         IconButton(
           onPressed: () async {
