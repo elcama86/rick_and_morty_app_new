@@ -120,7 +120,8 @@ class LogInWithGoogleFailure implements Exception {
         );
       case 'network_error':
         return const LogInWithGoogleFailure(
-            message: 'Sin conexión a Internet.');
+          message: 'Sin conexión a Internet.',
+        );
       default:
         return const LogInWithGoogleFailure();
     }
