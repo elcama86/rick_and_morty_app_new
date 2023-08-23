@@ -18,7 +18,7 @@ class CustomBottomNavigation extends StatelessWidget {
     final scaffoldBackgroundColor = Theme.of(context).scaffoldBackgroundColor;
 
     return AnimatedContainer(
-      duration: const Duration(milliseconds: 200),
+      duration: const Duration(milliseconds: 400),
       height: context.select((BottomNavBarCubit bottomNavBarCubit) =>
           bottomNavBarCubit.state.isVisible ? kBottomNavigationBarHeight : 0.0),
       child: Wrap(
