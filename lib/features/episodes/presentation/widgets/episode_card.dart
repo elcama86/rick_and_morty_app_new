@@ -20,7 +20,7 @@ class EpisodeCard extends StatelessWidget {
       height: 165.0,
       child: Card(
         clipBehavior: Clip.antiAlias,
-        elevation: 30.0,
+        elevation: 5.0,
         child: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(colors: [
