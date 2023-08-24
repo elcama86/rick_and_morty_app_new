@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rick_and_morty_app/config/config.dart';
 import 'package:rick_and_morty_app/config/router/app_router_notifier.dart';
 import 'package:rick_and_morty_app/features/auth/presentation/presentation.dart';
+import 'package:rick_and_morty_app/features/shared/shared.dart';
 
 Future<void> main() async {
   await Certificate.register();
@@ -31,11 +32,16 @@ class MainApp extends StatelessWidget {
     final authStatus = context.watch<AuthBloc>().state.status;
     final appRouter = AppRouter(GoRouterNotifier(authStatus)).router;
 
-    return MaterialApp.router(
-      routerConfig: appRouter,
-      theme: AppTheme().light(),
-      darkTheme: AppTheme().dark(),
-      debugShowCheckedModeBanner: false,
+    return BlocBuilder<SettingsCubit, SettingsState>(
+      builder: (context, state) {
+        return MaterialApp.router(
+          routerConfig: appRouter,
+          theme: AppTheme().light(),
+          darkTheme: AppTheme().dark(),
+          themeMode: state.themeMode,
+          debugShowCheckedModeBanner: false,
+        );
+      },
     );
   }
 }
