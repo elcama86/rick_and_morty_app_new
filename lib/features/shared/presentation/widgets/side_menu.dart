@@ -89,6 +89,7 @@ class SideMenu extends StatelessWidget {
               textColor: colors.onSurface,
               onPressed: () => context.read<AuthBloc>().add(LogoutRequest()),
               text: 'Cerrar sesión',
+              setTextTheme: true,
             ),
           ),
         ),
