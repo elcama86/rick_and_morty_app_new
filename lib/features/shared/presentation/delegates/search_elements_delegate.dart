@@ -46,9 +46,14 @@ class SearchElementsDelegate<T> extends SearchDelegate<T?> {
 
   @override
   ThemeData appBarTheme(BuildContext context) {
+    final appBarTheme = Theme.of(context).appBarTheme;
+
     return Theme.of(context).copyWith(
       inputDecorationTheme: const InputDecorationTheme(
         border: InputBorder.none,
+      ),
+      textTheme: Theme.of(context).textTheme.copyWith(
+        bodyLarge: appBarTheme.titleTextStyle,
       ),
     );
   }
@@ -57,7 +62,7 @@ class SearchElementsDelegate<T> extends SearchDelegate<T?> {
   String get searchFieldLabel => SharedUtils.searchLabel(T);
 
   @override
-  TextStyle? get searchFieldStyle => const TextStyle(fontSize: 24.0);
+  TextStyle? get searchFieldStyle => const TextStyle(fontSize: 25.0);
 
   Widget _buildSuggestionsAndResults(BuildContext context) {
     return StreamBuilder(
