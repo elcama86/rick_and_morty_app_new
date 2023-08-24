@@ -8,6 +8,7 @@ class CustomFilledButton extends StatelessWidget {
   final Color? textColor;
   final bool isPosting;
   final bool activateButton;
+  final bool setTextTheme;
 
   const CustomFilledButton({
     super.key,
@@ -18,10 +19,12 @@ class CustomFilledButton extends StatelessWidget {
     this.textColor = Colors.white70,
     this.isPosting = false,
     this.activateButton = true,
+    this.setTextTheme = false,
   });
 
   @override
   Widget build(BuildContext context) {
+    final textStyle = Theme.of(context).textTheme.titleSmall;
     const radius = Radius.circular(10);
 
     return FilledButton(
@@ -56,17 +59,27 @@ class CustomFilledButton extends StatelessWidget {
                     ),
                     Text(
                       text,
-                      style: TextStyle(
-                        color: textColor,
-                      ),
+                      style: setTextTheme
+                          ? textStyle?.copyWith(
+                              color: textColor,
+                              fontWeight: FontWeight.w700,
+                            )
+                          : TextStyle(
+                              color: textColor,
+                            ),
                     ),
                   ],
                 )
               : Text(
                   text,
-                  style: TextStyle(
-                    color: textColor,
-                  ),
+                  style: setTextTheme
+                      ? textStyle?.copyWith(
+                          color: textColor,
+                          fontWeight: FontWeight.w700,
+                        )
+                      : TextStyle(
+                          color: textColor,
+                        ),
                 ),
     );
   }
