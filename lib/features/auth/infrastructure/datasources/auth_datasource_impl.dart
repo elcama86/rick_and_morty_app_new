@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:rick_and_morty_app/features/auth/domain/domain.dart';
 import 'package:rick_and_morty_app/features/auth/infrastructure/infrastructure.dart';
-import 'package:rick_and_morty_app/features/shared/infrastructure/services/cache_client_service.dart';
 import 'package:rick_and_morty_app/features/shared/shared.dart';
 
 class AuthDatasourceImpl extends AuthDatasource {
