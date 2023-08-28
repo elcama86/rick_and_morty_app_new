@@ -29,6 +29,7 @@ class CustomTextFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
+    final keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
 
     final border = OutlineInputBorder(
       borderSide: const BorderSide(color: Colors.transparent),
@@ -54,6 +55,9 @@ class CustomTextFormField extends StatelessWidget {
         ],
       ),
       child: TextFormField(
+        scrollPadding: EdgeInsets.only(
+          bottom: keyboardHeight,
+        ),
         onChanged: onChanged,
         onFieldSubmitted: onFieldSubmitted,
         validator: validator,
@@ -64,7 +68,7 @@ class CustomTextFormField extends StatelessWidget {
           color: Colors.black54,
         ),
         decoration: InputDecoration(
-          floatingLabelStyle:  TextStyle(
+          floatingLabelStyle: TextStyle(
             color: colors.outline,
             fontWeight: FontWeight.bold,
             fontSize: 18,
