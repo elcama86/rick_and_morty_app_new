@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rick_and_morty_app/features/auth/auth.dart';
 import 'package:rick_and_morty_app/features/shared/shared.dart';
@@ -10,68 +11,73 @@ class RegisterScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
     final colors = Theme.of(context).colorScheme;
     final textThemes = Theme.of(context).textTheme;
 
-    return GestureDetector(
-      onTap: FocusManager.instance.primaryFocus?.unfocus,
-      child: Scaffold(
-        body: ScaffoldBackground(
-          child: ListView(
-            physics: const ClampingScrollPhysics(),
-            children: [
-              const SizedBox(
-                height: 80.0,
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
+    return KeyboardVisibilityBuilder(
+      builder: (context, isKeyboardVisible) {
+        return KeyboardDismissOnTap(
+          child: Scaffold(
+            resizeToAvoidBottomInset: isKeyboardVisible ? false : true,
+            body: ScaffoldBackground(
+              child: ListView(
+                physics: const ClampingScrollPhysics(),
                 children: [
-                  IconButton(
-                    onPressed: () {
-                      if (!context.canPop()) return;
-                      context.pop();
-                    },
-                    icon: Icon(
-                      Icons.arrow_back,
-                      size: 40.0,
-                      color: colors.onSurface,
+                  const SizedBox(
+                    height: 80.0,
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          if (!context.canPop()) return;
+                          context.pop();
+                        },
+                        icon: Icon(
+                          Icons.arrow_back,
+                          size: 40.0,
+                          color: colors.onSurface,
+                        ),
+                      ),
+                      const Spacer(
+                        flex: 1,
+                      ),
+                      Text(
+                        'Crear cuenta',
+                        style: textThemes.titleLarge,
+                      ),
+                      const Spacer(
+                        flex: 2,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 50.0,
+                  ),
+                  Container(
+                    height: isKeyboardVisible ? size.height - 50.0 + keyboardHeight : size.height - 170.0,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: colors.onBackground.withOpacity(0.9),
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(100.0),
+                      ),
                     ),
-                  ),
-                  const Spacer(
-                    flex: 1,
-                  ),
-                  Text(
-                    'Crear cuenta',
-                    style: textThemes.titleLarge,
-                  ),
-                  const Spacer(
-                    flex: 2,
+                    child: BlocProvider(
+                      create: (_) => RegisterCubit(
+                        authRepository: context.read<AuthRepository>(),
+                      ),
+                      child: const _RegisterForm(),
+                    ),
                   ),
                 ],
               ),
-              const SizedBox(
-                height: 50.0,
-              ),
-              Container(
-                height: size.height - 170.0,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: colors.onBackground.withOpacity(0.9),
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(100.0),
-                  ),
-                ),
-                child: BlocProvider(
-                  create: (_) => RegisterCubit(
-                    authRepository: context.read<AuthRepository>(),
-                  ),
-                  child: const _RegisterForm(),
-                ),
-              ),
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      }
     );
   }
 }
@@ -90,7 +96,8 @@ class _RegisterForm extends StatelessWidget {
           previous.errorMessage != current.errorMessage,
       listener: (context, state) {
         if (state.errorMessage.isNotEmpty) {
-          SharedUtils.showSnackbar(context, state.errorMessage, colors.background, colors.onSurface);
+          SharedUtils.showSnackbar(
+              context, state.errorMessage, colors.background, colors.onSurface);
         }
       },
       child: Padding(
