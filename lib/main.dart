@@ -11,6 +11,7 @@ Future<void> main() async {
   await OrientationSetting.setDefaultOrientation();
   await Environment.initEnvironment();
   await AuthBloc.initializeServices();
+  await KeyValueStorageServiceImpl.init();
   HumanFormats.initializeDates();
 
   runApp(
