@@ -193,6 +193,7 @@ class _CustomSliverAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
     final size = MediaQuery.of(context).size;
     final scaffoldBackgroundColor = Theme.of(context).scaffoldBackgroundColor;
     final textStyle = Theme.of(context).textTheme.titleLarge;
@@ -225,11 +226,11 @@ class _CustomSliverAppBar extends StatelessWidget {
               ),
             ),
             // Back button background
-            const CustomGradient(
+            CustomGradient(
               begin: Alignment.topLeft,
-              stops: [0.0, 0.3],
+              stops: const [0.0, 0.4],
               colors: [
-                Colors.black87,
+                colors.background,
                 Colors.transparent,
               ],
             ),
