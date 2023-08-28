@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rick_and_morty_app/features/auth/domain/domain.dart';
@@ -12,47 +13,54 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
     final colors = Theme.of(context).colorScheme;
 
-    return GestureDetector(
-      onTap: FocusManager.instance.primaryFocus?.unfocus,
-      child: Scaffold(
-        body: ScaffoldBackground(
-          child: ListView(
-            physics: const ClampingScrollPhysics(),
-            children: [
-              const SizedBox(
-                height: 80.0,
-              ),
-              SizedBox(
-                height: 90.0,
-                child: Image.asset(
-                  'assets/images/app_bar_background.png',
-                ),
-              ),
-              const SizedBox(
-                height: 50.0,
-              ),
-              Container(
-                height: size.height - 220.0,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: colors.onBackground.withOpacity(0.9),
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(100.0),
+    return KeyboardVisibilityBuilder(
+      builder: (context, isKeyboardVisible) {
+        return KeyboardDismissOnTap(
+          child: Scaffold(
+            resizeToAvoidBottomInset: isKeyboardVisible ? false : true,
+            body: ScaffoldBackground(
+              child: ListView(
+                physics: const ClampingScrollPhysics(),
+                children: [
+                  const SizedBox(
+                    height: 80.0,
                   ),
-                ),
-                child: BlocProvider(
-                  create: (_) => LoginCubit(
-                    authRepository: context.read<AuthRepository>(),
+                  SizedBox(
+                    height: 90.0,
+                    child: Image.asset(
+                      'assets/images/app_bar_background.png',
+                    ),
                   ),
-                  child: const _LoginForm(),
-                ),
+                  const SizedBox(
+                    height: 50.0,
+                  ),
+                  Container(
+                    height: isKeyboardVisible
+                        ? size.height - 90.0 + keyboardHeight
+                        : size.height - 220.0,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: colors.onBackground.withOpacity(0.9),
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(100.0),
+                      ),
+                    ),
+                    child: BlocProvider(
+                      create: (_) => LoginCubit(
+                        authRepository: context.read<AuthRepository>(),
+                      ),
+                      child: const _LoginForm(),
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }
@@ -71,14 +79,14 @@ class _LoginForm extends StatelessWidget {
           previous.errorMessage != current.errorMessage,
       listener: (context, state) {
         if (state.errorMessage.isNotEmpty) {
-          SharedUtils.showSnackbar(context, state.errorMessage, colors.background, colors.onSurface);
+          SharedUtils.showSnackbar(
+              context, state.errorMessage, colors.background, colors.onSurface);
         }
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 50.0),
         child: SingleChildScrollView(
           child: Column(
-            mainAxisSize: MainAxisSize.min,
             children: [
               const SizedBox(
                 height: 30.0,
@@ -161,16 +169,15 @@ class _LoginButton extends StatelessWidget {
         width: double.infinity,
         height: 60.0,
         child: CustomFilledButton(
-          text: 'Ingresar',
-          textColor: colors.onSurface,
-          isPosting: state.isPosting,
-          onPressed: state.isLoadingGoogle
-              ? null
-              : () {
-                  FocusManager.instance.primaryFocus?.unfocus();
-                  context.read<LoginCubit>().loginWithCredentials();
-                },
-        ),
+            text: 'Ingresar',
+            textColor: colors.onSurface,
+            isPosting: state.isPosting,
+            onPressed: state.isLoadingGoogle
+                ? null
+                : () {
+                    FocusManager.instance.primaryFocus?.unfocus();
+                    context.read<LoginCubit>().loginWithCredentials();
+                  }),
       ),
     );
   }
@@ -221,17 +228,16 @@ class _GoogleLoginButton extends StatelessWidget {
         width: double.infinity,
         height: 60.0,
         child: CustomFilledButton(
-          text: 'Iniciar sesión con Google',
-          textColor: colors.onSurface,
-          icon: FontAwesomeIcons.google,
-          isPosting: state.isLoadingGoogle,
-          onPressed: state.isPosting
-              ? null
-              : () {
-                  FocusManager.instance.primaryFocus?.unfocus();
-                  context.read<LoginCubit>().loginWithGoogle();
-                },
-        ),
+            text: 'Iniciar sesión con Google',
+            textColor: colors.onSurface,
+            icon: FontAwesomeIcons.google,
+            isPosting: state.isLoadingGoogle,
+            onPressed: state.isPosting
+                ? null
+                : () {
+                    FocusManager.instance.primaryFocus?.unfocus();
+                    context.read<LoginCubit>().loginWithGoogle();
+                  }),
       ),
     );
   }
