@@ -7,17 +7,27 @@ import 'package:rick_and_morty_app/features/shared/shared.dart';
 
 final List<RepositoryProvider> repositoryProviders = [
   RepositoryProvider<CharactersRepository>(
-    create: (context) => CharactersRepositoryImpl(CharactersDatasourceImpl()),
+    create: (context) => CharactersRepositoryImpl(
+      CharactersDatasourceImpl(),
+    ),
   ),
   RepositoryProvider<EpisodesRepository>(
-    create: (context) => EpisodesRepositoryImpl(EpisodeDatasourceImpl()),
+    create: (context) => EpisodesRepositoryImpl(
+      EpisodeDatasourceImpl(),
+    ),
   ),
   RepositoryProvider<LocalStorageRepository>(
-    create: (context) =>
-        LocalStorageRepositoryImpl(LocalStorageDatasourceImpl()),
+    create: (context) => LocalStorageRepositoryImpl(
+      LocalStorageDatasourceImpl(),
+    ),
   ),
   RepositoryProvider<AuthRepository>(
-    create: (context) => AuthRepositoryImpl(AuthDatasourceImpl()),
+    create: (context) => AuthRepositoryImpl(
+      AuthDatasourceImpl(),
+    ),
+  ),
+  RepositoryProvider<KeyValueStorageService>(
+    create: (context) => KeyValueStorageServiceImpl(),
   ),
 ];
 
@@ -82,6 +92,8 @@ final List<BlocProvider> blocProviders = [
     ),
   ),
   BlocProvider<SettingsCubit>(
-    create: (_) => SettingsCubit(),
+    create: (context) => SettingsCubit(
+      keyValueStorageService: context.read<KeyValueStorageService>(),
+    ),
   ),
 ];
