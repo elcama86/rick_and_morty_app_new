@@ -26,6 +26,52 @@ class _SettingsView extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       children: const [
         _ThemeSettings(),
+        Divider(),
+        _LanguageSettings(),
+      ],
+    );
+  }
+}
+
+class _LanguageSettings extends StatelessWidget {
+  const _LanguageSettings();
+
+  @override
+  Widget build(BuildContext context) {
+    final textThemes = Theme.of(context).textTheme;
+    const controlAffinity = ListTileControlAffinity.trailing;
+
+    return Column(
+      children: [
+        ListTile(
+          leading: const Icon(Icons.language_rounded),
+          title: Text(
+            'Idioma',
+            style: textThemes.titleMedium,
+          ),
+        ),
+        RadioListTile(
+          contentPadding: const EdgeInsets.symmetric(horizontal: 24.0),
+          title: Text(
+            'Español',
+            style: textThemes.titleSmall,
+          ),
+          value: 'spanish',
+          groupValue: 'spanish',
+          onChanged: (value) {},
+          controlAffinity: controlAffinity,
+        ),
+        RadioListTile(
+          contentPadding: const EdgeInsets.symmetric(horizontal: 24.0),
+          title: Text(
+            'Inglés',
+            style: textThemes.titleSmall,
+          ),
+          value: 'english',
+          groupValue: 'spanish',
+          onChanged: (value) {},
+          controlAffinity: controlAffinity,
+        )
       ],
     );
   }
