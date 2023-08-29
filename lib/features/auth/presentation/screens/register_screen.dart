@@ -15,69 +15,85 @@ class RegisterScreen extends StatelessWidget {
     final colors = Theme.of(context).colorScheme;
     final textThemes = Theme.of(context).textTheme;
 
-    return KeyboardVisibilityBuilder(
-      builder: (context, isKeyboardVisible) {
-        return KeyboardDismissOnTap(
-          child: Scaffold(
-            resizeToAvoidBottomInset: isKeyboardVisible ? false : true,
-            body: ScaffoldBackground(
-              child: ListView(
-                physics: const ClampingScrollPhysics(),
-                children: [
-                  const SizedBox(
-                    height: 80.0,
-                  ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          if (!context.canPop()) return;
-                          context.pop();
-                        },
-                        icon: Icon(
-                          Icons.arrow_back,
-                          size: 40.0,
-                          color: colors.onSurface,
-                        ),
-                      ),
-                      const Spacer(
-                        flex: 1,
-                      ),
-                      Text(
-                        'Crear cuenta',
-                        style: textThemes.titleLarge,
-                      ),
-                      const Spacer(
-                        flex: 2,
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 50.0,
-                  ),
-                  Container(
-                    height: isKeyboardVisible ? size.height - 50.0 + keyboardHeight : size.height - 170.0,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: colors.onBackground.withOpacity(0.9),
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(100.0),
-                      ),
+    return BlocProvider(
+      create: (_) => RegisterCubit(
+        authRepository: context.read<AuthRepository>(),
+      ),
+      child: KeyboardVisibilityBuilder(
+        builder: (context, isKeyboardVisible) {
+          return KeyboardDismissOnTap(
+            child: Scaffold(
+              resizeToAvoidBottomInset: false,
+              body: ScaffoldBackground(
+                child: ListView(
+                  physics: const ClampingScrollPhysics(),
+                  children: [
+                    const SizedBox(
+                      height: 80.0,
                     ),
-                    child: BlocProvider(
-                      create: (_) => RegisterCubit(
-                        authRepository: context.read<AuthRepository>(),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            if (!context.canPop()) return;
+                            context.pop();
+                          },
+                          icon: Icon(
+                            Icons.arrow_back,
+                            size: 40.0,
+                            color: colors.onSurface,
+                          ),
+                        ),
+                        const Spacer(
+                          flex: 1,
+                        ),
+                        Text(
+                          'Crear cuenta',
+                          style: textThemes.titleLarge,
+                        ),
+                        const Spacer(
+                          flex: 2,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 50.0,
+                    ),
+                    Container(
+                      height: context.select(
+                        (RegisterCubit registerCubit) {
+                          final showPassword = registerCubit.state.showPassword;
+
+                          return isKeyboardVisible
+                              ? size.height > 720
+                                  ? showPassword
+                                      ? size.height - 270.0 + keyboardHeight
+                                      : size.height - 170.0 + keyboardHeight
+                                  : showPassword
+                                      ? size.height -
+                                          100.0 +
+                                          keyboardHeight * 0.75
+                                      : size.height + keyboardHeight * 0.75
+                              : size.height - 170.0;
+                        },
+                      ),
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: colors.onBackground.withOpacity(0.9),
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(100.0),
+                        ),
                       ),
                       child: const _RegisterForm(),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-        );
-      }
+          );
+        },
+      ),
     );
   }
 }
