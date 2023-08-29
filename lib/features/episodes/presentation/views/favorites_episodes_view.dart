@@ -35,14 +35,19 @@ class _FavoritesEpisodesViewState extends State<FavoritesEpisodesView> {
 
     isLoading = true;
 
-    final episodes =
-        await context.read<FavoritesEpisodesBloc>().loadFavoritesEpisodes();
+    Future.delayed(
+      const Duration(milliseconds: 500),
+      () async {
+        final episodes =
+            await context.read<FavoritesEpisodesBloc>().loadFavoritesEpisodes();
 
-    isLoading = false;
+        isLoading = false;
 
-    if (episodes.isEmpty) {
-      isLastPage = true;
-    }
+        if (episodes.isEmpty) {
+          isLastPage = true;
+        }
+      },
+    );
   }
 
   @override
