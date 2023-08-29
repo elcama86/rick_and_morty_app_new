@@ -11,21 +11,24 @@ class SettingsCubit extends Cubit<SettingsState> {
   SettingsCubit({
     required this.keyValueStorageService,
   }) : super(const SettingsState()) {
-    getThemeByPrefs();
+    getSettingsByPrefs();
   }
 
-  void getThemeByPrefs() {
-    String? themeSelected = keyValueStorageService.getValue<String>('theme');
+  void getSettingsByPrefs() {
+    String? selectedTheme = keyValueStorageService.getValue<String>('theme');
+    String? selectedLanguage =
+        keyValueStorageService.getValue<String>('language');
 
-    if (themeSelected != null) {
-      final themeMode = ThemeMode.values.byName(themeSelected);
-
-      emit(
-        state.copyWith(
-          themeMode: themeMode,
-        ),
-      );
-    }
+    emit(
+      state.copyWith(
+        themeMode: selectedTheme != null
+            ? ThemeMode.values.byName(selectedTheme)
+            : state.themeMode,
+        language: selectedLanguage != null
+            ? LanguageOption.values.byName(selectedLanguage)
+            : state.language,
+      ),
+    );
   }
 
   void setTheme(ThemeMode themeMode) async {
@@ -36,6 +39,18 @@ class SettingsCubit extends Cubit<SettingsState> {
     emit(
       state.copyWith(
         themeMode: themeMode,
+      ),
+    );
+  }
+
+  void setLanguage(LanguageOption language) async {
+    if (state.language == language) return;
+
+    await keyValueStorageService.setKeyValue('language', language.name);
+
+    emit(
+      state.copyWith(
+        language: language,
       ),
     );
   }
