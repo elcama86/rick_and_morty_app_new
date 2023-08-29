@@ -41,38 +41,46 @@ class _LanguageSettings extends StatelessWidget {
     final textThemes = Theme.of(context).textTheme;
     const controlAffinity = ListTileControlAffinity.trailing;
 
-    return Column(
-      children: [
-        ListTile(
-          leading: const Icon(Icons.language_rounded),
-          title: Text(
-            'Idioma',
-            style: textThemes.titleMedium,
-          ),
-        ),
-        RadioListTile(
-          contentPadding: const EdgeInsets.symmetric(horizontal: 24.0),
-          title: Text(
-            'Español',
-            style: textThemes.titleSmall,
-          ),
-          value: 'spanish',
-          groupValue: 'spanish',
-          onChanged: (value) {},
-          controlAffinity: controlAffinity,
-        ),
-        RadioListTile(
-          contentPadding: const EdgeInsets.symmetric(horizontal: 24.0),
-          title: Text(
-            'Inglés',
-            style: textThemes.titleSmall,
-          ),
-          value: 'english',
-          groupValue: 'spanish',
-          onChanged: (value) {},
-          controlAffinity: controlAffinity,
-        )
-      ],
+    return BlocBuilder<SettingsCubit, SettingsState>(
+      builder: (context, state) {
+        final selectedLanguage = state.language;
+
+        return Column(
+          children: [
+            ListTile(
+              leading: const Icon(Icons.language_rounded),
+              title: Text(
+                'Idioma',
+                style: textThemes.titleMedium,
+              ),
+            ),
+            RadioListTile(
+              contentPadding: const EdgeInsets.symmetric(horizontal: 24.0),
+              title: Text(
+                'Español',
+                style: textThemes.titleSmall,
+              ),
+              value: LanguageOption.spanish,
+              groupValue: selectedLanguage,
+              onChanged: (value) =>
+                  context.read<SettingsCubit>().setLanguage(value!),
+              controlAffinity: controlAffinity,
+            ),
+            RadioListTile(
+              contentPadding: const EdgeInsets.symmetric(horizontal: 24.0),
+              title: Text(
+                'Inglés',
+                style: textThemes.titleSmall,
+              ),
+              value: LanguageOption.english,
+              groupValue: selectedLanguage,
+              onChanged: (value) =>
+                  context.read<SettingsCubit>().setLanguage(value!),
+              controlAffinity: controlAffinity,
+            )
+          ],
+        );
+      },
     );
   }
 }
@@ -85,7 +93,6 @@ class _ThemeSettings extends StatelessWidget {
     final textThemes = Theme.of(context).textTheme;
 
     return BlocBuilder<SettingsCubit, SettingsState>(
-      bloc: BlocProvider.of<SettingsCubit>(context),
       builder: (context, state) {
         final lightValue = state.themeMode == ThemeMode.light;
         final darkValue = state.themeMode == ThemeMode.dark;
