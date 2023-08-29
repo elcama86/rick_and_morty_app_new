@@ -20,7 +20,7 @@ class LoginScreen extends StatelessWidget {
       builder: (context, isKeyboardVisible) {
         return KeyboardDismissOnTap(
           child: Scaffold(
-            resizeToAvoidBottomInset: isKeyboardVisible ? false : true,
+            resizeToAvoidBottomInset: false,
             body: ScaffoldBackground(
               child: ListView(
                 physics: const ClampingScrollPhysics(),
@@ -39,7 +39,9 @@ class LoginScreen extends StatelessWidget {
                   ),
                   Container(
                     height: isKeyboardVisible
-                        ? size.height - 90.0 + keyboardHeight
+                        ? size.height > 805
+                            ? size.height - 220.0 + keyboardHeight
+                            : size.height + keyboardHeight * 0.65
                         : size.height - 220.0,
                     width: double.infinity,
                     decoration: BoxDecoration(
