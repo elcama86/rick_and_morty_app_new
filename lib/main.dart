@@ -41,6 +41,9 @@ class MainApp extends StatelessWidget {
           darkTheme: AppTheme().dark(),
           themeMode: state.themeMode,
           debugShowCheckedModeBanner: false,
+          supportedLocales: AppLocalizations.supportedLocales,
+          localeResolutionCallback: AppLocalizations.localeResolutionCallback,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
         );
       },
     );
