@@ -57,7 +57,7 @@ class _CharacterDetails extends StatelessWidget {
           height: 20.0,
         ),
         ElementsByEntity(
-          title: "Episodios en lo que aparece",
+          title: "Episodios en los que aparece",
           entity: character,
         ),
       ],
