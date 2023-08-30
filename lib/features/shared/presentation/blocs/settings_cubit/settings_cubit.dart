@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:rick_and_morty_app/features/shared/infrastructure/services/key_value_storage_service.dart';
+import 'package:rick_and_morty_app/features/shared/shared.dart';
 
 part 'settings_state.dart';
 
@@ -24,9 +24,7 @@ class SettingsCubit extends Cubit<SettingsState> {
         themeMode: selectedTheme != null
             ? ThemeMode.values.byName(selectedTheme)
             : state.themeMode,
-        language: selectedLanguage != null
-            ? LanguageOption.values.byName(selectedLanguage)
-            : state.language,
+        language: selectedLanguage ?? state.language,
       ),
     );
   }
@@ -43,10 +41,12 @@ class SettingsCubit extends Cubit<SettingsState> {
     );
   }
 
-  void setLanguage(LanguageOption language) async {
+  void setLanguage(String language) async {
     if (state.language == language) return;
 
-    await keyValueStorageService.setKeyValue('language', language.name);
+    await keyValueStorageService.setKeyValue('language', language);
+
+    Locale(language);
 
     emit(
       state.copyWith(
