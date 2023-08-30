@@ -84,7 +84,8 @@ class LogInWithGoogleFailure implements Exception {
     switch (code) {
       case 'account-exists-with-different-credential':
         return const LogInWithGoogleFailure(
-            message: 'Esta cuenta ya existe con diferentes credenciales.');
+          message: 'Esta cuenta ya existe con diferentes credenciales.',
+        );
       case 'invalid-credential':
         return const LogInWithGoogleFailure(
           message: 'La credencial recibida está mal formada o ha expirado.',
