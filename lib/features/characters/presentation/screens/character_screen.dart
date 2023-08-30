@@ -40,7 +40,7 @@ class _CharacterScreenState extends State<CharacterScreen> {
           final errorMessage = state.errorMessage;
 
           if (character == null && errorMessage.isEmpty) {
-            return  const Scaffold(
+            return const Scaffold(
               body: LoadingSpinner(
                 message: 'Cargando personaje...',
               ),
@@ -53,7 +53,8 @@ class _CharacterScreenState extends State<CharacterScreen> {
                 title: const Text('Personaje'),
               ),
               body: const CustomMessage(
-                  message: 'No se pudo cargar el personaje seleccionado'),
+                message: 'No se pudo cargar el personaje seleccionado',
+              ),
               floatingActionButton: FloatingActionButton(
                 child: const Icon(Icons.refresh),
                 onPressed: () => context
