@@ -65,7 +65,8 @@ class _FavoritesEpisodesViewState extends State<FavoritesEpisodesView> {
               );
             }
             return const CustomMessage(
-                message: "No existen episodios favoritos seleccionados");
+              message: "No existen episodios favoritos seleccionados",
+            );
           }
 
           return ElementsScrollView(
