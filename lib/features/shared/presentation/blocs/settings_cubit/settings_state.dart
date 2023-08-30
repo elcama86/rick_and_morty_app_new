@@ -1,22 +1,17 @@
 part of 'settings_cubit.dart';
 
-enum LanguageOption {
-  spanish,
-  english,
-}
-
 class SettingsState extends Equatable {
   final ThemeMode themeMode;
-  final LanguageOption language;
+  final String language;
 
   const SettingsState({
     this.themeMode = ThemeMode.system,
-    this.language = LanguageOption.spanish,
+    this.language = 'es',
   });
 
   SettingsState copyWith({
     ThemeMode? themeMode,
-    LanguageOption? language,
+    String? language,
   }) =>
       SettingsState(
         themeMode: themeMode ?? this.themeMode,
