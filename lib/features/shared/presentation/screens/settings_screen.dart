@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rick_and_morty_app/config/config.dart';
 import 'package:rick_and_morty_app/features/shared/shared.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -54,30 +55,23 @@ class _LanguageSettings extends StatelessWidget {
                 style: textThemes.titleMedium,
               ),
             ),
-            RadioListTile(
-              contentPadding: const EdgeInsets.symmetric(horizontal: 24.0),
-              title: Text(
-                'Español',
-                style: textThemes.titleSmall,
-              ),
-              value: LanguageOption.spanish,
-              groupValue: selectedLanguage,
-              onChanged: (value) =>
-                  context.read<SettingsCubit>().setLanguage(value!),
-              controlAffinity: controlAffinity,
-            ),
-            RadioListTile(
-              contentPadding: const EdgeInsets.symmetric(horizontal: 24.0),
-              title: Text(
-                'Inglés',
-                style: textThemes.titleSmall,
-              ),
-              value: LanguageOption.english,
-              groupValue: selectedLanguage,
-              onChanged: (value) =>
-                  context.read<SettingsCubit>().setLanguage(value!),
-              controlAffinity: controlAffinity,
-            )
+            ...languages
+                .map(
+                  (language) => RadioListTile(
+                    contentPadding:
+                        const EdgeInsets.symmetric(horizontal: 24.0),
+                    title: Text(
+                      language.name,
+                      style: textThemes.titleSmall,
+                    ),
+                    value: language.languageCode,
+                    groupValue: selectedLanguage,
+                    onChanged: (value) =>
+                        context.read<SettingsCubit>().setLanguage(value!),
+                    controlAffinity: controlAffinity,
+                  ),
+                )
+                .toList(),
           ],
         );
       },
