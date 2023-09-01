@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rick_and_morty_app/config/config.dart';
 
 class CustomTextFormField extends StatelessWidget {
   final String? label;
@@ -82,9 +83,15 @@ class CustomTextFormField extends StatelessWidget {
             borderSide: const BorderSide(color: Colors.transparent),
           ),
           isDense: true,
-          label: label != null ? Text(label!) : null,
+          label: label != null
+              ? Text(
+                  AppLocalizations.of(context).translate(label!),
+                )
+              : null,
           hintText: hint,
-          errorText: errorMessage,
+          errorText: errorMessage != null
+              ? AppLocalizations.of(context).translate(errorMessage!)
+              : null,
           focusColor: colors.primary,
           suffixIcon: showSuffixIcon
               ? IconButton(
