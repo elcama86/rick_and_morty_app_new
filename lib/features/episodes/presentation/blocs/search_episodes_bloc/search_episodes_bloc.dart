@@ -56,19 +56,17 @@ class SearchEpisodesBloc
       return results;
     } on EpisodeNotFound {
       add(SetQueryResults([]));
-      add(SetQueryErrorMessage(
-          "No se encontraron episodios con el nombre $query"));
+      add(SetQueryErrorMessage("no_episodes_by_name,$query"));
 
       return [];
     } on CustomError catch (e) {
       add(SetQueryResults([]));
-      add(SetQueryErrorMessage(
-          "Ha ocurrido un error durante la búsqueda: ${e.message}"));
+      add(SetQueryErrorMessage("error_search_result,${e.message}"));
 
       return [];
     } catch (e) {
       add(SetQueryResults([]));
-      add(SetQueryErrorMessage("Ocurrió un error inesperado"));
+      add(SetQueryErrorMessage("unexpected_search_error"));
 
       return [];
     }
