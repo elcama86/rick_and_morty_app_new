@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:card_swiper/card_swiper.dart';
 import 'package:go_router/go_router.dart';
+import 'package:card_swiper/card_swiper.dart';
+import 'package:rick_and_morty_app/config/config.dart';
 import 'package:rick_and_morty_app/features/characters/domain/domain.dart';
 
 class CharactersSlideShow extends StatelessWidget {
@@ -23,7 +24,7 @@ class CharactersSlideShow extends StatelessWidget {
       child: characters.isEmpty
           ? Center(
               child: Text(
-                "No se encontraron personajes",
+                AppLocalizations.of(context).translate("no_characters_found"),
                 style: textStyle.titleLarge,
               ),
             )
