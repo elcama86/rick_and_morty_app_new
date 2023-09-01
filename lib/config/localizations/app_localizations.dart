@@ -1,5 +1,5 @@
+import 'dart:async';
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -7,12 +7,13 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 class AppLocalizations {
   late final Locale _locale;
   late Map<String, String> _localizedValues;
+  static StreamController<String> language = StreamController.broadcast();
 
   AppLocalizations(this._locale);
 
   static const Iterable<Locale> supportedLocales = [
-    Locale('es'),
     Locale('en'),
+    Locale('es'),
   ];
 
   static const Iterable<LocalizationsDelegate<dynamic>> localizationsDelegates =
@@ -30,6 +31,7 @@ class AppLocalizations {
         return deviceLocale;
       }
     }
+
     return supportedLocales.first;
   }
 
@@ -38,6 +40,7 @@ class AppLocalizations {
   }
 
   Future loadLanguage() async {
+    language.add(_locale.languageCode);
     String jsonStringValues =
         await rootBundle.loadString('assets/i18n/${_locale.languageCode}.json');
     Map<String, dynamic> mappedValues = json.decode(jsonStringValues);
@@ -46,8 +49,8 @@ class AppLocalizations {
         mappedValues.map((key, value) => MapEntry(key, value.toString()));
   }
 
-  String? translate(String key) {
-    return _localizedValues[key];
+  String translate(String key) {
+    return _localizedValues[key] ?? '$key no existe';
   }
 
   static const LocalizationsDelegate<AppLocalizations> delegate =
