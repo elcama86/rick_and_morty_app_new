@@ -2,13 +2,13 @@ class CharacterUtils {
   static String getStatus(String status) {
     switch (status) {
       case "Alive":
-        return "Vivo";
+        return "alive";
       case "Dead":
-        return "Muerto";
+        return "dead";
       case "unknown":
-        return "Desconocido";
+        return "unknown";
       case "":
-        return "No especificado";
+        return "not_specified";
       default:
         return status;
     }
@@ -17,19 +17,19 @@ class CharacterUtils {
   static String getSpecies(String species) {
     switch (species) {
       case "Human":
-        return "Humano";
+        return "human";
       case "Animal":
-        return "Animal";
+        return "animal";
       case "Alien":
-        return "Alien";
+        return "alien";
       case "Humanoid":
-        return "Humanoide";
+        return "humanoid";
       case "Mythological Creature":
-        return "Criatura Mitológica";
+        return "mythological";
       case "unknown":
-        return "Desconocido";
+        return "unknown";
       case "":
-        return "No especificado";
+        return "not_specified";
       default:
         return species;
     }
@@ -38,9 +38,9 @@ class CharacterUtils {
   static String getType(String type) {
     switch (type) {
       case "unknown":
-        return "Desconocido";
+        return "unknown";
       case "":
-        return "No especificado";
+        return "not_specified";
       default:
         return type;
     }
@@ -49,15 +49,15 @@ class CharacterUtils {
   static String getGender(String gender) {
     switch (gender) {
       case "Male":
-        return "Masculino";
+        return "male";
       case "Female":
-        return "Femenino";
+        return "female";
       case "Genderless":
-        return "Sin Género";
+        return "genderless";
       case "unknown":
-        return "Desconocido";
+        return "unknown";
       case "":
-        return "No especificado";
+        return "not_specified";
       default:
         return gender;
     }
@@ -65,11 +65,11 @@ class CharacterUtils {
 
   static String verifyValue(String text) {
     if (text.isEmpty) {
-      return "No especificado";
+      return "not_specified";
     }
 
     if (text == "unknown") {
-      return "Desconocido";
+      return "unknown";
     }
 
     return text;
@@ -77,17 +77,17 @@ class CharacterUtils {
 
   static String getValue(String title, String text) {
     switch (title) {
-      case "Estado":
+      case "status":
         return getStatus(text);
-      case "Especie":
+      case "species":
         return getSpecies(text);
-      case "Tipo":
+      case "type":
         return getType(text);
-      case "Género":
+      case "gender":
         return getGender(text);
-      case "Origen":
+      case "origin":
         return verifyValue(text);
-      case "Ubicación":
+      case "location":
         return verifyValue(text);
       default:
         return text;
