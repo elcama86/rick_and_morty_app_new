@@ -1,8 +1,9 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rick_and_morty_app/config/config.dart';
 import 'package:rick_and_morty_app/features/episodes/episodes.dart';
-import 'package:rick_and_morty_app/features/shared/presentation/widgets/widgets.dart';
+import 'package:rick_and_morty_app/features/shared/shared.dart';
 
 class EpisodeView extends StatelessWidget {
   final Episode episode;
@@ -82,7 +83,8 @@ class _CustomSliverAppBar extends StatelessWidget {
       flexibleSpace: FlexibleSpaceBar(
         titlePadding: const EdgeInsets.only(bottom: 0.0),
         title: TitleSliverAppBar(
-          title: 'Episodio ${episode.id}',
+          title:
+              '${AppLocalizations.of(context).translate('episode')} ${episode.id}',
           textStyle: textStyle,
           gradientColor: scaffoldBackgroundColor,
           bottom: 10.0,
@@ -125,29 +127,34 @@ class _EpisodeDetails extends StatelessWidget {
     return Column(
       children: [
         _ItemToShow(
-          title: 'Nombre',
+          title: 'name',
           subtitle: episode.name,
           icon: Icons.video_label_outlined,
         ),
         _ItemToShow(
-          title: 'Temporada',
+          title: 'season',
           subtitle: EpisodeUtils.getSeason(episode.episode),
           icon: Icons.videocam_outlined,
         ),
         _ItemToShow(
-          title: 'Número de episodio',
+          title: 'episode_number',
           subtitle: EpisodeUtils.getEpisode(episode.episode),
         ),
         _ItemToShow(
-          title: 'Fecha de emisión',
-          subtitle: EpisodeUtils.transformAirDate(episode.airDate),
+          title: 'air_date',
+          subtitle: context.select(
+            (SettingsCubit settingsCubit) => EpisodeUtils.transformAirDate(
+              episode.airDate,
+              settingsCubit.state.language,
+            ),
+          ),
           icon: Icons.today_outlined,
         ),
         const SizedBox(
           height: 20.0,
         ),
         ElementsByEntity(
-          title: 'Personajes que aparecen en este episodio',
+          title: 'characters_appear',
           entity: episode,
         ),
       ],
@@ -177,7 +184,7 @@ class _ItemToShow extends StatelessWidget {
             )
           : const SizedBox(),
       title: Text(
-        title,
+        AppLocalizations.of(context).translate(title),
         style: textThemes.titleMedium,
       ),
       subtitle: Text(
