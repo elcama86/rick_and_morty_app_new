@@ -30,8 +30,8 @@ class EpisodesScreen extends StatelessWidget {
     switch (index) {
       case 0:
         appBar = context.select(
-          (EpisodesBloc episodesBloc) =>
-              SharedUtils.appBarContain(episodesBloc.state.episodes, "Episodios"),
+          (EpisodesBloc episodesBloc) => SharedUtils.appBarContain(
+              episodesBloc.state.episodes, "episodes", context),
         );
         break;
       default:
@@ -54,7 +54,9 @@ class EpisodesScreen extends StatelessWidget {
         floatingActionButton: BlocBuilder<EpisodesBloc, EpisodesState>(
           bloc: BlocProvider.of<EpisodesBloc>(context),
           builder: (context, state) {
-            if (!state.isLoading && state.errorMessage.isNotEmpty && state.episodes.isEmpty) {
+            if (!state.isLoading &&
+                state.errorMessage.isNotEmpty &&
+                state.episodes.isEmpty) {
               return FloatingActionButton(
                 onPressed: context.read<EpisodesBloc>().loadNextPage,
                 child: const Icon(Icons.refresh),
