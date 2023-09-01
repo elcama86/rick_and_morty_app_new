@@ -10,7 +10,9 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Configuración'),
+        title: Text(
+          AppLocalizations.of(context).translate('settings'),
+        ),
       ),
       body: const _SettingsView(),
     );
@@ -44,14 +46,15 @@ class _LanguageSettings extends StatelessWidget {
 
     return BlocBuilder<SettingsCubit, SettingsState>(
       builder: (context, state) {
-        final selectedLanguage = state.language;
+        final selectedLanguage =
+            state.isSystemLanguage ? 'system_language' : state.language;
 
         return Column(
           children: [
             ListTile(
               leading: const Icon(Icons.language_rounded),
               title: Text(
-                'Idioma',
+                AppLocalizations.of(context).translate('language'),
                 style: textThemes.titleMedium,
               ),
             ),
@@ -61,7 +64,7 @@ class _LanguageSettings extends StatelessWidget {
                     contentPadding:
                         const EdgeInsets.symmetric(horizontal: 24.0),
                     title: Text(
-                      language.name,
+                      AppLocalizations.of(context).translate(language.name),
                       style: textThemes.titleSmall,
                     ),
                     value: language.languageCode,
@@ -72,6 +75,19 @@ class _LanguageSettings extends StatelessWidget {
                   ),
                 )
                 .toList(),
+            RadioListTile(
+              contentPadding: const EdgeInsets.symmetric(horizontal: 24.0),
+              title: Text(
+                AppLocalizations.of(context).translate('system_language'),
+                style: textThemes.titleSmall,
+              ),
+              value: 'system_language',
+              groupValue: selectedLanguage,
+              onChanged: (_) => context
+                  .read<SettingsCubit>()
+                  .setSystemLanguage(selectedLanguage),
+              controlAffinity: controlAffinity,
+            ),
           ],
         );
       },
@@ -97,13 +113,13 @@ class _ThemeSettings extends StatelessWidget {
             ListTile(
               leading: const Icon(Icons.palette_rounded),
               title: Text(
-                'Tema establecido',
+                AppLocalizations.of(context).translate('theme_selected'),
                 style: textThemes.titleMedium,
               ),
             ),
             SwitchListTile(
               title: Text(
-                'Tema claro',
+                AppLocalizations.of(context).translate('light_theme'),
                 style: textThemes.titleSmall,
               ),
               value: lightValue,
@@ -115,7 +131,7 @@ class _ThemeSettings extends StatelessWidget {
             ),
             SwitchListTile(
               title: Text(
-                'Tema Oscuro',
+                AppLocalizations.of(context).translate('dark_theme'),
                 style: textThemes.titleSmall,
               ),
               value: darkValue,
@@ -127,7 +143,7 @@ class _ThemeSettings extends StatelessWidget {
             ),
             SwitchListTile(
               title: Text(
-                'Tema predeterminado por sistema',
+                AppLocalizations.of(context).translate('system_theme'),
                 style: textThemes.titleSmall,
               ),
               value: systemValue,
