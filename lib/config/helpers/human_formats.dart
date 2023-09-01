@@ -6,8 +6,8 @@ class HumanFormats {
     initializeDateFormatting();
   }
 
-  static String shortDate(DateTime date) {
-    final format = DateFormat.yMMMEd('es');
+  static String shortDate(DateTime date, String language) {
+    final format = DateFormat.yMMMEd(language);
 
     return format.format(date);
   }
