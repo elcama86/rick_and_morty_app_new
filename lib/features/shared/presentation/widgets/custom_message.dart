@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:rick_and_morty_app/config/config.dart';
+import 'package:rick_and_morty_app/features/shared/shared.dart';
 
 class CustomMessage extends StatelessWidget {
   final String message;
@@ -25,7 +27,9 @@ class CustomMessage extends StatelessWidget {
             height: 10.0,
           ),
           Text(
-            message,
+            message.contains(',')
+                ? SharedUtils.specialTranslate(message, context)
+                : AppLocalizations.of(context).translate(message),
             textAlign: TextAlign.center,
             style: textThemes.titleMedium,
           ),
