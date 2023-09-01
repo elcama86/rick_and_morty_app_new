@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:rick_and_morty_app/config/config.dart';
 
 class LoadingSpinner extends StatelessWidget {
   final String message;
 
   const LoadingSpinner({
     super.key,
-    this.message = 'Cargando...',
+    this.message = 'loading',
   });
 
   @override
@@ -21,7 +22,7 @@ class LoadingSpinner extends StatelessWidget {
             height: 10.0,
           ),
           Text(
-            message,
+            AppLocalizations.of(context).translate(message),
           ),
         ],
       ),
