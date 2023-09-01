@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:animate_do/animate_do.dart';
+import 'package:rick_and_morty_app/config/config.dart';
 import 'package:rick_and_morty_app/features/shared/presentation/delegates/search_elements_delegate.dart';
 import 'package:rick_and_morty_app/features/characters/domain/domain.dart';
 import 'package:rick_and_morty_app/features/characters/presentation/blocs/blocs.dart';
@@ -41,7 +42,7 @@ class _CharactersViewState extends State<CharactersView> {
     return ElementsScrollView(
       controller: controller,
       elements: widget.characters,
-      title: "Personajes",
+      title: "characters",
       actions: [
         FadeIn(
           child: IconButton(
@@ -58,6 +59,7 @@ class _CharactersViewState extends State<CharactersView> {
                 delegate: SearchElementsDelegate(
                   searchElements: searchCharacters,
                   initialElements: searchCharactersState.results,
+                  label: AppLocalizations.of(context).translate('search_character'),
                 ),
               );
             },
