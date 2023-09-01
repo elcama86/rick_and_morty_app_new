@@ -18,7 +18,7 @@ class ConfirmPassword extends FormzInput<String, ConfirmPasswordError> {
     if (isValid || isPure) return null;
 
     if (displayError == ConfirmPasswordError.match) {
-      return 'La contraseña no coincide';
+      return 'password_match_error';
     }
 
     return null;
