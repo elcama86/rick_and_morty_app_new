@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:rick_and_morty_app/config/config.dart';
 
 import 'elements_mansory.dart';
 
@@ -77,7 +78,7 @@ class _ElementsScrollViewState<T> extends State<ElementsScrollView<T>> {
           floating: true,
           flexibleSpace: FlexibleSpaceBar(
             title: Text(
-              widget.title,
+              AppLocalizations.of(context).translate(widget.title),
               style: appBarTitleTheme,
             ),
           ),
