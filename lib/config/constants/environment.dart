@@ -8,6 +8,20 @@ class Environment {
   static String apiUrl =
       dotenv.env['API_URL'] ?? "No está configurado el API_URL";
 
-  static String videoUrl =
-      dotenv.env['VIDEO_URL'] ?? "No está configurado el VIDEO_URL";
+  static String videoUrl(String language) {
+    String url;
+
+    switch (language) {
+      case 'es':
+        url = dotenv.env['VIDEO_URL_ES'] ?? "No está configurado el VIDEO_URL";
+        break;
+      case 'en':
+        url = dotenv.env['VIDEO_URL_EN'] ?? "No está configurado el VIDEO_URL";
+        break;
+      default:
+        url = dotenv.env['VIDEO_URL_ES'] ?? "No está configurado el VIDEO_URL";
+    }
+
+    return url;
+  }
 }
