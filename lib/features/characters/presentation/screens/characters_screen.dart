@@ -59,7 +59,7 @@ class _ScaffoldScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: SharedUtils.appBarContain(characters, "Personajes"),
+      appBar: SharedUtils.appBarContain(characters, "characters", context),
       body: _ScaffoldBody(
         characters: characters,
         isLoading: isLoading,
@@ -89,13 +89,13 @@ class _ScaffoldBody extends StatelessWidget {
   Widget build(BuildContext context) {
     if (isLoading && characters.isEmpty) {
       return const LoadingSpinner(
-        message: 'Cargando personajes...',
+        message: 'loading_characters',
       );
     }
 
     if (characters.isEmpty) {
       return const CustomMessage(
-        message: "No existen personajes cargados",
+        message: "no_characters_loaded",
       );
     }
 
