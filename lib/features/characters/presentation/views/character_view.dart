@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
-import 'package:rick_and_morty_app/config/helpers/human_formats.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rick_and_morty_app/config/config.dart';
 import 'package:rick_and_morty_app/features/characters/characters.dart';
-import 'package:rick_and_morty_app/features/shared/presentation/widgets/widgets.dart';
+import 'package:rick_and_morty_app/features/shared/shared.dart';
 
 class CharacterView extends StatelessWidget {
   final Character character;
@@ -57,7 +58,7 @@ class _CharacterDetails extends StatelessWidget {
           height: 20.0,
         ),
         ElementsByEntity(
-          title: "Episodios en los que aparece",
+          title: "episodes_appears",
           entity: character,
         ),
       ],
@@ -104,38 +105,43 @@ class _BasicInfo extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _CustomTextInfo(
-                    title: "Estado",
+                    title: "status",
                     text: character.status,
                     alignment: TextAlign.justify,
                   ),
                   _CustomTextInfo(
-                    title: "Especie",
+                    title: "species",
                     text: character.species,
                     alignment: TextAlign.justify,
                   ),
                   _CustomTextInfo(
-                    title: "Tipo",
+                    title: "type",
                     text: character.type,
                     alignment: TextAlign.justify,
                   ),
                   _CustomTextInfo(
-                    title: "Género",
+                    title: "gender",
                     text: character.gender,
                     alignment: TextAlign.justify,
                   ),
                   _CustomTextInfo(
-                    title: "Origen",
+                    title: "origin",
                     text: character.origin,
                     alignment: TextAlign.justify,
                   ),
                   _CustomTextInfo(
-                    title: "Ubicación",
+                    title: "location",
                     text: character.location,
                     alignment: TextAlign.justify,
                   ),
                   _CustomTextInfo(
-                    title: "Creado",
-                    text: HumanFormats.shortDate(character.created),
+                    title: "created",
+                    text: context.select(
+                      (SettingsCubit settingsCubit) => HumanFormats.shortDate(
+                        character.created,
+                        settingsCubit.state.language,
+                      ),
+                    ),
                     alignment: TextAlign.justify,
                   ),
                 ],
@@ -170,13 +176,18 @@ class _CustomTextInfo extends StatelessWidget {
         style: textStyle,
         children: [
           TextSpan(
-            text: "$title: ",
+            text: "${AppLocalizations.of(context).translate(title)}: ",
             style: const TextStyle(
               fontWeight: FontWeight.bold,
             ),
           ),
           TextSpan(
-            text: CharacterUtils.getValue(title, text),
+            text: AppLocalizations.of(context)
+                    .translate(CharacterUtils.getValue(title, text))
+                    .isEmpty
+                ? CharacterUtils.getValue(title, text)
+                : AppLocalizations.of(context)
+                    .translate(CharacterUtils.getValue(title, text)),
           ),
         ],
       ),
