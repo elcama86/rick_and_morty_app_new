@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rick_and_morty_app/config/localizations/app_localizations.dart';
 import 'package:rick_and_morty_app/features/auth/presentation/presentation.dart';
 
 class CheckAuthStatusScreen extends StatelessWidget {
@@ -12,11 +13,11 @@ class CheckAuthStatusScreen extends StatelessWidget {
   String message(AuthStatus status) {
     switch (status) {
       case AuthStatus.checking:
-        return 'Iniciando...';
+        return 'starting';
       case AuthStatus.loading:
-        return 'Cerrando sesión...';
+        return 'closing_sesion';
       default:
-        return 'Cargando...';
+        return 'loading';
     }
   }
 
@@ -34,7 +35,7 @@ class CheckAuthStatusScreen extends StatelessWidget {
               height: 10.0,
             ),
             Text(
-              message(status),
+              AppLocalizations.of(context).translate(message(status)),
             ),
           ],
         ),
