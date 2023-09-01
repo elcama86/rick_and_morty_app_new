@@ -82,7 +82,7 @@ class EpisodesBloc extends Bloc<EpisodesEvent, EpisodesState> {
       add(SetErrorMessage(e.message));
     } catch (e) {
       add(SetLoadingEpisodes(false));
-      add(SetErrorMessage('Ha ocurrido un error inesperado'));
+      add(SetErrorMessage('unexpected_error'));
     }
   }
 }
