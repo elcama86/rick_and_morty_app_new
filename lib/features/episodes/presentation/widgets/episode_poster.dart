@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:rick_and_morty_app/config/config.dart';
 import 'package:rick_and_morty_app/features/episodes/episodes.dart';
 
 class EpisodePoster extends StatelessWidget {
@@ -97,7 +98,7 @@ class _ChildCard extends StatelessWidget {
       ),
       child: Center(
         child: Text(
-          'Episodio ${episode.id}',
+          '${AppLocalizations.of(context).translate('episode')} ${episode.id}',
           textAlign: TextAlign.center,
           style: textThemes.titleMedium,
         ),
