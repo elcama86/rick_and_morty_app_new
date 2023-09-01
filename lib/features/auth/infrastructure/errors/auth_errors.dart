@@ -1,36 +1,36 @@
 class SignUpWithEmailAndPasswordFailure implements Exception {
   final String message;
   const SignUpWithEmailAndPasswordFailure({
-    this.message = 'Ha ocurrido un error desconocido.',
+    this.message = 'unknown_error_message',
   });
 
   factory SignUpWithEmailAndPasswordFailure.fromCode(String code) {
     switch (code) {
       case 'invalid-email':
         return const SignUpWithEmailAndPasswordFailure(
-          message: 'El correo electrónico no es válido o está mal formateado.',
+          message: 'invalid_email',
         );
       case 'user-disabled':
         return const SignUpWithEmailAndPasswordFailure(
           message:
-              'Este usuario ha sido deshabilitado. Por favor, contacte a soporte.',
+              'user_disabled',
         );
       case 'email-already-in-use':
         return const SignUpWithEmailAndPasswordFailure(
           message:
-              'Ya existe una cuenta registrada con ese correo electrónico.',
+              'email_already_use',
         );
       case 'operation-not-allowed':
         return const SignUpWithEmailAndPasswordFailure(
-          message: 'Operación no permitida.  Por favor, contacte a soporte.',
+          message: 'operation_not_allowed',
         );
       case 'weak-password':
         return const SignUpWithEmailAndPasswordFailure(
-          message: 'Por favor, ingrese una contraseña más segura.',
+          message: 'weak_password',
         );
       case 'network-request-failed':
         return const SignUpWithEmailAndPasswordFailure(
-          message: 'Sin conexión a Internet.',
+          message: 'no_internet',
         );
       default:
         return const SignUpWithEmailAndPasswordFailure();
@@ -41,31 +41,31 @@ class SignUpWithEmailAndPasswordFailure implements Exception {
 class LogInWithEmailAndPasswordFailure implements Exception {
   final String message;
   const LogInWithEmailAndPasswordFailure({
-    this.message = 'Ha ocurrido un error desconocido.',
+    this.message = 'unknown_error_message',
   });
 
   factory LogInWithEmailAndPasswordFailure.fromCode(String code) {
     switch (code) {
       case 'invalid-email':
         return const LogInWithEmailAndPasswordFailure(
-          message: 'El correo electrónico no es válido o está mal formateado.',
+          message: 'invalid_email',
         );
       case 'user-disabled':
         return const LogInWithEmailAndPasswordFailure(
           message:
-              'Este usuario ha sido deshabilitado. Por favor, contacte a soporte.',
+              'user_disabled',
         );
       case 'user-not-found':
         return const LogInWithEmailAndPasswordFailure(
-          message: 'Usuario no encontrado. Por favor, cree una nueva cuenta.',
+          message: 'user_not_found',
         );
       case 'wrong-password':
         return const LogInWithEmailAndPasswordFailure(
-          message: 'Contraseña incorrecta. Por favor, intente nuevamente.',
+          message: 'wrong_password',
         );
       case 'network-request-failed':
         return const LogInWithEmailAndPasswordFailure(
-          message: 'Sin conexión a Internet.',
+          message: 'no_internet',
         );
       default:
         return const LogInWithEmailAndPasswordFailure();
@@ -77,51 +77,51 @@ class LogInWithGoogleFailure implements Exception {
   final String message;
 
   const LogInWithGoogleFailure({
-    this.message = 'Ha ocurrido un error desconocido.',
+    this.message = 'unknown_error_message',
   });
 
   factory LogInWithGoogleFailure.fromCode(String code) {
     switch (code) {
       case 'account-exists-with-different-credential':
         return const LogInWithGoogleFailure(
-          message: 'Esta cuenta ya existe con diferentes credenciales.',
+          message: 'account_exists',
         );
       case 'invalid-credential':
         return const LogInWithGoogleFailure(
-          message: 'La credencial recibida está mal formada o ha expirado.',
+          message: 'invalid_credential',
         );
       case 'operation-not-allowed':
         return const LogInWithGoogleFailure(
-          message: 'Operación no permitida.  Por favor, contacte a soporte.',
+          message: 'operation_not_allowed',
         );
       case 'user-disabled':
         return const LogInWithGoogleFailure(
           message:
-              'Este usuario ha sido deshabilitado. Por favor, contacte a soporte.',
+              'user_disabled',
         );
       case 'user-not-found':
         return const LogInWithGoogleFailure(
-          message: 'Usuario no encontrado. Por favor, cree una nueva cuenta.',
+          message: 'user_not_found',
         );
       case 'wrong-password':
         return const LogInWithGoogleFailure(
-          message: 'Contraseña incorrecta. Por favor, intente nuevamente.',
+          message: 'wrong_password',
         );
       case 'invalid-verification-code':
         return const LogInWithGoogleFailure(
-          message: 'El código de verificación recibido es inválido.',
+          message: 'invalid_code',
         );
       case 'invalid-verification-id':
         return const LogInWithGoogleFailure(
-          message: 'El ID de verificación recibido no es válido.',
+          message: 'invalid_id',
         );
       case 'network-request-failed':
         return const LogInWithGoogleFailure(
-          message: 'Sin conexión a Internet.',
+          message: 'no_internet',
         );
       case 'network_error':
         return const LogInWithGoogleFailure(
-          message: 'Sin conexión a Internet.',
+          message: 'no_internet',
         );
       default:
         return const LogInWithGoogleFailure();
