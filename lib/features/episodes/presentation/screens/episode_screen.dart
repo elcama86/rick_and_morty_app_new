@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rick_and_morty_app/config/config.dart';
 import 'package:rick_and_morty_app/features/episodes/presentation/presentation.dart';
 import 'package:rick_and_morty_app/features/shared/shared.dart';
 
@@ -41,7 +42,7 @@ class _EpisodeScreenState extends State<EpisodeScreen> {
           if (episode == null && errorMessage.isEmpty) {
             return const Scaffold(
               body: LoadingSpinner(
-                message: 'Cargando episodio...',
+                message: 'loading_episode',
               ),
             );
           }
@@ -49,10 +50,11 @@ class _EpisodeScreenState extends State<EpisodeScreen> {
           if (episode == null && errorMessage.isNotEmpty) {
             return Scaffold(
               appBar: AppBar(
-                title: Text('Episodio ${widget.episodeId}'),
+                title: Text(
+                    '${AppLocalizations.of(context).translate('episode')} ${widget.episodeId}'),
               ),
               body: const CustomMessage(
-                message: "No se pudo cargar el episodio seleccionado",
+                message: "error_loading_episode",
               ),
               floatingActionButton: FloatingActionButton(
                 onPressed: () =>
