@@ -10,10 +10,12 @@ import 'package:rick_and_morty_app/features/shared/shared.dart';
 class SearchElementsDelegate<T> extends SearchDelegate<T?> {
   final Future<List<T>> Function(String query) searchElements;
   List<T> initialElements;
+  final String label;
 
   SearchElementsDelegate({
     required this.searchElements,
     required this.initialElements,
+    required this.label,
   });
 
   StreamController<List<T>> debounceElements = StreamController.broadcast();
@@ -53,13 +55,13 @@ class SearchElementsDelegate<T> extends SearchDelegate<T?> {
         border: InputBorder.none,
       ),
       textTheme: Theme.of(context).textTheme.copyWith(
-        bodyLarge: appBarTheme.titleTextStyle,
-      ),
+            bodyLarge: appBarTheme.titleTextStyle,
+          ),
     );
   }
 
   @override
-  String get searchFieldLabel => SharedUtils.searchLabel(T);
+  String get searchFieldLabel => label;
 
   @override
   TextStyle? get searchFieldStyle => const TextStyle(fontSize: 25.0);
