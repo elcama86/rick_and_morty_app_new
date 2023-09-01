@@ -46,11 +46,11 @@ class EpisodeBloc extends Bloc<EpisodeEvent, EpisodeState> {
 
       add(SetEpisode(id, episode));
     } on EpisodeNotFound {
-      add(SetEpisodeErrorMessage('Episodio con id: $id no existe'));
+      add(SetEpisodeErrorMessage('episode_id_message,$id)'));
     } on CustomError catch (e) {
       add(SetEpisodeErrorMessage(e.message));
     } catch (e) {
-      add(SetEpisodeErrorMessage('Ha ocurrido un error inesperado'));
+      add(SetEpisodeErrorMessage('unexpected_error'));
     }
   }
 }
