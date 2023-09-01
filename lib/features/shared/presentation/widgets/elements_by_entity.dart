@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rick_and_morty_app/config/localizations/app_localizations.dart';
 import 'package:rick_and_morty_app/features/characters/characters.dart';
 import 'package:rick_and_morty_app/features/episodes/domain/domain.dart';
 import 'package:rick_and_morty_app/features/shared/shared.dart';
@@ -26,7 +27,7 @@ class ElementsByEntity<T> extends StatelessWidget {
             padding:
                 const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
             child: Text(
-              title,
+              AppLocalizations.of(context).translate(title),
               style: textStyle,
             ),
           ),
@@ -74,7 +75,9 @@ class _ElementListState extends State<_ElementList> {
           height: 200.0,
           child: Center(
             child: Text(
-              SharedUtils.getLoadingElementMessageError(widget.entity),
+              AppLocalizations.of(context).translate(
+                SharedUtils.getLoadingElementMessageError(widget.entity),
+              ),
               style: textStyle,
             ),
           ),
