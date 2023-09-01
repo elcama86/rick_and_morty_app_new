@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rick_and_morty_app/features/episodes/episodes.dart';
+import 'package:rick_and_morty_app/features/shared/shared.dart';
 
 class EpisodeSearchedItem extends StatelessWidget {
   final Episode episode;
@@ -74,7 +76,10 @@ class _EpisodeDetails extends StatelessWidget {
             contentPadding: EdgeInsets.zero,
             leading: const Icon(Icons.today_outlined),
             title: Text(
-              EpisodeUtils.transformAirDate(episode.airDate),
+              context.select(
+                (SettingsCubit settingsCubit) => EpisodeUtils.transformAirDate(
+                    episode.airDate, settingsCubit.state.language),
+              ),
               style: textThemes.titleSmall,
               textAlign: TextAlign.justify,
             ),
@@ -84,5 +89,3 @@ class _EpisodeDetails extends StatelessWidget {
     );
   }
 }
-
-
