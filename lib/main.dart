@@ -32,7 +32,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final authStatus = context.watch<AuthBloc>().state.status;
     final appRouter = AppRouter(GoRouterNotifier(authStatus)).router;
-
+   
     return BlocBuilder<SettingsCubit, SettingsState>(
       builder: (context, state) {
         return MaterialApp.router(
@@ -41,6 +41,7 @@ class MainApp extends StatelessWidget {
           darkTheme: AppTheme().dark(),
           themeMode: state.themeMode,
           debugShowCheckedModeBanner: false,
+          locale: !state.isSystemLanguage ? Locale(state.language) : null,
           supportedLocales: AppLocalizations.supportedLocales,
           localeResolutionCallback: AppLocalizations.localeResolutionCallback,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
