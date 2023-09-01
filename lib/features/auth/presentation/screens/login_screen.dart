@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:rick_and_morty_app/config/config.dart';
 import 'package:rick_and_morty_app/features/auth/domain/domain.dart';
 import 'package:rick_and_morty_app/features/auth/presentation/blocs/blocs.dart';
 import 'package:rick_and_morty_app/features/shared/shared.dart';
@@ -30,8 +31,10 @@ class LoginScreen extends StatelessWidget {
                   ),
                   SizedBox(
                     height: 90.0,
-                    child: Image.asset(
-                      'assets/images/app_bar_background.png',
+                    child: BlocBuilder<SettingsCubit, SettingsState>(
+                      builder: (context, state) => Image.asset(
+                        'assets/images/app_bar_background_${state.language}.png',
+                      ),
                     ),
                   ),
                   const SizedBox(
@@ -94,7 +97,7 @@ class _LoginForm extends StatelessWidget {
                 height: 30.0,
               ),
               Text(
-                'Inicio de sesión',
+                AppLocalizations.of(context).translate('login'),
                 style:
                     textStyles.titleLarge?.copyWith(color: colors.background),
               ),
@@ -138,7 +141,7 @@ class _CreateAccount extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          '¿No tienes cuenta?',
+          AppLocalizations.of(context).translate('dont_have_account'),
           style: TextStyle(
             color: colors.background,
           ),
@@ -149,7 +152,7 @@ class _CreateAccount extends StatelessWidget {
             context.push('/register');
           },
           child: Text(
-            'Crea una aquí',
+            AppLocalizations.of(context).translate('create_one'),
             style: TextStyle(
               color: colors.inversePrimary,
             ),
@@ -171,7 +174,7 @@ class _LoginButton extends StatelessWidget {
         width: double.infinity,
         height: 60.0,
         child: CustomFilledButton(
-            text: 'Ingresar',
+            text: 'enter',
             textColor: colors.onSurface,
             isPosting: state.isPosting,
             onPressed: state.isLoadingGoogle
@@ -191,7 +194,7 @@ class _PasswordTextField extends StatelessWidget {
     return BlocBuilder<LoginCubit, LoginState>(
       bloc: BlocProvider.of<LoginCubit>(context),
       builder: (context, state) => CustomTextFormField(
-        label: "Contraseña",
+        label: "password",
         onChanged: context.read<LoginCubit>().onPasswordChanged,
         onFieldSubmitted: (_) =>
             context.read<LoginCubit>().loginWithCredentials(),
@@ -210,7 +213,7 @@ class _EmailTextField extends StatelessWidget {
     return BlocBuilder<LoginCubit, LoginState>(
       bloc: BlocProvider.of<LoginCubit>(context),
       builder: (context, state) => CustomTextFormField(
-        label: "Correo Electrónico",
+        label: "email",
         keyboardType: TextInputType.emailAddress,
         onChanged: context.read<LoginCubit>().onEmailChanged,
         errorMessage: state.isFormPosted ? state.email.errorMessage : null,
@@ -230,7 +233,7 @@ class _GoogleLoginButton extends StatelessWidget {
         width: double.infinity,
         height: 60.0,
         child: CustomFilledButton(
-            text: 'Iniciar sesión con Google',
+            text: 'signin_google',
             textColor: colors.onSurface,
             icon: FontAwesomeIcons.google,
             isPosting: state.isLoadingGoogle,
