@@ -83,7 +83,7 @@ class CharactersBloc extends Bloc<CharactersEvent, CharactersState> {
       add(SetErrorMessage(e.message));
     } catch (e) {
       add(SetLoadingCharacters(false));
-      add(SetErrorMessage('Ha ocurrido un error inesperado'));
+      add(SetErrorMessage('unexpected_error'));
     }
   }
 }
