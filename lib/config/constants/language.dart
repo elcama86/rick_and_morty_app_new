@@ -10,11 +10,11 @@ class Language {
 
 final List<Language> languages = [
   Language(
-    name: 'Español',
+    name: 'spanish',
     languageCode: 'es',
   ),
   Language(
-    name: 'Inglés',
+    name: 'english',
     languageCode: 'en',
   ),
 ];
