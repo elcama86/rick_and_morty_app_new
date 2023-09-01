@@ -21,9 +21,9 @@ class EpisodeUtils {
     }
   }
 
-  static String transformAirDate(String airDate) {
+  static String transformAirDate(String airDate, String language) {
     DateTime transformDate = DateFormat('MMMM d, y').parse(airDate);
-    DateFormat format = DateFormat.yMMMMd('es');
+    DateFormat format = DateFormat.yMMMMd(language);
 
     return format.format(transformDate);
   }
