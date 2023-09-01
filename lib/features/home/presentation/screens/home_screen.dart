@@ -35,9 +35,11 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Scaffold(
             key: scaffoldKey,
             appBar: AppBar(
-              title: Image.asset(
-                'assets/images/app_bar_background.png',
-                height: kToolbarHeight - 4.0,
+              title: BlocBuilder<SettingsCubit, SettingsState>(
+                builder: (context, state) => Image.asset(
+                  'assets/images/app_bar_background_${state.language}.png',
+                  height: kToolbarHeight - 4.0,
+                ),
               ),
               centerTitle: true,
             ),
