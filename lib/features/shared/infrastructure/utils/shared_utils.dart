@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rick_and_morty_app/config/config.dart';
 import 'package:rick_and_morty_app/features/characters/characters.dart';
 import 'package:rick_and_morty_app/features/episodes/episodes.dart';
 
@@ -10,7 +11,9 @@ class SharedUtils {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
-          message,
+          message.contains(',')
+              ? specialTranslate(message, context)
+              : AppLocalizations.of(context).translate(message),
           style: TextStyle(
             color: textColor,
           ),
@@ -18,17 +21,6 @@ class SharedUtils {
         backgroundColor: color,
       ),
     );
-  }
-
-  static String searchLabel<T>(T element) {
-    switch (element) {
-      case Character:
-        return 'Buscar personaje';
-      case Episode:
-        return 'Buscar episodio';
-      default:
-        return 'Buscar';
-    }
   }
 
   static String watchError<T>(T element, BuildContext context) {
@@ -134,9 +126,9 @@ class SharedUtils {
   static String getLoadingElementMessageError<T>(T entity) {
     switch (entity.runtimeType) {
       case Character:
-        return 'Los episodios no pudieron ser cargados';
+        return 'error_loading_episodes';
       case Episode:
-        return 'Los personajes no pudieron ser cargados';
+        return 'error_loading_characters';
       default:
         return '';
     }
@@ -183,13 +175,25 @@ class SharedUtils {
     }
   }
 
-  static PreferredSizeWidget? appBarContain<T>(List<T> elements, String title) {
+  static PreferredSizeWidget? appBarContain<T>(
+      List<T> elements, String title, BuildContext context) {
     if (elements.isEmpty) {
       return AppBar(
-        title: Text(title),
+        title: Text(
+          AppLocalizations.of(context).translate(title),
+        ),
       );
     }
 
     return null;
+  }
+
+  static String specialTranslate(String text, BuildContext context) {
+    List<String> textArray = text.split(',');
+
+    String translateText = AppLocalizations.of(context).translate(textArray[0]);
+    String otherText = textArray[1];
+
+    return '$translateText $otherText';
   }
 }
