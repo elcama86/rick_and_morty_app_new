@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rick_and_morty_app/config/config.dart';
 
 class CustomFilledButton extends StatelessWidget {
   final void Function()? onPressed;
@@ -58,7 +59,7 @@ class CustomFilledButton extends StatelessWidget {
                       color: textColor,
                     ),
                     Text(
-                      text,
+                      AppLocalizations.of(context).translate(text),
                       style: setTextTheme
                           ? textStyle?.copyWith(
                               color: textColor,
@@ -71,7 +72,7 @@ class CustomFilledButton extends StatelessWidget {
                   ],
                 )
               : Text(
-                  text,
+                  AppLocalizations.of(context).translate(text),
                   style: setTextTheme
                       ? textStyle?.copyWith(
                           color: textColor,
