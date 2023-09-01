@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rick_and_morty_app/features/episodes/episodes.dart';
 
@@ -16,12 +18,14 @@ class FavoritesEpisodesBloc
             offset: 0,
             limit: 20,
             showIcon: false,
+            isFirstLoad: true,
           ),
         ) {
     on<AddFavoriteEpisode>(_addFavoriteEpisode);
     on<RemoveFavoriteEpisode>(_removeFavoriteEpisode);
     on<SetFavorites>(_setFavorites);
     on<SetShowIcon>(_setShowIcon);
+    on<ChangeIsFirstLoad>(_changeIsFirstLoad);
   }
 
   void _addFavoriteEpisode(
@@ -35,6 +39,7 @@ class FavoritesEpisodesBloc
         offset: state.offset,
         limit: state.limit,
         showIcon: state.showIcon,
+        isFirstLoad: state.isFirstLoad,
       ),
     );
   }
@@ -60,6 +65,7 @@ class FavoritesEpisodesBloc
         offset: state.offset,
         limit: state.limit,
         showIcon: state.showIcon,
+        isFirstLoad: state.isFirstLoad,
       ),
     );
   }
@@ -71,6 +77,7 @@ class FavoritesEpisodesBloc
         offset: state.offset + state.limit,
         limit: state.limit,
         showIcon: state.showIcon,
+        isFirstLoad: state.isFirstLoad,
       ),
     );
   }
@@ -82,6 +89,21 @@ class FavoritesEpisodesBloc
         offset: state.offset,
         limit: state.limit,
         showIcon: event.value,
+        isFirstLoad: state.isFirstLoad,
+      ),
+    );
+  }
+
+  void _changeIsFirstLoad(
+      ChangeIsFirstLoad event, Emitter<FavoritesEpisodesState> emit) {
+    if (state.isFirstLoad == false) return;
+    emit(
+      FavoritesEpisodesUpdate(
+        favoritesEpisodes: state.favoritesEpisodes,
+        offset: state.offset,
+        limit: state.limit,
+        showIcon: event.value,
+        isFirstLoad: event.value,
       ),
     );
   }
@@ -99,6 +121,7 @@ class FavoritesEpisodesBloc
     }
 
     add(SetFavorites(tempEpisodesMap));
+    add(ChangeIsFirstLoad(!state.isFirstLoad));
 
     return favoritesEpisodes;
   }
