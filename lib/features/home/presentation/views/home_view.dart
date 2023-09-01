@@ -1,6 +1,7 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rick_and_morty_app/config/localizations/app_localizations.dart';
 import 'package:rick_and_morty_app/features/characters/characters.dart';
 import 'package:rick_and_morty_app/features/shared/shared.dart';
 
@@ -32,7 +33,7 @@ class HomeView extends StatelessWidget {
               const SizedBox(
                 height: 20.0,
               ),
-              const TrailerVideo(),
+              const YouTubePlayerVideo(),
               const SizedBox(
                 height: 20.0,
               ),
@@ -66,7 +67,8 @@ class _ErrorMessageRetry extends StatelessWidget {
               child: isRetrying
                   ? const LoadingSpinner()
                   : Text(
-                      "Ocurrió un error cargando la información",
+                      AppLocalizations.of(context)
+                          .translate('error_loading_info'),
                       textAlign: TextAlign.center,
                       style: textStyles.titleLarge,
                     ),
@@ -85,7 +87,7 @@ class _ErrorMessageRetry extends StatelessWidget {
                   )
                 : const Icon(Icons.refresh_rounded),
             label: Text(
-              'Reintentar',
+              AppLocalizations.of(context).translate('retry'),
               style: textStyles.titleSmall,
             ),
             onPressed: context.read<CharactersSlideCubit>().getCharactersSlide,
