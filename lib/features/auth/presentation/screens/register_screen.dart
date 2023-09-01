@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:go_router/go_router.dart';
+import 'package:rick_and_morty_app/config/config.dart';
 import 'package:rick_and_morty_app/features/auth/auth.dart';
 import 'package:rick_and_morty_app/features/shared/shared.dart';
 
@@ -49,7 +50,7 @@ class RegisterScreen extends StatelessWidget {
                           flex: 1,
                         ),
                         Text(
-                          'Crear cuenta',
+                          AppLocalizations.of(context).translate('create_account'),
                           style: textThemes.titleLarge,
                         ),
                         const Spacer(
@@ -125,7 +126,7 @@ class _RegisterForm extends StatelessWidget {
                 height: 30.0,
               ),
               Text(
-                'Nueva cuenta',
+                AppLocalizations.of(context).translate('new_account'),
                 style:
                     textThemes.titleLarge?.copyWith(color: colors.background),
               ),
@@ -167,7 +168,7 @@ class _SignUpButton extends StatelessWidget {
         width: double.infinity,
         height: 60.0,
         child: CustomFilledButton(
-          text: 'Crear',
+          text: 'create',
           textColor: colors.onSurface,
           isPosting: state.isPosting,
           onPressed: () {
@@ -194,7 +195,7 @@ class _ConfirmPasswordTextField extends StatelessWidget {
         child: Column(
           children: [
             CustomTextFormField(
-              label: 'Confirmar Contraseña',
+              label: 'confirm_password',
               obscureText: true,
               onChanged: context.read<RegisterCubit>().onConfirmPassword,
               errorMessage: state.isFormPosted
@@ -217,7 +218,7 @@ class _PasswordTextField extends StatelessWidget {
     return BlocBuilder<RegisterCubit, RegisterState>(
       bloc: BlocProvider.of<RegisterCubit>(context),
       builder: (context, state) => CustomTextFormField(
-        label: 'Contraseña',
+        label: 'password',
         obscureText: !state.showPassword,
         onChanged: context.read<RegisterCubit>().onPasswordChanged,
         errorMessage: state.isFormPosted ? state.password.errorMessage : null,
@@ -234,7 +235,7 @@ class _EmailTextField extends StatelessWidget {
     return BlocBuilder<RegisterCubit, RegisterState>(
       bloc: BlocProvider.of<RegisterCubit>(context),
       builder: (context, state) => CustomTextFormField(
-        label: 'Correo Electrónico',
+        label: 'email',
         keyboardType: TextInputType.emailAddress,
         onChanged: context.read<RegisterCubit>().onEmailChanged,
         errorMessage: state.isFormPosted ? state.email.errorMessage : null,
@@ -252,7 +253,7 @@ class _HaveAccount extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          '¿Ya tienes cuenta?',
+          AppLocalizations.of(context).translate('have_account'),
           style: TextStyle(
             color: colors.background,
           ),
@@ -266,7 +267,7 @@ class _HaveAccount extends StatelessWidget {
             context.go('/login');
           },
           child: Text(
-            'Ingresa aquí',
+            AppLocalizations.of(context).translate('enter_here'),
             style: TextStyle(
               color: colors.inversePrimary,
             ),
