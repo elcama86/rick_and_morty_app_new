@@ -1,2 +1,2 @@
 export 'characters_slide_show.dart';
-export 'trailer_video.dart';
+export 'you_tube_player_video.dart';
