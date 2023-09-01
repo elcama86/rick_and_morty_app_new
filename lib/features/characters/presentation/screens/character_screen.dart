@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rick_and_morty_app/config/config.dart';
 
 import 'package:rick_and_morty_app/features/characters/characters.dart';
 import 'package:rick_and_morty_app/features/shared/shared.dart';
@@ -42,7 +43,7 @@ class _CharacterScreenState extends State<CharacterScreen> {
           if (character == null && errorMessage.isEmpty) {
             return const Scaffold(
               body: LoadingSpinner(
-                message: 'Cargando personaje...',
+                message: 'loading_character',
               ),
             );
           }
@@ -50,10 +51,10 @@ class _CharacterScreenState extends State<CharacterScreen> {
           if (character == null && errorMessage.isNotEmpty) {
             return Scaffold(
               appBar: AppBar(
-                title: const Text('Personaje'),
+                title:  Text(AppLocalizations.of(context).translate('character')),
               ),
               body: const CustomMessage(
-                message: 'No se pudo cargar el personaje seleccionado',
+                message: 'error_loading_character',
               ),
               floatingActionButton: FloatingActionButton(
                 child: const Icon(Icons.refresh),
