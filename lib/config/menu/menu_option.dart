@@ -16,17 +16,17 @@ class MenuOption {
 
 const List<MenuOption> menuOptions = [
   MenuOption(
-    title: 'Personajes',
+    title: 'characters',
     image: 'assets/images/characters.webp',
     link: '/characters',
   ),
   MenuOption(
-    title: 'Episodios',
+    title: 'episodes',
     image: 'assets/images/episodes.jpg',
     link: '/episodes',
   ),
   MenuOption(
-    title: 'Configuración',
+    title: 'settings',
     image: '',
     icon: Icons.settings,
     link: '/settings',
