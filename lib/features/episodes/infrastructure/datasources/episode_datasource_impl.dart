@@ -17,12 +17,11 @@ class EpisodeDatasourceImpl extends EpisodesDatasource {
       throw EpisodeNotFound();
     }
     if (e.type == DioExceptionType.connectionTimeout) {
-      throw CustomError(
-          "Problemas de conexión, por favor revise su conexión a internet");
+      throw CustomError("check_connection");
     }
     if (e.type == DioExceptionType.unknown &&
         e.error.runtimeType == SocketException) {
-      throw CustomError("Sin conexión a internet");
+      throw CustomError("no_internet");
     }
   }
 
