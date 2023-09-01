@@ -5,12 +5,14 @@ abstract class FavoritesEpisodesState {
   final int offset;
   final int limit;
   final bool showIcon;
+  final bool isFirstLoad;
 
   const FavoritesEpisodesState({
     required this.favoritesEpisodes,
     required this.offset,
     required this.limit,
     required this.showIcon,
+    required this.isFirstLoad,
   });
 }
 
@@ -20,11 +22,13 @@ class FavoritesEpisodesInitial extends FavoritesEpisodesState {
     required int offset,
     required int limit,
     required bool showIcon,
+    required bool isFirstLoad,
   }) : super(
           favoritesEpisodes: favoritesEpisodes,
           offset: offset,
           limit: limit,
           showIcon: showIcon,
+          isFirstLoad: isFirstLoad,
         );
 }
 
@@ -34,10 +38,12 @@ class FavoritesEpisodesUpdate extends FavoritesEpisodesState {
     required int offset,
     required int limit,
     required bool showIcon,
+    required isFirstLoad,
   }) : super(
           favoritesEpisodes: favoritesEpisodes,
           offset: offset,
           limit: limit,
           showIcon: showIcon,
+          isFirstLoad: isFirstLoad,
         );
 }
