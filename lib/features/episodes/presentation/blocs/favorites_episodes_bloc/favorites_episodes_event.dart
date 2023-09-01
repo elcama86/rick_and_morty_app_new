@@ -26,3 +26,9 @@ class SetShowIcon extends FavoritesEpisodesEvent {
 
   SetShowIcon(this.value);
 }
+
+class ChangeIsFirstLoad extends FavoritesEpisodesEvent {
+  final bool value;
+
+  ChangeIsFirstLoad(this.value);
+}
