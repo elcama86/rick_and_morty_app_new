@@ -42,11 +42,11 @@ class CharacterBloc extends Bloc<CharacterEvent, CharacterState> {
 
       add(SetCharacter(id, character));
     } on CharacterNotFound {
-      add(SetCharacterErrorMessage('Personaje con id: $id no existe'));
+      add(SetCharacterErrorMessage('character_id_message,$id'));
     } on CustomError catch (e) {
       add(SetCharacterErrorMessage(e.message));
     } catch (e) {
-      add(SetCharacterErrorMessage('Ha ocurrido un error inesperado'));
+      add(SetCharacterErrorMessage('unexpected_error'));
     }
   }
 }
