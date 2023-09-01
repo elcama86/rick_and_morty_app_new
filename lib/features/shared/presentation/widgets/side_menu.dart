@@ -38,7 +38,7 @@ class SideMenu extends StatelessWidget {
         Padding(
           padding: EdgeInsets.fromLTRB(28, hasNotch ? 0 : 20, 16, 10),
           child: Text(
-            "Opciones",
+            AppLocalizations.of(context).translate('options'),
             style: textThemes.titleLarge,
           ),
         ),
@@ -48,7 +48,7 @@ class SideMenu extends StatelessWidget {
                   option: option,
                 ),
                 label: Text(
-                  option.title,
+                  AppLocalizations.of(context).translate(option.title),
                   style: textThemes.titleSmall?.copyWith(
                     fontSize: 26.0,
                   ),
@@ -62,7 +62,7 @@ class SideMenu extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.fromLTRB(28, 10, 16, 10),
           child: Text(
-            'Otras opciones',
+            AppLocalizations.of(context).translate('other_options'),
             style: textThemes.titleLarge,
           ),
         ),
@@ -72,7 +72,7 @@ class SideMenu extends StatelessWidget {
                   option: option,
                 ),
                 label: Text(
-                  option.title,
+                  AppLocalizations.of(context).translate(option.title),
                   style: textThemes.titleSmall?.copyWith(
                     fontSize: 26.0,
                   ),
@@ -88,7 +88,7 @@ class SideMenu extends StatelessWidget {
               buttonColor: colors.outlineVariant,
               textColor: colors.onSurface,
               onPressed: () => context.read<AuthBloc>().add(LogoutRequest()),
-              text: 'Cerrar sesión',
+              text: 'logout',
               setTextTheme: true,
             ),
           ),
