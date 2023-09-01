@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:animate_do/animate_do.dart';
+import 'package:rick_and_morty_app/config/config.dart';
 import 'package:rick_and_morty_app/features/characters/characters.dart';
 
 class CharacterSearchedItem extends StatelessWidget {
@@ -97,7 +98,9 @@ class _InfoWithIcon extends StatelessWidget {
           width: 5.0,
         ),
         Text(
-          info,
+          AppLocalizations.of(context).translate(info).isEmpty
+              ? info
+              : AppLocalizations.of(context).translate(info),
           style: textTheme,
         ),
       ],
