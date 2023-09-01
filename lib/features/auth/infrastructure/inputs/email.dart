@@ -18,9 +18,9 @@ class Email extends FormzInput<String, EmailError> {
   String? get errorMessage {
     if (isValid || isPure) return null;
 
-    if (displayError == EmailError.empty) return 'Este campo es requerido';
+    if (displayError == EmailError.empty) return 'required_field';
     if (displayError == EmailError.format) {
-      return 'Formato de correo electrónico inválido';
+      return 'email_format_error';
     }
 
     return null;
