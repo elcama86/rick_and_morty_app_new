@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rick_and_morty_app/config/config.dart';
 import 'package:rick_and_morty_app/features/shared/shared.dart';
 
 class CustomBottomNavigation extends StatelessWidget {
@@ -46,13 +47,13 @@ class CustomBottomNavigation extends StatelessWidget {
                 icon: Icon(
                   index == 0 ? Icons.home : Icons.home_outlined,
                 ),
-                label: 'Inicio',
+                label: AppLocalizations.of(context).translate('home'),
               ),
               BottomNavigationBarItem(
                 icon: Icon(
                   index == 1 ? Icons.favorite : Icons.favorite_outline,
                 ),
-                label: 'Favoritos',
+                label: AppLocalizations.of(context).translate('favorites'),
               ),
             ],
           ),
