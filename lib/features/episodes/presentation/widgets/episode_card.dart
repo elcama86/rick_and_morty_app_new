@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rick_and_morty_app/config/config.dart';
 import 'package:rick_and_morty_app/features/episodes/episodes.dart';
 
 class EpisodeCard extends StatelessWidget {
@@ -30,7 +31,7 @@ class EpisodeCard extends StatelessWidget {
           ),
           child: Center(
             child: Text(
-              'Episodio ${episode.id}',
+              '${AppLocalizations.of(context).translate('episode')} ${episode.id}',
               textAlign: TextAlign.center,
               style: textStyle,
             ),
