@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:go_router/go_router.dart';
+import 'package:rick_and_morty_app/config/config.dart';
 import 'package:rick_and_morty_app/features/episodes/episodes.dart';
 import 'package:rick_and_morty_app/features/shared/shared.dart';
 
@@ -38,13 +39,13 @@ class _EpisodesViewState extends State<EpisodesView> {
         builder: (context, state) {
           if (state.isLoading && state.episodes.isEmpty) {
             return const LoadingSpinner(
-              message: 'Cargando episodios...',
+              message: 'loading_episodes',
             );
           }
 
           if (state.episodes.isEmpty) {
             return const CustomMessage(
-              message: "No existen episodios cargados",
+              message: "no_episodes_loaded",
             );
           }
 
@@ -91,7 +92,7 @@ class _EpisodesViewContainState extends State<_EpisodesViewContain> {
     return ElementsScrollView(
       controller: controller,
       elements: widget.episodes,
-      title: "Episodios",
+      title: "episodes",
       leading: IconButton(
         onPressed: () => context.pop(),
         icon: const Icon(Icons.arrow_back),
@@ -112,6 +113,7 @@ class _EpisodesViewContainState extends State<_EpisodesViewContain> {
                 delegate: SearchElementsDelegate(
                   searchElements: searchEpisodes,
                   initialElements: searchEpisodesState.results,
+                  label: AppLocalizations.of(context).translate('search_episode'),
                 ),
               );
             },
