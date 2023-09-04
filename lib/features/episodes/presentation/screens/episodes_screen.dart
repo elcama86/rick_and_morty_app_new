@@ -14,7 +14,8 @@ class EpisodesScreen extends StatelessWidget {
     required this.children,
   }) : super(key: key ?? const ValueKey<String>('EpisodesScreen'));
 
-  void _goBranch(int index) {
+  void _goBranch(int index, BuildContext context) {
+    context.read<BottomNavBarCubit>().setCurrentIndex(index);
     navigationShell.goBranch(
       index,
       initialLocation: index == navigationShell.currentIndex,
@@ -31,7 +32,19 @@ class EpisodesScreen extends StatelessWidget {
       case 0:
         appBar = context.select(
           (EpisodesBloc episodesBloc) => SharedUtils.appBarContain(
-              episodesBloc.state.episodes, "episodes", context),
+            episodesBloc.state.episodes,
+            "episodes",
+            context,
+          ),
+        );
+        break;
+      case 1:
+        appBar = context.select(
+          (FavoritesEpisodesBloc favoritesBloc) => SharedUtils.appBarContain(
+            favoritesBloc.state.favoritesEpisodes.values.toList(),
+            "favorites",
+            context,
+          ),
         );
         break;
       default:
@@ -56,7 +69,8 @@ class EpisodesScreen extends StatelessWidget {
           builder: (context, state) {
             if (!state.isLoading &&
                 state.errorMessage.isNotEmpty &&
-                state.episodes.isEmpty && index == 0) {
+                state.episodes.isEmpty &&
+                index == 0) {
               return FloatingActionButton(
                 onPressed: context.read<EpisodesBloc>().loadNextPage,
                 child: const Icon(Icons.refresh),
@@ -111,7 +125,6 @@ class _AnimatedBranchContainerState extends State<AnimatedBranchContainer> {
     context.read<BottomNavBarCubit>().setAppBarHeight(appBarHeight);
 
     if (pageController.hasClients) {
-      context.read<BottomNavBarCubit>().setCurrentIndex(widget.currentIndex);
       pageController.animateToPage(
         widget.currentIndex,
         curve: Curves.easeInOut,
