@@ -16,24 +16,27 @@ class CustomMessage extends StatelessWidget {
     final textThemes = Theme.of(context).textTheme;
 
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            icon,
-            size: 60.0,
-          ),
-          const SizedBox(
-            height: 10.0,
-          ),
-          Text(
-            message.contains(',')
-                ? SharedUtils.specialTranslate(message, context)
-                : AppLocalizations.of(context).translate(message),
-            textAlign: TextAlign.center,
-            style: textThemes.titleMedium,
-          ),
-        ],
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              icon,
+              size: 60.0,
+            ),
+            const SizedBox(
+              height: 10.0,
+            ),
+            Text(
+              message.contains(',')
+                  ? SharedUtils.specialTranslate(message, context)
+                  : AppLocalizations.of(context).translate(message),
+              textAlign: TextAlign.center,
+              style: textThemes.titleMedium,
+            ),
+          ],
+        ),
       ),
     );
   }
