@@ -51,7 +51,9 @@ class _CharacterScreenState extends State<CharacterScreen> {
           if (character == null && errorMessage.isNotEmpty) {
             return Scaffold(
               appBar: AppBar(
-                title:  Text(AppLocalizations.of(context).translate('character')),
+                title: Text(
+                  AppLocalizations.of(context).translate('character'),
+                ),
               ),
               body: const CustomMessage(
                 message: 'error_loading_character',
