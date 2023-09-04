@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:rick_and_morty_app/config/config.dart';
 import 'package:rick_and_morty_app/features/episodes/episodes.dart';
 import 'package:rick_and_morty_app/features/shared/shared.dart';
 
@@ -59,12 +58,16 @@ class _FavoritesEpisodesViewState extends State<FavoritesEpisodesView> {
             state.favoritesEpisodes.values.toList();
 
         if (isLoading && favoritesEpisodes.isEmpty && state.isFirstLoad) {
-          return const _LoadingFavorites();
+          return const LoadingSpinner(
+            message: 'loading_favorites',
+          );
         }
 
         if (favoritesEpisodes.isEmpty) {
           isLastPage = false;
-          return const _NoFavorites();
+          return const CustomMessage(
+            message: "no_favorites_loaded",
+          );
         }
 
         return ElementsScrollView(
@@ -80,52 +83,12 @@ class _FavoritesEpisodesViewState extends State<FavoritesEpisodesView> {
           hideBottomNavBar: context.read<BottomNavBarCubit>().hide,
           setScrollPositions:
               context.read<BottomNavBarCubit>().setScrollPositions,
+          showContain: context.select(
+            (BottomNavBarCubit navBarCubit) =>
+                navBarCubit.state.currentIndex == 1,
+          ),
         );
       },
-    );
-  }
-}
-
-class _NoFavorites extends StatelessWidget {
-  const _NoFavorites();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          AppLocalizations.of(context).translate('favorites'),
-        ),
-        leading: IconButton(
-          onPressed: () => context.pop(),
-          icon: const Icon(Icons.arrow_back),
-        ),
-      ),
-      body: const CustomMessage(
-        message: "no_favorites_loaded",
-      ),
-    );
-  }
-}
-
-class _LoadingFavorites extends StatelessWidget {
-  const _LoadingFavorites();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          AppLocalizations.of(context).translate('favorites'),
-        ),
-        leading: IconButton(
-          onPressed: () => context.pop(),
-          icon: const Icon(Icons.arrow_back),
-        ),
-      ),
-      body: const LoadingSpinner(
-        message: 'loading_favorites',
-      ),
     );
   }
 }
