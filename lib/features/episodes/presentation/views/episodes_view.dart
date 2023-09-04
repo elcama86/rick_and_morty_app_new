@@ -20,7 +20,7 @@ class _EpisodesViewState extends State<EpisodesView> {
   void initState() {
     super.initState();
     final episodesState = context.read<EpisodesBloc>().state;
-    if (episodesState.episodes.isEmpty) {
+    if (episodesState.episodes.isEmpty && episodesState.errorMessage.isEmpty) {
       context.read<EpisodesBloc>().loadNextPage();
     }
   }
