@@ -113,7 +113,8 @@ class _EpisodesViewContainState extends State<_EpisodesViewContain> {
                 delegate: SearchElementsDelegate(
                   searchElements: searchEpisodes,
                   initialElements: searchEpisodesState.results,
-                  label: AppLocalizations.of(context).translate('search_episode'),
+                  label:
+                      AppLocalizations.of(context).translate('search_episode'),
                 ),
               );
             },
@@ -125,6 +126,9 @@ class _EpisodesViewContainState extends State<_EpisodesViewContain> {
       showBottomNavBar: context.read<BottomNavBarCubit>().show,
       hideBottomNavBar: context.read<BottomNavBarCubit>().hide,
       setScrollPositions: context.read<BottomNavBarCubit>().setScrollPositions,
+      showContain: context.select(
+        (BottomNavBarCubit navBarCubit) => navBarCubit.state.currentIndex == 0,
+      ),
     );
   }
 }
