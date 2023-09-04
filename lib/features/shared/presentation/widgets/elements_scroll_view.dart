@@ -76,11 +76,8 @@ class _ElementsScrollViewState<T> extends State<ElementsScrollView<T>> {
     return CustomScrollView(
       controller: widget.controller,
       slivers: [
-        SliverVisibility(
+        SliverVisibility.maintain(
           visible: widget.showContain,
-          maintainSize: true,
-          maintainAnimation: true,
-          maintainState: true,
           sliver: SliverAppBar(
             floating: true,
             flexibleSpace: FlexibleSpaceBar(
@@ -93,11 +90,8 @@ class _ElementsScrollViewState<T> extends State<ElementsScrollView<T>> {
             actions: widget.actions,
           ),
         ),
-        SliverVisibility(
+        SliverVisibility.maintain(
           visible: widget.showContain,
-          maintainSize: true,
-          maintainAnimation: true,
-          maintainState: true,
           sliver: ElementsMansory(
             elements: widget.elements,
           ),
