@@ -21,7 +21,6 @@ class EpisodeSearchedItem extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
           child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               EpisodeCard(
                 episode: episode,
