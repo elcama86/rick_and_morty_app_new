@@ -5,7 +5,7 @@ import 'package:rick_and_morty_app/features/shared/shared.dart';
 
 class CustomBottomNavigation extends StatelessWidget {
   final int index;
-  final ValueChanged<int>? onItemTapped;
+  final void Function (int, BuildContext) onItemTapped;
 
   const CustomBottomNavigation({
     super.key,
@@ -27,7 +27,7 @@ class CustomBottomNavigation extends StatelessWidget {
           BottomNavigationBar(
             elevation: 16.0,
             currentIndex: index,
-            onTap: onItemTapped,
+            onTap: (value) => onItemTapped(value, context),
             selectedItemColor: colors.primary,
             showUnselectedLabels: true,
             unselectedItemColor: colors.secondary,
