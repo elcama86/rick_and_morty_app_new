@@ -56,7 +56,7 @@ class EpisodesScreen extends StatelessWidget {
           builder: (context, state) {
             if (!state.isLoading &&
                 state.errorMessage.isNotEmpty &&
-                state.episodes.isEmpty) {
+                state.episodes.isEmpty && index == 0) {
               return FloatingActionButton(
                 onPressed: context.read<EpisodesBloc>().loadNextPage,
                 child: const Icon(Icons.refresh),
