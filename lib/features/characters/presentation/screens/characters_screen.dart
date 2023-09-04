@@ -17,7 +17,9 @@ class _CharactersScreenState extends State<CharactersScreen> {
   @override
   void initState() {
     super.initState();
-    if (context.read<CharactersBloc>().state.characters.isEmpty) {
+    final charactersState = context.read<CharactersBloc>().state;
+    if (charactersState.characters.isEmpty &&
+        charactersState.errorMessage.isEmpty) {
       context.read<CharactersBloc>().loadNextPage();
     }
   }
