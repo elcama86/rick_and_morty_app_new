@@ -14,6 +14,7 @@ class ElementsScrollView<T> extends StatefulWidget {
   final VoidCallback? showBottomNavBar;
   final VoidCallback? hideBottomNavBar;
   final void Function(double, ScrollDirection)? setScrollPositions;
+  final bool showContain;
 
   const ElementsScrollView({
     super.key,
@@ -26,6 +27,7 @@ class ElementsScrollView<T> extends StatefulWidget {
     this.showBottomNavBar,
     this.hideBottomNavBar,
     this.setScrollPositions,
+    this.showContain = true,
   });
 
   @override
@@ -74,19 +76,31 @@ class _ElementsScrollViewState<T> extends State<ElementsScrollView<T>> {
     return CustomScrollView(
       controller: widget.controller,
       slivers: [
-        SliverAppBar(
-          floating: true,
-          flexibleSpace: FlexibleSpaceBar(
-            title: Text(
-              AppLocalizations.of(context).translate(widget.title),
-              style: appBarTitleTheme,
+        SliverVisibility(
+          visible: widget.showContain,
+          maintainSize: true,
+          maintainAnimation: true,
+          maintainState: true,
+          sliver: SliverAppBar(
+            floating: true,
+            flexibleSpace: FlexibleSpaceBar(
+              title: Text(
+                AppLocalizations.of(context).translate(widget.title),
+                style: appBarTitleTheme,
+              ),
             ),
+            leading: widget.leading,
+            actions: widget.actions,
           ),
-          leading: widget.leading,
-          actions: widget.actions,
         ),
-        ElementsMansory(
-          elements: widget.elements,
+        SliverVisibility(
+          visible: widget.showContain,
+          maintainSize: true,
+          maintainAnimation: true,
+          maintainState: true,
+          sliver: ElementsMansory(
+            elements: widget.elements,
+          ),
         ),
       ],
     );
