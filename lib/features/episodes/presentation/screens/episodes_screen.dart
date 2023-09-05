@@ -52,34 +52,31 @@ class EpisodesScreen extends StatelessWidget {
         break;
     }
 
-    return BlocProvider(
-      create: (_) => BottomNavBarCubit(),
-      child: Scaffold(
-        appBar: appBar,
-        body: AnimatedBranchContainer(
-          currentIndex: index,
-          children: children,
-        ),
-        bottomNavigationBar: CustomBottomNavigation(
-          index: index,
-          onItemTapped: _goBranch,
-        ),
-        floatingActionButton: BlocBuilder<EpisodesBloc, EpisodesState>(
-          bloc: BlocProvider.of<EpisodesBloc>(context),
-          builder: (context, state) {
-            if (!state.isLoading &&
-                state.errorMessage.isNotEmpty &&
-                state.episodes.isEmpty &&
-                index == 0) {
-              return FloatingActionButton(
-                onPressed: context.read<EpisodesBloc>().loadNextPage,
-                child: const Icon(Icons.refresh),
-              );
-            }
+    return Scaffold(
+      appBar: appBar,
+      body: AnimatedBranchContainer(
+        currentIndex: index,
+        children: children,
+      ),
+      bottomNavigationBar: CustomBottomNavigation(
+        index: index,
+        onItemTapped: _goBranch,
+      ),
+      floatingActionButton: BlocBuilder<EpisodesBloc, EpisodesState>(
+        bloc: BlocProvider.of<EpisodesBloc>(context),
+        builder: (context, state) {
+          if (!state.isLoading &&
+              state.errorMessage.isNotEmpty &&
+              state.episodes.isEmpty &&
+              index == 0) {
+            return FloatingActionButton(
+              onPressed: context.read<EpisodesBloc>().loadNextPage,
+              child: const Icon(Icons.refresh),
+            );
+          }
 
-            return const SizedBox();
-          },
-        ),
+          return const SizedBox();
+        },
       ),
     );
   }
