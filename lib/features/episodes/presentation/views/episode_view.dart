@@ -1,6 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rick_and_morty_app/config/config.dart';
 import 'package:rick_and_morty_app/features/episodes/episodes.dart';
 import 'package:rick_and_morty_app/features/shared/shared.dart';
@@ -53,8 +54,18 @@ class _CustomSliverAppBar extends StatelessWidget {
       backgroundColor: scaffoldBackgroundColor,
       actions: [
         IconButton(
-          onPressed: () async {
-            await context.read<FavoritesEpisodesBloc>().toggleFavorite(episode);
+          onPressed: () {
+            final previousRoute =
+                GoRouter.of(context).routeInformationProvider.value.location;
+
+            context
+                .read<FavoritesEpisodesBloc>()
+                .toggleFavorite(episode)
+                .then((isFavorite) {
+              if (previousRoute == '/favorites' && isFavorite) {
+                context.read<BottomNavBarCubit>().show();
+              }
+            });
           },
           icon: FutureBuilder(
             future:
