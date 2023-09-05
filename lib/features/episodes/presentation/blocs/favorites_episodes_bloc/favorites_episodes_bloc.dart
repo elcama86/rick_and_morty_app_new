@@ -135,12 +135,10 @@ class FavoritesEpisodesBloc
     return isEpisodeFavorite;
   }
 
-  Future<void> toggleFavorite(Episode episode) async {
+  Future<bool> toggleFavorite(Episode episode) async {
     await localStorageRepository.toggleFavorite(episode);
 
-    final isEpisodeFavorite = await isFavorite(episode.id);
-
-    add(SetShowIcon(isEpisodeFavorite));
+    await isFavorite(episode.id);
 
     int favoritesLength = state.favoritesEpisodes.values.length;
 
@@ -150,8 +148,10 @@ class FavoritesEpisodesBloc
     if (isEpisodeInFavorites) {
       add(RemoveFavoriteEpisode(episode.id));
     } else {
-      if (favoritesLength == state.offset) return;
+      if (favoritesLength == state.offset) return isEpisodeInFavorites;
       add(AddFavoriteEpisode(episode.id, episode));
     }
+
+    return isEpisodeInFavorites;
   }
 }
