@@ -96,4 +96,7 @@ final List<BlocProvider> blocProviders = [
       keyValueStorageService: context.read<KeyValueStorageService>(),
     ),
   ),
+  BlocProvider<BottomNavBarCubit>(
+    create: (context) => BottomNavBarCubit(),
+  ),
 ];
