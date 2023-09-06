@@ -19,3 +19,10 @@ class SetQueryErrorMessage extends SearchCharactersEvent {
 
   SetQueryErrorMessage(this.message);
 }
+
+class SetQueryLoading extends SearchCharactersEvent {
+  final bool value;
+
+  SetQueryLoading(this.value);
+
+}
