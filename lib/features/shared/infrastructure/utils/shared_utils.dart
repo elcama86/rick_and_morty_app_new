@@ -196,4 +196,34 @@ class SharedUtils {
 
     return '$translateText $otherText';
   }
+
+  static Widget actionSearchWidget<T>(
+      BuildContext context, Widget loadingSpinner, Widget closeSearch) {
+    switch (T) {
+      case Character:
+        return BlocBuilder<SearchCharactersBloc, SearchCharactersState>(
+          builder: (context, state) {
+            return actionSearchStateWidget(
+                state.isLoading, loadingSpinner, closeSearch);
+          },
+        );
+      case Episode:
+        return BlocBuilder<SearchEpisodesBloc, SearchEpisodesState>(
+          builder: (context, state) {
+            return actionSearchStateWidget(
+                state.isLoading, loadingSpinner, closeSearch);
+          },
+        );
+      default:
+        return const SizedBox();
+    }
+  }
+
+  static Widget actionSearchStateWidget(
+      bool isLoading, Widget loading, Widget close) {
+    if (isLoading) {
+      return loading;
+    }
+    return close;
+  }
 }
