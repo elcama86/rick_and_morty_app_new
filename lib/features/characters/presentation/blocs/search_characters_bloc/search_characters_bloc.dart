@@ -16,6 +16,7 @@ class SearchCharactersBloc
     on<SetQueryValue>(_setQueryValue);
     on<SetQueryResults>(_setQueryResults);
     on<SetQueryErrorMessage>(_setQueryErrorMessage);
+    on<SetQueryLoading>(_setQueryLoading);
   }
 
   void _setQueryValue(
@@ -45,28 +46,43 @@ class SearchCharactersBloc
     );
   }
 
+  void _setQueryLoading(
+      SetQueryLoading event, Emitter<SearchCharactersState> emit) {
+    emit(
+      state.copyWith(
+        isLoading: event.value,
+      ),
+    );
+  }
+
   Future<List<Character>> searchCharactersByQuery(String query) async {
     try {
+      if (query != state.query) add(SetQueryLoading(true));
+
       add(SetQueryValue(query));
 
       final List<Character> results = await searchCharacters(query);
 
       add(SetQueryResults(results));
+      add(SetQueryLoading(false));
       add(SetQueryErrorMessage(''));
 
       return results;
     } on CharacterNotFound {
       add(SetQueryResults([]));
+      add(SetQueryLoading(false));
       add(SetQueryErrorMessage("no_characters_by_name,$query"));
 
       return [];
     } on CustomError catch (e) {
       add(SetQueryResults([]));
+      add(SetQueryLoading(false));
       add(SetQueryErrorMessage("error_search_result,${e.message}"));
 
       return [];
     } catch (e) {
       add(SetQueryResults([]));
+      add(SetQueryLoading(false));
       add(SetQueryErrorMessage("unexpected_search_error"));
 
       return [];
