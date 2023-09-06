@@ -19,15 +19,10 @@ class SearchElementsDelegate<T> extends SearchDelegate<T?> {
   });
 
   StreamController<List<T>> debounceElements = StreamController.broadcast();
-  StreamController<bool> isLoadingStream = StreamController.broadcast();
 
   Timer? _debouncerTimer;
 
   void _onQueryChanged(String query) {
-    print('on query changed');
-    print('query $query ${query.isNotEmpty}');
-    if (query.isNotEmpty) isLoadingStream.add(true);
-    print('debouncer ${_debouncerTimer?.isActive}');
     if (_debouncerTimer?.isActive ?? false) _debouncerTimer!.cancel();
 
     _debouncerTimer = Timer(const Duration(milliseconds: 500), () async {
@@ -35,15 +30,13 @@ class SearchElementsDelegate<T> extends SearchDelegate<T?> {
 
       initialElements = elements;
 
-      if (debounceElements.isClosed && isLoadingStream.isClosed) return;
+      if (debounceElements.isClosed) return;
       debounceElements.add(elements);
-      isLoadingStream.add(false);
     });
   }
 
   void clearStreams() {
     debounceElements.close();
-    isLoadingStream.close();
   }
 
   @override
@@ -107,40 +100,33 @@ class SearchElementsDelegate<T> extends SearchDelegate<T?> {
 
   @override
   List<Widget>? buildActions(BuildContext context) {
-    return [
-      StreamBuilder(
-        initialData: false,
-        stream: isLoadingStream.stream,
-        builder: (context, snapshot) {
-          print(snapshot.data);
-          if (snapshot.data ?? false) {
-            return SpinPerfect(
-              duration: const Duration(seconds: 20),
-              spins: 10,
-              infinite: true,
-              child: IconButton(
-                onPressed: () => query = '',
-                icon: const Icon(
-                  Icons.refresh_rounded,
-                ),
-              ),
-            );
-          }
-
-          return FadeIn(
-            animate: query.isNotEmpty,
-            child: IconButton(
-              onPressed: () {
-                query = '';
-                _onQueryChanged(query);
-              },
-              icon: const Icon(
-                Icons.clear,
-              ),
-            ),
-          );
-        },
+    final loadingSpinner = SpinPerfect(
+      duration: const Duration(seconds: 20),
+      spins: 10,
+      infinite: true,
+      child: const Padding(
+        padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
+        child: Icon(
+          Icons.refresh_rounded,
+        ),
       ),
+    );
+
+    final closeSearch = FadeIn(
+      animate: query.isNotEmpty,
+      child: IconButton(
+        onPressed: () {
+          query = '';
+          _onQueryChanged(query);
+        },
+        icon: const Icon(
+          Icons.clear,
+        ),
+      ),
+    );
+
+    return [
+      SharedUtils.actionSearchWidget<T>(context, loadingSpinner, closeSearch),
     ];
   }
 
@@ -164,7 +150,6 @@ class SearchElementsDelegate<T> extends SearchDelegate<T?> {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    print('entre');
     _onQueryChanged(query);
     return _buildSuggestionsAndResults(context);
   }
