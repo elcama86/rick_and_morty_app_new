@@ -50,7 +50,7 @@ class AppLocalizations {
   }
 
   String translate(String key) {
-    return _localizedValues[key] ?? '$key no existe';
+    return _localizedValues[key] ?? '';
   }
 
   static const LocalizationsDelegate<AppLocalizations> delegate =
