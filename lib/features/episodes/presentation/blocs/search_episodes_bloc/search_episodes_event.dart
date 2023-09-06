@@ -19,3 +19,9 @@ class SetQueryErrorMessage extends SearchEpisodesEvent {
 
   SetQueryErrorMessage(this.message);
 }
+
+class SetQueryLoading extends SearchEpisodesEvent {
+  final bool value;
+
+  SetQueryLoading(this.value);
+}
