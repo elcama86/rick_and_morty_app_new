@@ -1,49 +1,37 @@
 part of 'favorites_episodes_bloc.dart';
 
-abstract class FavoritesEpisodesState {
+class FavoritesEpisodesState extends Equatable {
   final Map<int, Episode> favoritesEpisodes;
+
   final int offset;
   final int limit;
   final bool showIcon;
   final bool isFirstLoad;
 
   const FavoritesEpisodesState({
-    required this.favoritesEpisodes,
-    required this.offset,
-    required this.limit,
-    required this.showIcon,
-    required this.isFirstLoad,
+    this.favoritesEpisodes = const {},
+    this.offset = 0,
+    this.limit = 20,
+    this.showIcon = false,
+    this.isFirstLoad = true,
   });
-}
 
-class FavoritesEpisodesInitial extends FavoritesEpisodesState {
-  FavoritesEpisodesInitial({
-    required Map<int, Episode> favoritesEpisodes,
-    required int offset,
-    required int limit,
-    required bool showIcon,
-    required bool isFirstLoad,
-  }) : super(
-          favoritesEpisodes: favoritesEpisodes,
-          offset: offset,
-          limit: limit,
-          showIcon: showIcon,
-          isFirstLoad: isFirstLoad,
-        );
-}
+  FavoritesEpisodesState copyWith({
+    Map<int, Episode>? favoritesEpisodes,
+    int? offset,
+    int? limit,
+    bool? showIcon,
+    bool? isFirstLoad,
+  }) =>
+      FavoritesEpisodesState(
+        favoritesEpisodes: favoritesEpisodes ?? this.favoritesEpisodes,
+        offset: offset ?? this.offset,
+        limit: limit ?? this.limit,
+        showIcon: showIcon ?? this.showIcon,
+        isFirstLoad: isFirstLoad ?? this.isFirstLoad,
+      );
 
-class FavoritesEpisodesUpdate extends FavoritesEpisodesState {
-  FavoritesEpisodesUpdate({
-    required Map<int, Episode> favoritesEpisodes,
-    required int offset,
-    required int limit,
-    required bool showIcon,
-    required isFirstLoad,
-  }) : super(
-          favoritesEpisodes: favoritesEpisodes,
-          offset: offset,
-          limit: limit,
-          showIcon: showIcon,
-          isFirstLoad: isFirstLoad,
-        );
+  @override
+  List<Object> get props =>
+      [favoritesEpisodes, offset, limit, showIcon, isFirstLoad];
 }
