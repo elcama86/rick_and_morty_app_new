@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rick_and_morty_app/features/episodes/episodes.dart';
 
@@ -13,13 +14,7 @@ class FavoritesEpisodesBloc
   FavoritesEpisodesBloc({
     required this.localStorageRepository,
   }) : super(
-          FavoritesEpisodesInitial(
-            favoritesEpisodes: {},
-            offset: 0,
-            limit: 20,
-            showIcon: false,
-            isFirstLoad: true,
-          ),
+          const FavoritesEpisodesState(),
         ) {
     on<AddFavoriteEpisode>(_addFavoriteEpisode);
     on<RemoveFavoriteEpisode>(_removeFavoriteEpisode);
@@ -31,15 +26,11 @@ class FavoritesEpisodesBloc
   void _addFavoriteEpisode(
       AddFavoriteEpisode event, Emitter<FavoritesEpisodesState> emit) {
     emit(
-      FavoritesEpisodesUpdate(
+      state.copyWith(
         favoritesEpisodes: {
           ...state.favoritesEpisodes,
           event.episodeId: event.episode,
         },
-        offset: state.offset,
-        limit: state.limit,
-        showIcon: state.showIcon,
-        isFirstLoad: state.isFirstLoad,
       ),
     );
   }
@@ -58,38 +49,27 @@ class FavoritesEpisodesBloc
     state.favoritesEpisodes.remove(event.episodeId);
 
     emit(
-      FavoritesEpisodesUpdate(
+      state.copyWith(
         favoritesEpisodes: episode != null
             ? {...state.favoritesEpisodes, episode.id: episode}
             : state.favoritesEpisodes,
-        offset: state.offset,
-        limit: state.limit,
-        showIcon: state.showIcon,
-        isFirstLoad: state.isFirstLoad,
       ),
     );
   }
 
   void _setFavorites(SetFavorites event, Emitter<FavoritesEpisodesState> emit) {
     emit(
-      FavoritesEpisodesUpdate(
+      state.copyWith(
         favoritesEpisodes: {...state.favoritesEpisodes, ...event.newFavorites},
         offset: state.offset + state.limit,
-        limit: state.limit,
-        showIcon: state.showIcon,
-        isFirstLoad: state.isFirstLoad,
       ),
     );
   }
 
   void _setShowIcon(SetShowIcon event, Emitter<FavoritesEpisodesState> emit) {
     emit(
-      FavoritesEpisodesUpdate(
-        favoritesEpisodes: state.favoritesEpisodes,
-        offset: state.offset,
-        limit: state.limit,
+      state.copyWith(
         showIcon: event.value,
-        isFirstLoad: state.isFirstLoad,
       ),
     );
   }
@@ -98,11 +78,7 @@ class FavoritesEpisodesBloc
       ChangeIsFirstLoad event, Emitter<FavoritesEpisodesState> emit) {
     if (state.isFirstLoad == false) return;
     emit(
-      FavoritesEpisodesUpdate(
-        favoritesEpisodes: state.favoritesEpisodes,
-        offset: state.offset,
-        limit: state.limit,
-        showIcon: event.value,
+      state.copyWith(
         isFirstLoad: event.value,
       ),
     );
@@ -135,7 +111,7 @@ class FavoritesEpisodesBloc
     return isEpisodeFavorite;
   }
 
-  Future<bool> toggleFavorite(Episode episode) async {
+  Future<void> toggleFavorite(Episode episode) async {
     await localStorageRepository.toggleFavorite(episode);
 
     await isFavorite(episode.id);
@@ -148,10 +124,8 @@ class FavoritesEpisodesBloc
     if (isEpisodeInFavorites) {
       add(RemoveFavoriteEpisode(episode.id));
     } else {
-      if (favoritesLength == state.offset) return isEpisodeInFavorites;
+      if (favoritesLength == state.offset) return;
       add(AddFavoriteEpisode(episode.id, episode));
     }
-
-    return isEpisodeInFavorites;
   }
 }
