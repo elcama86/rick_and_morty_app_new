@@ -59,7 +59,7 @@ class _EpisodesViewState extends State<EpisodesView> {
   }
 }
 
-class _EpisodesViewContain extends StatefulWidget {
+class _EpisodesViewContain extends StatelessWidget {
   final List<Episode> episodes;
   final VoidCallback? loadNextPage;
 
@@ -69,29 +69,10 @@ class _EpisodesViewContain extends StatefulWidget {
   });
 
   @override
-  State<_EpisodesViewContain> createState() => _EpisodesViewContainState();
-}
-
-class _EpisodesViewContainState extends State<_EpisodesViewContain> {
-  late ScrollController controller;
-
-  @override
-  void initState() {
-    super.initState();
-    controller = ScrollController();
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return ElementsScrollView(
-      controller: controller,
-      elements: widget.episodes,
+      controller: context.watch<BottomNavBarCubit>().state.episodesController,
+      elements: episodes,
       title: "episodes",
       leading: IconButton(
         onPressed: () => context.pop(),
@@ -122,13 +103,13 @@ class _EpisodesViewContainState extends State<_EpisodesViewContain> {
           ),
         ),
       ],
-      loadNextPage: widget.loadNextPage,
+      loadNextPage: loadNextPage,
       showBottomNavBar: context.read<BottomNavBarCubit>().show,
       hideBottomNavBar: context.read<BottomNavBarCubit>().hide,
-      setScrollPositions: context.read<BottomNavBarCubit>().setScrollPositions,
       showContain: context.select(
         (BottomNavBarCubit navBarCubit) => navBarCubit.state.currentIndex == 0,
       ),
+      setScrollPosition: context.read<BottomNavBarCubit>().setScrollPosition,
     );
   }
 }
