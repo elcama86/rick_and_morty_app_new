@@ -138,9 +138,17 @@ class SharedUtils {
     switch (element.runtimeType) {
       case Character:
         final Character character = element as Character;
-        return '/characters/character/${character.id}';
+        
+        return Uri(
+          path: '/characters/character',
+          queryParameters: {
+            'id': '${character.id}',
+            'name': character.name,
+          },
+        ).toString();
       case Episode:
         final Episode episode = element as Episode;
+        
         return '/episodes/episode/${episode.id}';
       default:
         return '';
