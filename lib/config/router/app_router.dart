@@ -54,14 +54,17 @@ class AppRouter {
             ),
             routes: [
               GoRoute(
-                path: 'character/:id',
+                path: 'character',
                 pageBuilder: (context, state) {
-                  final characterId = state.pathParameters['id'] ?? 'no-id';
+                  final characterId = state.queryParameters['id'] ?? 'no-id';
+                  final characterName =
+                      state.queryParameters['name'] ?? 'no-name';
 
                   return transitionAnimationPage(
                     key: state.pageKey,
                     child: CharacterScreen(
                       characterId: characterId,
+                      characterName: characterName,
                     ),
                   );
                 },
