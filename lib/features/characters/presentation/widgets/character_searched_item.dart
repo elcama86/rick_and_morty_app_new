@@ -19,7 +19,15 @@ class CharacterSearchedItem extends StatelessWidget {
 
     return FadeIn(
       child: GestureDetector(
-        onTap: () => context.push('/characters/character/${character.id}'),
+        onTap: () => context.push(
+          Uri(
+            path: '/characters/character',
+            queryParameters: {
+              "id": "${character.id}",
+              "name": character.name,
+            },
+          ).toString(),
+        ),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
           child: Row(
