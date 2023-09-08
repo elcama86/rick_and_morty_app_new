@@ -69,7 +69,15 @@ class _Slide extends StatelessWidget {
     );
 
     return GestureDetector(
-      onTap: () => context.push('/characters/character/${character.id}'),
+      onTap: () => context.push(
+        Uri(
+          path: '/characters/character',
+          queryParameters: {
+            'id': '${character.id}',
+            'name': character.name,
+          },
+        ).toString(),
+      ),
       child: Padding(
         padding: const EdgeInsets.only(bottom: 30.0),
         child: DecoratedBox(
