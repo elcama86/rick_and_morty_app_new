@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rick_and_morty_app/config/config.dart';
 
 import 'package:rick_and_morty_app/features/characters/characters.dart';
 import 'package:rick_and_morty_app/features/shared/shared.dart';
 
 class CharacterScreen extends StatefulWidget {
   final String characterId;
+  final String characterName;
 
   const CharacterScreen({
     super.key,
     required this.characterId,
+    required this.characterName,
   });
 
   @override
@@ -52,7 +53,7 @@ class _CharacterScreenState extends State<CharacterScreen> {
             return Scaffold(
               appBar: AppBar(
                 title: Text(
-                  AppLocalizations.of(context).translate('character'),
+                  widget.characterName,
                 ),
               ),
               body: const CustomMessage(
