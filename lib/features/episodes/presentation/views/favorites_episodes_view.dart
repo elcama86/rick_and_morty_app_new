@@ -12,8 +12,6 @@ class FavoritesEpisodesView extends StatefulWidget {
 }
 
 class _FavoritesEpisodesViewState extends State<FavoritesEpisodesView> {
-  late ScrollController controller;
-
   bool isLoading = false;
   bool isLastPage = false;
 
@@ -21,12 +19,10 @@ class _FavoritesEpisodesViewState extends State<FavoritesEpisodesView> {
   void initState() {
     super.initState();
     loadNextFavorites();
-    controller = ScrollController();
   }
 
   @override
   void dispose() {
-    controller.dispose();
     super.dispose();
   }
 
@@ -71,7 +67,8 @@ class _FavoritesEpisodesViewState extends State<FavoritesEpisodesView> {
         }
 
         return ElementsScrollView(
-          controller: controller,
+          controller:
+              context.watch<BottomNavBarCubit>().state.favoritesController,
           elements: favoritesEpisodes,
           title: "favorites",
           leading: IconButton(
@@ -81,12 +78,12 @@ class _FavoritesEpisodesViewState extends State<FavoritesEpisodesView> {
           loadNextPage: loadNextFavorites,
           showBottomNavBar: context.read<BottomNavBarCubit>().show,
           hideBottomNavBar: context.read<BottomNavBarCubit>().hide,
-          setScrollPositions:
-              context.read<BottomNavBarCubit>().setScrollPositions,
           showContain: context.select(
             (BottomNavBarCubit navBarCubit) =>
                 navBarCubit.state.currentIndex == 1,
           ),
+          setScrollPosition:
+              context.read<BottomNavBarCubit>().setScrollPosition,
         );
       },
     );
