@@ -22,7 +22,15 @@ class CharacterPoster extends StatelessWidget {
       from: random.nextInt(100) + 80,
       delay: Duration(milliseconds: random.nextInt(450) + 0),
       child: GestureDetector(
-        onTap: () => context.push('/characters/character/${character.id}'),
+        onTap: () => context.push(
+          Uri(
+            path: '/characters/character',
+            queryParameters: {
+              'id': '${character.id}',
+              'name': character.name,
+            },
+          ).toString(),
+        ),
         child: Column(
           children: [
             _CharacterImage(
