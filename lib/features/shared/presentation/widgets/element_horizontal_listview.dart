@@ -105,6 +105,8 @@ class _Element<T> extends StatelessWidget {
                 SharedUtils.getElementName(element),
                 textAlign: TextAlign.center,
                 style: textStyle,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 3,
               ),
             ),
           ],
