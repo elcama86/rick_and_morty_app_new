@@ -138,7 +138,7 @@ class SharedUtils {
     switch (element.runtimeType) {
       case Character:
         final Character character = element as Character;
-        
+
         return Uri(
           path: '/characters/character',
           queryParameters: {
@@ -148,7 +148,7 @@ class SharedUtils {
         ).toString();
       case Episode:
         final Episode episode = element as Episode;
-        
+
         return '/episodes/episode/${episode.id}';
       default:
         return '';
@@ -199,10 +199,13 @@ class SharedUtils {
   static String specialTranslate(String text, BuildContext context) {
     List<String> textArray = text.split(',');
 
-    String translateText = AppLocalizations.of(context).translate(textArray[0]);
-    String otherText = textArray[1];
+    String firstText = AppLocalizations.of(context).translate(textArray[0]);
+    String otherText =
+        AppLocalizations.of(context).translate(textArray[1]).isNotEmpty
+            ? AppLocalizations.of(context).translate(textArray[1])
+            : textArray[1];
 
-    return '$translateText $otherText';
+    return '$firstText $otherText';
   }
 
   static Widget actionSearchWidget<T>(
