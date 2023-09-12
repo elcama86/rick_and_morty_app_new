@@ -123,7 +123,7 @@ class SharedUtils {
     }
   }
 
-  static String getLoadingElementMessageError<T>(T entity) {
+  static String loadingElementsMessageError<T>(T entity) {
     switch (entity.runtimeType) {
       case Character:
         return 'error_loading_episodes';
@@ -236,5 +236,40 @@ class SharedUtils {
       return loading;
     }
     return close;
+  }
+
+  static void getElement<T>(BuildContext context, String id) {
+    switch (T) {
+      case Character:
+        context.read<CharacterBloc>().getCharacter(id);
+        break;
+      case Episode:
+        context.read<EpisodeBloc>().getEpisode(id);
+        break;
+      default:
+        throw UnimplementedError();
+    }
+  }
+
+  static String loadingElementMessage<T>() {
+    switch (T) {
+      case Character:
+        return 'loading_character';
+      case Episode:
+        return 'loading_episode';
+      default:
+        return '';
+    }
+  }
+
+  static String errorLoadingElementMessage<T>() {
+    switch (T) {
+      case Character:
+        return 'error_loading_character';
+      case Episode:
+        return 'error_loading_episode';
+      default:
+        return '';
+    }
   }
 }
