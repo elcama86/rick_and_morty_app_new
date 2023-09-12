@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rick_and_morty_app/config/config.dart';
-import 'package:rick_and_morty_app/features/episodes/presentation/presentation.dart';
+
+import 'package:rick_and_morty_app/features/episodes/episodes.dart';
 import 'package:rick_and_morty_app/features/shared/shared.dart';
 
 class EpisodeScreen extends StatefulWidget {
@@ -39,35 +40,12 @@ class _EpisodeScreenState extends State<EpisodeScreen> {
           final episode = state.episodesMap[widget.episodeId];
           final errorMessage = state.errorMessage;
 
-          if (episode == null && errorMessage.isEmpty) {
-            return const Scaffold(
-              body: LoadingSpinner(
-                message: 'loading_episode',
-              ),
-            );
-          }
-
-          if (episode == null && errorMessage.isNotEmpty) {
-            return Scaffold(
-              appBar: AppBar(
-                title: Text(
-                    '${AppLocalizations.of(context).translate('episode')} ${widget.episodeId}'),
-              ),
-              body: const CustomMessage(
-                message: "error_loading_episode",
-              ),
-              floatingActionButton: FloatingActionButton(
-                onPressed: () =>
-                    context.read<EpisodeBloc>().getEpisode(widget.episodeId),
-                child: const Icon(Icons.refresh),
-              ),
-            );
-          }
-
-          return Scaffold(
-            body: EpisodeView(
-              episode: episode!,
-            ),
+          return ElementScaffoldScreen(
+            appBarTitle:
+                '${AppLocalizations.of(context).translate('episode')} ${widget.episodeId}',
+            element: episode,
+            id: widget.episodeId,
+            hasError: errorMessage.isNotEmpty,
           );
         },
       ),
