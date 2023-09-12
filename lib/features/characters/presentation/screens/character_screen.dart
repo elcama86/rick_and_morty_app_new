@@ -41,79 +41,14 @@ class _CharacterScreenState extends State<CharacterScreen> {
           final character = state.charactersMap[widget.characterId];
           final errorMessage = state.errorMessage;
 
-          return _ScaffoldScreen(
+          return ElementScaffoldScreen(
             appBarTitle: widget.characterName,
-            character: character,
-            characterId: widget.characterId,
+            element: character,
+            id: widget.characterId,
             hasError: errorMessage.isNotEmpty,
           );
         },
       ),
-    );
-  }
-}
-
-class _ScaffoldScreen extends StatelessWidget {
-  final String appBarTitle;
-  final Character? character;
-  final String characterId;
-  final bool hasError;
-
-  const _ScaffoldScreen({
-    required this.appBarTitle,
-    this.character,
-    required this.characterId,
-    required this.hasError,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: character == null
-          ? AppBar(
-              title: Text(appBarTitle),
-            )
-          : null,
-      body: _ScaffoldBody(
-        character: character,
-        hasError: hasError,
-      ),
-      floatingActionButton: character == null && hasError
-          ? FloatingActionButton(
-              child: const Icon(Icons.refresh),
-              onPressed: () =>
-                  context.read<CharacterBloc>().getCharacter(characterId),
-            )
-          : null,
-    );
-  }
-}
-
-class _ScaffoldBody extends StatelessWidget {
-  final Character? character;
-  final bool hasError;
-
-  const _ScaffoldBody({
-    this.character,
-    required this.hasError,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    if (character == null && !hasError) {
-      return const LoadingSpinner(
-        message: 'loading_character',
-      );
-    }
-
-    if (character == null && hasError) {
-      return const CustomMessage(
-        message: 'error_loading_character',
-      );
-    }
-
-    return CharacterView(
-      character: character!,
     );
   }
 }
