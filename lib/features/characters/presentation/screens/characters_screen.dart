@@ -97,7 +97,7 @@ class _ScaffoldBody extends StatelessWidget {
 
     if (characters.isEmpty) {
       return const CustomMessage(
-        message: "no_characters_loaded",
+        message: 'no_characters_loaded',
       );
     }
 
