@@ -76,7 +76,7 @@ class _ElementListState extends State<_ElementList> {
           child: Center(
             child: Text(
               AppLocalizations.of(context).translate(
-                SharedUtils.getLoadingElementMessageError(widget.entity),
+                SharedUtils.loadingElementsMessageError(widget.entity),
               ),
               style: textStyle,
             ),
