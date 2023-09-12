@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
+
 import '../../domain/domain.dart';
 
 class AuthRepositoryImpl extends AuthRepository {
@@ -13,7 +15,7 @@ class AuthRepositoryImpl extends AuthRepository {
   }
 
   @override
-  Future<void> logInWithGoogle() {
+  Future<firebase_auth.UserCredential?> logInWithGoogle() {
     return datasource.logInWithGoogle();
   }
 

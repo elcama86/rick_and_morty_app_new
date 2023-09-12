@@ -29,18 +29,19 @@ class AuthDatasourceImpl extends AuthDatasource {
   }
 
   @override
-  Future<void> logInWithGoogle() async {
+  Future<firebase_auth.UserCredential?> logInWithGoogle() async {
     try {
       late final firebase_auth.AuthCredential credential;
 
       final googleUser = await _googleSignIn.signIn();
-      final googleAuth = await googleUser!.authentication;
+      if (googleUser == null) return null;
+      final googleAuth = await googleUser.authentication;
       credential = firebase_auth.GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
 
-      await _firebaseAuth.signInWithCredential(credential);
+      return await _firebaseAuth.signInWithCredential(credential);
     } on firebase_auth.FirebaseAuthException catch (e) {
       throw LogInWithGoogleFailure.fromCode(e.code);
     } on PlatformException catch (e) {
