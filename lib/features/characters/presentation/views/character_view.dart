@@ -229,7 +229,7 @@ class _CustomSliverAppBar extends StatelessWidget {
                 fit: BoxFit.fill,
                 loadingBuilder: (context, child, loadingProgress) {
                   if (loadingProgress != null) return const SizedBox();
-
+        
                   return FadeIn(
                     child: child,
                   );
