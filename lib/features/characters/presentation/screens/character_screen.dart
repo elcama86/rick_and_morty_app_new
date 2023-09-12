@@ -41,40 +41,79 @@ class _CharacterScreenState extends State<CharacterScreen> {
           final character = state.charactersMap[widget.characterId];
           final errorMessage = state.errorMessage;
 
-          if (character == null && errorMessage.isEmpty) {
-            return const Scaffold(
-              body: LoadingSpinner(
-                message: 'loading_character',
-              ),
-            );
-          }
-
-          if (character == null && errorMessage.isNotEmpty) {
-            return Scaffold(
-              appBar: AppBar(
-                title: Text(
-                  widget.characterName,
-                ),
-              ),
-              body: const CustomMessage(
-                message: 'error_loading_character',
-              ),
-              floatingActionButton: FloatingActionButton(
-                child: const Icon(Icons.refresh),
-                onPressed: () => context
-                    .read<CharacterBloc>()
-                    .getCharacter(widget.characterId),
-              ),
-            );
-          }
-
-          return Scaffold(
-            body: CharacterView(
-              character: character!,
-            ),
+          return _ScaffoldScreen(
+            appBarTitle: widget.characterName,
+            character: character,
+            characterId: widget.characterId,
+            hasError: errorMessage.isNotEmpty,
           );
         },
       ),
+    );
+  }
+}
+
+class _ScaffoldScreen extends StatelessWidget {
+  final String appBarTitle;
+  final Character? character;
+  final String characterId;
+  final bool hasError;
+
+  const _ScaffoldScreen({
+    required this.appBarTitle,
+    this.character,
+    required this.characterId,
+    required this.hasError,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: character == null
+          ? AppBar(
+              title: Text(appBarTitle),
+            )
+          : null,
+      body: _ScaffoldBody(
+        character: character,
+        hasError: hasError,
+      ),
+      floatingActionButton: character == null && hasError
+          ? FloatingActionButton(
+              child: const Icon(Icons.refresh),
+              onPressed: () =>
+                  context.read<CharacterBloc>().getCharacter(characterId),
+            )
+          : null,
+    );
+  }
+}
+
+class _ScaffoldBody extends StatelessWidget {
+  final Character? character;
+  final bool hasError;
+
+  const _ScaffoldBody({
+    this.character,
+    required this.hasError,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    if (character == null && !hasError) {
+      return const LoadingSpinner(
+        message: 'loading_character',
+      );
+    }
+
+    if (character == null && hasError) {
+      return const CustomMessage(
+        message: 'error_loading_character',
+      );
+    }
+
+    return CharacterView(
+      character: character!,
     );
   }
 }
