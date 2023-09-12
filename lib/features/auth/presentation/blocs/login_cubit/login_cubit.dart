@@ -78,7 +78,15 @@ class LoginCubit extends Cubit<LoginState> {
     await Future.delayed(const Duration(milliseconds: 500));
 
     try {
-      await authRepository.logInWithGoogle();
+      final userCredential = await authRepository.logInWithGoogle();
+
+      if (userCredential == null) {
+        emit(
+          state.copyWith(
+            isLoadingGoogle: false,
+          ),
+        );
+      }
     } on LogInWithGoogleFailure catch (e) {
       emit(
         state.copyWith(
