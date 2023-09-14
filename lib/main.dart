@@ -7,12 +7,7 @@ import 'package:rick_and_morty_app/features/auth/presentation/presentation.dart'
 import 'package:rick_and_morty_app/features/shared/shared.dart';
 
 Future<void> main() async {
-  await Certificate.register();
-  await OrientationSetting.setDefaultOrientation();
-  await Environment.initEnvironment();
-  await AuthBloc.initializeServices();
-  await KeyValueStorageServiceImpl.init();
-  HumanFormats.initializeDates();
+  await AppInitialization.initialize();
 
   runApp(
     MultiRepositoryProvider(
@@ -32,7 +27,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final authStatus = context.watch<AuthBloc>().state.status;
     final appRouter = AppRouter(GoRouterNotifier(authStatus)).router;
-   
+
     return BlocBuilder<SettingsCubit, SettingsState>(
       builder: (context, state) {
         return MaterialApp.router(
