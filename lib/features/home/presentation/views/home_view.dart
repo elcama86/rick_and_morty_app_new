@@ -15,7 +15,7 @@ class HomeView extends StatelessWidget {
     return ScaffoldBackground(
       child: BlocBuilder<CharactersSlideCubit, CharactersSlideState>(
         builder: (context, state) {
-          if (state.hasError) {
+          if (state.errorMessage.isNotEmpty) {
             return _ErrorMessageRetry(
               isRetrying: state.isRetrying,
             );
