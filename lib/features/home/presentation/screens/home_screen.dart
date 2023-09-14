@@ -22,34 +22,41 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final scaffoldKey = GlobalKey<ScaffoldState>();
 
-    return BlocBuilder<CharactersSlideCubit, CharactersSlideState>(
-      builder: (context, state) {
-        if (state.isLoading) {
-          return const Scaffold(
-            body: LoadingSpinner(),
-          );
+    return BlocListener<CharactersSlideCubit, CharactersSlideState>(
+      listener: (context, state) {
+        if (state.errorMessage.isNotEmpty && !state.isRetrying) {
+          SharedUtils.showSnackbar(context, state.errorMessage);
         }
-
-        return BlocProvider(
-          create: (_) => NavDrawerCubit(),
-          child: Scaffold(
-            key: scaffoldKey,
-            appBar: AppBar(
-              title: BlocBuilder<SettingsCubit, SettingsState>(
-                builder: (context, state) => Image.asset(
-                  'assets/images/app_bar_background_${state.language}.png',
-                  height: kToolbarHeight - 4.0,
-                ),
-              ),
-              centerTitle: true,
-            ),
-            body: const HomeView(),
-            drawer: SideMenu(
-              scaffoldKey: scaffoldKey,
-            ),
-          ),
-        );
       },
+      child: BlocBuilder<CharactersSlideCubit, CharactersSlideState>(
+        builder: (context, state) {
+          if (state.isLoading) {
+            return const Scaffold(
+              body: LoadingSpinner(),
+            );
+          }
+
+          return BlocProvider(
+            create: (_) => NavDrawerCubit(),
+            child: Scaffold(
+              key: scaffoldKey,
+              appBar: AppBar(
+                title: BlocBuilder<SettingsCubit, SettingsState>(
+                  builder: (context, state) => Image.asset(
+                    'assets/images/app_bar_background_${state.language}.png',
+                    height: kToolbarHeight - 4.0,
+                  ),
+                ),
+                centerTitle: true,
+              ),
+              body: const HomeView(),
+              drawer: SideMenu(
+                scaffoldKey: scaffoldKey,
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 }
