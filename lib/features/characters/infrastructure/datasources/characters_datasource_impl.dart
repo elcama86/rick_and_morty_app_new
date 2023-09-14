@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:rick_and_morty_app/config/constants/environment.dart';
 import 'package:rick_and_morty_app/features/characters/domain/domain.dart';
@@ -106,9 +105,8 @@ class CharactersDatasourceImpl extends CharactersDatasource {
       final characters = await Future.wait(getCharactersJob);
 
       return characters;
-    } on DioException catch (e) {
-      _checkDioException(e);
-      throw Exception();
+    } on CustomError catch (_) {
+      rethrow;
     } catch (e) {
       throw Exception();
     }
