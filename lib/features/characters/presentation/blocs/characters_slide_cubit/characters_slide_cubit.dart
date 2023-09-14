@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:rick_and_morty_app/features/characters/domain/domain.dart';
+import 'package:rick_and_morty_app/features/shared/shared.dart';
 
 part 'characters_slide_state.dart';
 
@@ -32,7 +33,7 @@ class CharactersSlideCubit extends Cubit<CharactersSlideState> {
     try {
       if (state.isRetrying) return;
 
-      if (state.hasError) {
+      if (state.errorMessage.isNotEmpty) {
         emit(
           state.copyWith(
             isRetrying: true,
@@ -47,16 +48,24 @@ class CharactersSlideCubit extends Cubit<CharactersSlideState> {
       emit(
         state.copyWith(
           isLoading: false,
-          hasError: false,
+          errorMessage: '',
           isRetrying: false,
           characters: characters,
+        ),
+      );
+    } on CustomError catch (e) {
+       emit(
+        state.copyWith(
+          isLoading: false,
+          errorMessage: e.message,
+          isRetrying: false,
         ),
       );
     } catch (e) {
       emit(
         state.copyWith(
           isLoading: false,
-          hasError: true,
+          errorMessage: 'unexpected_error',
           isRetrying: false,
         ),
       );
