@@ -55,6 +55,7 @@ class AppRouter {
             routes: [
               GoRoute(
                 path: 'character',
+                parentNavigatorKey: _rootNavigatorKey,
                 pageBuilder: (context, state) {
                   final characterId = state.queryParameters['id'] ?? 'no-id';
                   final characterName =
