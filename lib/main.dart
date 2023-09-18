@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 import 'package:rick_and_morty_app/config/config.dart';
 import 'package:rick_and_morty_app/config/router/app_router_notifier.dart';
@@ -25,6 +26,7 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    FlutterNativeSplash.remove();
     final authStatus = context.watch<AuthBloc>().state.status;
     final appRouter = AppRouter(GoRouterNotifier(authStatus)).router;
 
