@@ -12,15 +12,9 @@ class AppInitialization {
     await Certificate.register();
     await OrientationSetting.setDefaultOrientation();
     await Environment.initEnvironment();
-    await removeSplash();
     await AuthBloc.initializeServices();
     await KeyValueStorageServiceImpl.init();
     HumanFormats.initializeDates();
-  }
-
-  static Future<void> removeSplash() async {
-    Future.delayed(
-        const Duration(seconds: 3), () => FlutterNativeSplash.remove());
   }
 
   static WidgetsBinding widgetsBinding =
