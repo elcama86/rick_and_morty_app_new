@@ -2,9 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
-import 'package:rick_and_morty_app/features/characters/domain/domain.dart';
-import 'package:rick_and_morty_app/features/characters/presentation/presentation.dart';
-import 'package:rick_and_morty_app/features/episodes/episodes.dart';
 import 'package:rick_and_morty_app/features/shared/shared.dart';
 
 class SearchElementsDelegate<T> extends SearchDelegate<T?> {
@@ -64,36 +61,9 @@ class SearchElementsDelegate<T> extends SearchDelegate<T?> {
       initialData: initialElements,
       stream: debounceElements.stream,
       builder: (context, snapshot) {
-        final errorMessage = SharedUtils.watchError(T, context);
-
         final elements = snapshot.data ?? [];
 
-        if (elements.isEmpty && errorMessage.isNotEmpty) {
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: CustomMessage(
-              message: errorMessage,
-            ),
-          );
-        }
-
-        return ListView.builder(
-          itemCount: elements.length,
-          itemBuilder: (context, index) {
-            switch (T) {
-              case Character:
-                return CharacterSearchedItem(
-                  character: elements[index] as Character,
-                );
-              case Episode:
-                return EpisodeSearchedItem(
-                  episode: elements[index] as Episode,
-                );
-              default:
-                return const SizedBox();
-            }
-          },
-        );
+        return SharedUtils.suggestionsAndResultsWidget<T>(context, elements);
       },
     );
   }
