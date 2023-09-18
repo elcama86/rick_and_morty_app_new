@@ -79,7 +79,7 @@
     "no_favorites_loaded": "There are no favorite episodes selected",
     "no_characters_by_name": "No characters found with the name",
     "error_search_result": "An error occurred during the search:",
-    "unexpected_search_error": "An unexpected error occurred",
+    "unexpected_search_error": "An unexpected error occurred during the search",
     "no_episodes_by_name": "No episodes found with the name",
     "password": "Password",
     "email": "Email",

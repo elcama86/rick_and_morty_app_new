@@ -79,7 +79,7 @@
     "no_favorites_loaded": "No existen episodios favoritos seleccionados",
     "no_characters_by_name": "No se encontraron personajes con el nombre",
     "error_search_result": "Ha ocurrido un error durante la búsqueda:",
-    "unexpected_search_error": "Ocurrió un error inesperado",
+    "unexpected_search_error": "Ocurrió un error inesperado durante la búsqueda",
     "no_episodes_by_name": "No se encontraron episodios con el nombre",
     "password": "Contraseña",
     "email": "Correo electrónico",
