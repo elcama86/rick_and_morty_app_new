@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rick_and_morty_app/config/config.dart';
 import 'package:rick_and_morty_app/features/characters/characters.dart';
 import 'package:rick_and_morty_app/features/episodes/episodes.dart';
+import 'package:rick_and_morty_app/features/shared/shared.dart';
 
 class SharedUtils {
   static void showSnackbar(BuildContext context, String message,
@@ -21,17 +22,6 @@ class SharedUtils {
         backgroundColor: color,
       ),
     );
-  }
-
-  static String watchError<T>(T element, BuildContext context) {
-    switch (element) {
-      case Character:
-        return context.watch<SearchCharactersBloc>().state.errorMessage;
-      case Episode:
-        return context.watch<SearchEpisodesBloc>().state.errorMessage;
-      default:
-        return '';
-    }
   }
 
   static List<String> getIdsFromUrl(List<String> urls) {
@@ -271,5 +261,51 @@ class SharedUtils {
       default:
         return '';
     }
+  }
+
+  static Widget suggestionsAndResultsWidget<T>(
+      BuildContext context, List<T> elements) {
+    switch (T) {
+      case Character:
+        final listContain = ListView.builder(
+          itemCount: elements.length,
+          itemBuilder: (context, index) => CharacterSearchedItem(
+            character: elements[index] as Character,
+          ),
+        );
+
+        return BlocBuilder<SearchCharactersBloc, SearchCharactersState>(
+          builder: (context, state) => suggestionsAndResultsContain(
+              elements, state.errorMessage, listContain),
+        );
+      case Episode:
+        final listContain = ListView.builder(
+          itemCount: elements.length,
+          itemBuilder: (context, index) => EpisodeSearchedItem(
+            episode: elements[index] as Episode,
+          ),
+        );
+
+        return BlocBuilder<SearchEpisodesBloc, SearchEpisodesState>(
+          builder: (context, state) => suggestionsAndResultsContain(
+              elements, state.errorMessage, listContain),
+        );
+      default:
+        return const SizedBox();
+    }
+  }
+
+  static Widget suggestionsAndResultsContain<T>(
+      List<T> elements, String errorMessage, Widget contain) {
+    if (elements.isEmpty && errorMessage.isNotEmpty) {
+      return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: CustomMessage(
+          message: errorMessage,
+        ),
+      );
+    }
+
+    return contain;
   }
 }
