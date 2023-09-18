@@ -54,7 +54,7 @@ class CharactersSlideCubit extends Cubit<CharactersSlideState> {
         ),
       );
     } on CustomError catch (e) {
-       emit(
+      emit(
         state.copyWith(
           isLoading: false,
           errorMessage: e.message,
