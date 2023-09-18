@@ -20,6 +20,7 @@ dependencies:
   flutter_keyboard_visibility: ^5.4.1
   flutter_localizations:
     sdk: flutter
+  flutter_native_splash: ^2.3.2
   flutter_staggered_grid_view: ^0.6.2
   font_awesome_flutter: ^10.5.0
   formz: ^0.6.0
@@ -47,6 +48,17 @@ flutter_launcher_icons:
   ios: true # can specify file name here e.g. "My-Launcher-Icon"
   image_path: "assets/images/launcher_icon.png"
   min_sdk_android: 21 # android min sdk min:16, default 21
+
+flutter_native_splash:
+  image: assets/images/splash.png
+  color: "#F5F5F5"
+  color_dark: "#212121"
+  image_dark: assets/images/splash.png
+  android_12:
+    image: assets/images/splash.png
+    color: "#F5F5F5"
+    color_dark: "#212121"
+    image_dark: assets/images/splash.png
 
 flutter:
   uses-material-design: true
