@@ -57,15 +57,20 @@ class SearchCharactersBloc
 
   Future<List<Character>> searchCharactersByQuery(String query) async {
     try {
-      if (query != state.query) add(SetQueryLoading(true));
+      if (query == state.query && !state.isLoading) return state.results;
+
+      if (query.isNotEmpty) add(SetQueryLoading(true));
 
       add(SetQueryValue(query));
 
       final List<Character> results = await searchCharacters(query);
 
-      add(SetQueryResults(results));
       add(SetQueryLoading(false));
       add(SetQueryErrorMessage(''));
+
+      if (query.isNotEmpty && results.isEmpty) return state.results;
+
+      add(SetQueryResults(results));
 
       return results;
     } on CharacterNotFound {
