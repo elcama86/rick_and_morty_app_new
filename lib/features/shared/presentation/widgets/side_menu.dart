@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:rick_and_morty_app/config/config.dart';
 import 'package:rick_and_morty_app/features/auth/presentation/blocs/auth_bloc/auth_bloc.dart';
 import 'package:rick_and_morty_app/features/shared/shared.dart';
@@ -133,7 +134,7 @@ class _UserAccountInfo extends StatelessWidget {
         ),
         currentAccountPicture: CircleAvatar(
           backgroundImage: state.user.imageUrl.isNotEmpty
-              ? NetworkImage(state.user.imageUrl)
+              ? CachedNetworkImageProvider(state.user.imageUrl)
               : null,
           child:
               state.user.imageUrl.isNotEmpty ? null : const Icon(Icons.person),

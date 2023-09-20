@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:animate_do/animate_do.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:animate_do/animate_do.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:rick_and_morty_app/config/config.dart';
 import 'package:rick_and_morty_app/features/characters/characters.dart';
 import 'package:rick_and_morty_app/features/shared/shared.dart';
@@ -88,8 +89,10 @@ class _BasicInfo extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(20.0),
-            child: Image.network(
-              character.image,
+            child: Image(
+              image: CachedNetworkImageProvider(
+                character.image,
+              ),
               height: 210.0,
               width: size.width * 0.3,
               fit: BoxFit.fill,
@@ -224,12 +227,14 @@ class _CustomSliverAppBar extends StatelessWidget {
         background: Stack(
           children: [
             SizedBox.expand(
-              child: Image.network(
-                character.image,
+              child: Image(
+                image: CachedNetworkImageProvider(
+                  character.image,
+                ),
                 fit: BoxFit.fill,
                 loadingBuilder: (context, child, loadingProgress) {
                   if (loadingProgress != null) return const SizedBox();
-        
+
                   return FadeIn(
                     child: child,
                   );

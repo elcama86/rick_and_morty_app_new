@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:card_swiper/card_swiper.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:rick_and_morty_app/config/config.dart';
 import 'package:rick_and_morty_app/features/characters/domain/domain.dart';
 
@@ -85,7 +86,9 @@ class _Slide extends StatelessWidget {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(20.0),
             child: FadeInImage(
-              image: NetworkImage(character.image),
+              image: CachedNetworkImageProvider(
+                character.image,
+              ),
               placeholder: const AssetImage("assets/images/cargando.gif"),
               fit: BoxFit.fill,
             ),

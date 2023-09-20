@@ -1,8 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:animate_do/animate_do.dart';
 import 'package:go_router/go_router.dart';
+import 'package:animate_do/animate_do.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:rick_and_morty_app/features/characters/characters.dart';
 
 class CharacterPoster extends StatelessWidget {
@@ -63,7 +64,7 @@ class _CharacterImage extends StatelessWidget {
         height: 180.0,
         fit: BoxFit.fill,
         placeholder: const AssetImage('assets/images/cargando.gif'),
-        image: NetworkImage(
+        image: CachedNetworkImageProvider(
           imageUrl,
         ),
       ),
