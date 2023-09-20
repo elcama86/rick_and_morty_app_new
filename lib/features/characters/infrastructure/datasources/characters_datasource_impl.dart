@@ -12,6 +12,8 @@ class CharactersDatasourceImpl extends CharactersDatasource {
     ),
   );
 
+  String currentQuery = '';
+
   void _checkDioException(DioException e) {
     if (e.response?.statusCode == 404) {
       throw CharacterNotFound();
@@ -78,6 +80,8 @@ class CharactersDatasourceImpl extends CharactersDatasource {
   @override
   Future<List<Character>> searchCharacters(String query) async {
     try {
+      currentQuery = query;
+
       if (query.isEmpty) return [];
 
       final response = await dio.get(
@@ -86,6 +90,8 @@ class CharactersDatasourceImpl extends CharactersDatasource {
           'name': query,
         },
       );
+
+      if (currentQuery != query) return [];
 
       return _jsonToCharacters(response.data);
     } on DioException catch (e) {
