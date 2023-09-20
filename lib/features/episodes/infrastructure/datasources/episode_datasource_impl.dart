@@ -12,6 +12,8 @@ class EpisodeDatasourceImpl extends EpisodesDatasource {
     ),
   );
 
+  String currentQuery = '';
+
   void _checkDioException(DioException e) {
     if (e.response?.statusCode == 404) {
       throw EpisodeNotFound();
@@ -77,6 +79,8 @@ class EpisodeDatasourceImpl extends EpisodesDatasource {
   @override
   Future<List<Episode>> searchEpisodes(String query) async {
     try {
+      currentQuery = query;
+
       if (query.isEmpty) return [];
 
       final response = await dio.get(
@@ -85,6 +89,8 @@ class EpisodeDatasourceImpl extends EpisodesDatasource {
           'name': query,
         },
       );
+
+      if (currentQuery != query) return [];
 
       return _jsonToEpisodes(response.data);
     } on DioException catch (e) {
