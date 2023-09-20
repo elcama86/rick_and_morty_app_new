@@ -58,15 +58,20 @@ class SearchEpisodesBloc
 
   Future<List<Episode>> searchEpisodesByQuery(String query) async {
     try {
-      if (query != state.query) add(SetQueryLoading(true));
+      if (query == state.query && !state.isLoading) return state.results;
+
+      if (query.isNotEmpty) add(SetQueryLoading(true));
 
       add(SetQueryValue(query));
 
       final List<Episode> results = await searchEpisodes(query);
 
-      add(SetQueryResults(results));
       add(SetQueryLoading(false));
       add(SetQueryErrorMessage(''));
+
+      if (query.isNotEmpty && results.isEmpty) return state.results;
+      
+      add(SetQueryResults(results));
 
       return results;
     } on EpisodeNotFound {
