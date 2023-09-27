@@ -48,42 +48,53 @@ class _FavoritesEpisodesViewState extends State<FavoritesEpisodesView> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<FavoritesEpisodesBloc, FavoritesEpisodesState>(
-      builder: (context, state) {
+    return Builder(
+      builder: (BuildContext context) {
+        final favoritesEpisodesState =
+            context.watch<FavoritesEpisodesBloc>().state;
         final List<Episode> favoritesEpisodes =
-            state.favoritesEpisodes.values.toList();
+            favoritesEpisodesState.favoritesEpisodes.values.toList();
+        final currentIndex =
+            context.watch<BottomNavBarCubit>().state.currentIndex;
 
-        if (isLoading && favoritesEpisodes.isEmpty && state.isFirstLoad) {
-          return const LoadingSpinner(
-            message: 'loading_favorites',
+        if (isLoading &&
+            favoritesEpisodes.isEmpty &&
+            favoritesEpisodesState.isFirstLoad) {
+          return Visibility.maintain(
+            visible: currentIndex == 1,
+            child: const LoadingSpinner(
+              message: 'loading_favorites',
+            ),
           );
         }
 
         if (favoritesEpisodes.isEmpty) {
           isLastPage = false;
-          return const CustomMessage(
-            message: "no_favorites_loaded",
+          return Visibility.maintain(
+            visible: currentIndex == 1,
+            child: const CustomMessage(
+              message: "no_favorites_loaded",
+            ),
           );
         }
 
-        return ElementsScrollView(
-          controller:
-              context.watch<BottomNavBarCubit>().state.favoritesController,
-          elements: favoritesEpisodes,
-          title: "favorites",
-          leading: IconButton(
-            onPressed: () => context.pop(),
-            icon: const Icon(Icons.arrow_back),
+        return Visibility.maintain(
+          visible: currentIndex == 1,
+          child: ElementsScrollView(
+            controller:
+                context.watch<BottomNavBarCubit>().state.favoritesController,
+            elements: favoritesEpisodes,
+            title: "favorites",
+            leading: IconButton(
+              onPressed: () => context.pop(),
+              icon: const Icon(Icons.arrow_back),
+            ),
+            loadNextPage: loadNextFavorites,
+            showBottomNavBar: context.read<BottomNavBarCubit>().show,
+            hideBottomNavBar: context.read<BottomNavBarCubit>().hide,
+            setScrollPosition:
+                context.read<BottomNavBarCubit>().setScrollPosition,
           ),
-          loadNextPage: loadNextFavorites,
-          showBottomNavBar: context.read<BottomNavBarCubit>().show,
-          hideBottomNavBar: context.read<BottomNavBarCubit>().hide,
-          showContain: context.select(
-            (BottomNavBarCubit navBarCubit) =>
-                navBarCubit.state.currentIndex == 1,
-          ),
-          setScrollPosition:
-              context.read<BottomNavBarCubit>().setScrollPosition,
         );
       },
     );
