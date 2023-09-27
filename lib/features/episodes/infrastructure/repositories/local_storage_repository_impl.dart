@@ -19,12 +19,17 @@ class LocalStorageRepositoryImpl extends LocalStorageRepository {
   }
 
   @override
-  Future<void> toggleFavorite(Episode episode) {
+  Future<int> toggleFavorite(Episode episode) {
     return datasource.toggleFavorite(episode);
   }
 
   @override
   Future<Episode?> loadEpisodeByIndex(int index) {
     return datasource.loadEpisodeByIndex(index);
+  }
+
+  @override
+  Future<void> clearDb() {
+    return datasource.clearDb();
   }
 }
