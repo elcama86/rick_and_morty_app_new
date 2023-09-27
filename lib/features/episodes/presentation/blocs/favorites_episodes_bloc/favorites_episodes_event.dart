@@ -32,3 +32,9 @@ class ChangeIsFirstLoad extends FavoritesEpisodesEvent {
 
   ChangeIsFirstLoad(this.value);
 }
+
+class SetTotalFavorites extends FavoritesEpisodesEvent {
+  final int total;
+
+  SetTotalFavorites(this.total);
+}
