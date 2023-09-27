@@ -41,7 +41,7 @@ class LocalStorageDatasourceImpl extends LocalStorageDatasource {
   }
 
   @override
-  Future<void> toggleFavorite(Episode episode) async {
+  Future<int> toggleFavorite(Episode episode) async {
     final db = await isar;
 
     final Episode? favoriteEpisode =
@@ -49,10 +49,12 @@ class LocalStorageDatasourceImpl extends LocalStorageDatasource {
 
     if (favoriteEpisode != null) {
       db.writeTxnSync(() => db.episodes.deleteSync(favoriteEpisode.isarId));
-      return;
+      return db.episodes.where().findAllSync().length;
     }
 
     db.writeTxnSync(() => db.episodes.putSync(episode));
+
+    return db.episodes.where().findAllSync().length;
   }
 
   @override
@@ -64,5 +66,12 @@ class LocalStorageDatasourceImpl extends LocalStorageDatasource {
     if (episodes.length == index) return null;
 
     return episodes[index];
+  }
+
+  @override
+  Future<void> clearDb() async {
+    final db = await isar;
+
+    await db.episodes.clear();
   }
 }
