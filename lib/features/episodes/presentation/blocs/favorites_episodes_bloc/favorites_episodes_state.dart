@@ -2,7 +2,7 @@ part of 'favorites_episodes_bloc.dart';
 
 class FavoritesEpisodesState extends Equatable {
   final Map<int, Episode> favoritesEpisodes;
-
+  final int totalFavorites;
   final int offset;
   final int limit;
   final bool showIcon;
@@ -10,6 +10,7 @@ class FavoritesEpisodesState extends Equatable {
 
   const FavoritesEpisodesState({
     this.favoritesEpisodes = const {},
+    this.totalFavorites = 0,
     this.offset = 0,
     this.limit = 20,
     this.showIcon = false,
@@ -18,6 +19,7 @@ class FavoritesEpisodesState extends Equatable {
 
   FavoritesEpisodesState copyWith({
     Map<int, Episode>? favoritesEpisodes,
+    int? totalFavorites,
     int? offset,
     int? limit,
     bool? showIcon,
@@ -25,6 +27,7 @@ class FavoritesEpisodesState extends Equatable {
   }) =>
       FavoritesEpisodesState(
         favoritesEpisodes: favoritesEpisodes ?? this.favoritesEpisodes,
+        totalFavorites: totalFavorites ?? this.totalFavorites,
         offset: offset ?? this.offset,
         limit: limit ?? this.limit,
         showIcon: showIcon ?? this.showIcon,
@@ -33,5 +36,5 @@ class FavoritesEpisodesState extends Equatable {
 
   @override
   List<Object> get props =>
-      [favoritesEpisodes, offset, limit, showIcon, isFirstLoad];
+      [favoritesEpisodes, totalFavorites, offset, limit, showIcon, isFirstLoad];
 }
