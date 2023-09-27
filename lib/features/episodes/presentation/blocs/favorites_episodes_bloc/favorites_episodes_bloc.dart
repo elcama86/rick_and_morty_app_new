@@ -21,6 +21,7 @@ class FavoritesEpisodesBloc
     on<SetFavorites>(_setFavorites);
     on<SetShowIcon>(_setShowIcon);
     on<ChangeIsFirstLoad>(_changeIsFirstLoad);
+    on<SetTotalFavorites>(_setTotalFavorites);
   }
 
   void _addFavoriteEpisode(
@@ -84,6 +85,15 @@ class FavoritesEpisodesBloc
     );
   }
 
+  void _setTotalFavorites(
+      SetTotalFavorites event, Emitter<FavoritesEpisodesState> emit) {
+    emit(
+      state.copyWith(
+        totalFavorites: event.total,
+      ),
+    );
+  }
+
   Future<List<Episode>> loadFavoritesEpisodes() async {
     final favoritesEpisodes = await localStorageRepository.loadEpisodes(
       offset: state.offset,
@@ -112,7 +122,9 @@ class FavoritesEpisodesBloc
   }
 
   Future<void> toggleFavorite(Episode episode) async {
-    await localStorageRepository.toggleFavorite(episode);
+    int totalFavorites = await localStorageRepository.toggleFavorite(episode);
+
+    add(SetTotalFavorites(totalFavorites));
 
     await isFavorite(episode.id);
 
