@@ -34,24 +34,36 @@ class _EpisodesViewState extends State<EpisodesView> {
           SharedUtils.showSnackbar(context, state.errorMessage);
         }
       },
-      child: BlocBuilder<EpisodesBloc, EpisodesState>(
-        bloc: BlocProvider.of<EpisodesBloc>(context),
-        builder: (context, state) {
-          if (state.isLoading && state.episodes.isEmpty) {
-            return const LoadingSpinner(
-              message: 'loading_episodes',
+      child: Builder(
+        builder: (BuildContext context) {
+          final episodesState = context.watch<EpisodesBloc>().state;
+          final currentIndex =
+              context.watch<BottomNavBarCubit>().state.currentIndex;
+
+          if (episodesState.isLoading && episodesState.episodes.isEmpty) {
+            return Visibility.maintain(
+              visible: currentIndex == 0,
+              child: const LoadingSpinner(
+                message: 'loading_episodes',
+              ),
             );
           }
 
-          if (state.episodes.isEmpty) {
-            return const CustomMessage(
-              message: "no_episodes_loaded",
+          if (episodesState.episodes.isEmpty) {
+            return Visibility.maintain(
+              visible: currentIndex == 0,
+              child: const CustomMessage(
+                message: "no_episodes_loaded",
+              ),
             );
           }
 
-          return _EpisodesViewContain(
-            episodes: state.episodes,
-            loadNextPage: context.read<EpisodesBloc>().loadNextPage,
+          return Visibility.maintain(
+            visible: currentIndex == 0,
+            child: _EpisodesViewContain(
+              episodes: episodesState.episodes,
+              loadNextPage: context.read<EpisodesBloc>().loadNextPage,
+            ),
           );
         },
       ),
@@ -106,9 +118,6 @@ class _EpisodesViewContain extends StatelessWidget {
       loadNextPage: loadNextPage,
       showBottomNavBar: context.read<BottomNavBarCubit>().show,
       hideBottomNavBar: context.read<BottomNavBarCubit>().hide,
-      showContain: context.select(
-        (BottomNavBarCubit navBarCubit) => navBarCubit.state.currentIndex == 0,
-      ),
       setScrollPosition: context.read<BottomNavBarCubit>().setScrollPosition,
     );
   }
