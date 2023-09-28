@@ -72,6 +72,15 @@ class LocalStorageDatasourceImpl extends LocalStorageDatasource {
   Future<void> clearDb() async {
     final db = await isar;
 
-    await db.episodes.clear();
+    await db.writeTxn(() => db.clear());
+  }
+
+  @override
+  Future<int> totalFavorites() async {
+    final db = await isar;
+
+    final episodes = await db.episodes.where().findAll();
+
+    return episodes.length;
   }
 }
