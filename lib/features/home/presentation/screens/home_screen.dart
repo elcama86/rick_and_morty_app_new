@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rick_and_morty_app/features/characters/characters.dart';
 import 'package:rick_and_morty_app/features/home/home.dart';
+import 'package:rick_and_morty_app/features/settings/settings.dart';
 import 'package:rick_and_morty_app/features/shared/shared.dart';
 
 class HomeScreen extends StatefulWidget {
