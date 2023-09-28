@@ -38,3 +38,5 @@ class SetTotalFavorites extends FavoritesEpisodesEvent {
 
   SetTotalFavorites(this.total);
 }
+
+class ClearFavorites extends FavoritesEpisodesEvent{}
