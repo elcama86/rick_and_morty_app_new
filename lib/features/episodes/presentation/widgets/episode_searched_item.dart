@@ -3,7 +3,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rick_and_morty_app/features/episodes/episodes.dart';
-import 'package:rick_and_morty_app/features/shared/shared.dart';
+import 'package:rick_and_morty_app/features/settings/settings.dart';
 
 class EpisodeSearchedItem extends StatelessWidget {
   final Episode episode;
