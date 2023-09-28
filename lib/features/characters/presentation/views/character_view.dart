@@ -4,6 +4,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:rick_and_morty_app/config/config.dart';
 import 'package:rick_and_morty_app/features/characters/characters.dart';
+import 'package:rick_and_morty_app/features/settings/settings.dart';
 import 'package:rick_and_morty_app/features/shared/shared.dart';
 
 class CharacterView extends StatelessWidget {
