@@ -14,7 +14,7 @@ class FavoritesEpisodesBloc
   FavoritesEpisodesBloc({
     required this.localStorageRepository,
   }) : super(
-          const FavoritesEpisodesState(),
+          const FavoritesEpisodesState.initial(),
         ) {
     on<AddFavoriteEpisode>(_addFavoriteEpisode);
     on<RemoveFavoriteEpisode>(_removeFavoriteEpisode);
@@ -22,6 +22,8 @@ class FavoritesEpisodesBloc
     on<SetShowIcon>(_setShowIcon);
     on<ChangeIsFirstLoad>(_changeIsFirstLoad);
     on<SetTotalFavorites>(_setTotalFavorites);
+    on<ClearFavorites>(_clearFavorites);
+    _getTotalFavorites();
   }
 
   void _addFavoriteEpisode(
@@ -94,6 +96,13 @@ class FavoritesEpisodesBloc
     );
   }
 
+  void _clearFavorites(
+      ClearFavorites event, Emitter<FavoritesEpisodesState> emit) {
+    emit(
+      const FavoritesEpisodesState.initial(),
+    );
+  }
+
   Future<List<Episode>> loadFavoritesEpisodes() async {
     final favoritesEpisodes = await localStorageRepository.loadEpisodes(
       offset: state.offset,
@@ -122,13 +131,13 @@ class FavoritesEpisodesBloc
   }
 
   Future<void> toggleFavorite(Episode episode) async {
-    int totalFavorites = await localStorageRepository.toggleFavorite(episode);
+    final totalFavorites = await localStorageRepository.toggleFavorite(episode);
 
     add(SetTotalFavorites(totalFavorites));
 
     await isFavorite(episode.id);
 
-    int favoritesLength = state.favoritesEpisodes.values.length;
+    final favoritesLength = state.favoritesEpisodes.values.length;
 
     final bool isEpisodeInFavorites =
         state.favoritesEpisodes[episode.id] != null;
@@ -139,5 +148,17 @@ class FavoritesEpisodesBloc
       if (favoritesLength == state.offset) return;
       add(AddFavoriteEpisode(episode.id, episode));
     }
+  }
+
+  Future<void> clearEpisodesDb() async {
+    await localStorageRepository.clearDb();
+
+    add(ClearFavorites());
+  }
+
+  void _getTotalFavorites() async {
+    final totalFavorites = await localStorageRepository.totalFavorites();
+
+    add(SetTotalFavorites(totalFavorites));
   }
 }
