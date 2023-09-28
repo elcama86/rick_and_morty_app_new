@@ -6,4 +6,5 @@ abstract class LocalStorageRepository {
   Future<List<Episode>> loadEpisodes({int limit = 10, int offset = 0});
   Future<Episode?> loadEpisodeByIndex(int index);
   Future<void> clearDb();
+  Future<int> totalFavorites();
 }

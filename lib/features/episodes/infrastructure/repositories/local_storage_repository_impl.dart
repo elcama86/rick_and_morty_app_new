@@ -32,4 +32,9 @@ class LocalStorageRepositoryImpl extends LocalStorageRepository {
   Future<void> clearDb() {
     return datasource.clearDb();
   }
+
+  @override
+  Future<int> totalFavorites() {
+    return datasource.totalFavorites();
+  }
 }
