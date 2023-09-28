@@ -3,9 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+
 import 'package:rick_and_morty_app/config/config.dart';
-import 'package:rick_and_morty_app/features/auth/domain/domain.dart';
-import 'package:rick_and_morty_app/features/auth/presentation/blocs/blocs.dart';
+import 'package:rick_and_morty_app/features/auth/auth.dart';
+import 'package:rick_and_morty_app/features/settings/settings.dart';
 import 'package:rick_and_morty_app/features/shared/shared.dart';
 
 class LoginScreen extends StatelessWidget {
