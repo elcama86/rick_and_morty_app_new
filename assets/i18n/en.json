@@ -104,5 +104,9 @@
     "password_match_error": "Password does not match",
     "system_language": "System default language",
     "selected_favorites": "Selected favorite episodes",
-    "delete_favorites": "Delete favorites"
+    "delete_favorites": "Delete favorites",
+    "accept": "Accept",
+    "cancel": "Cancel",
+    "attention": "Attention!",
+    "confirm_delete_favorites_message": "Are you sure you want to delete all selected favorite episodes?"
 }

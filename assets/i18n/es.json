@@ -104,5 +104,9 @@
     "password_match_error": "La contraseña no coincide",
     "system_language": "Idioma predeterminado por sistema",
     "selected_favorites": "Episodios favoritos seleccionados",
-    "delete_favorites": "Eliminar favoritos"
+    "delete_favorites": "Eliminar favoritos",
+    "accept": "Aceptar",
+    "cancel": "Cancelar",
+    "attention": " ¡Atención!",
+    "confirm_delete_favorites_message": "¿Está seguro que desea eliminar todos los episodios favoritos seleccionados?"
 }
