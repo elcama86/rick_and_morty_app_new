@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rick_and_morty_app/config/router/app_router_notifier.dart';
-import 'package:rick_and_morty_app/features/auth/presentation/blocs/auth_bloc/auth_bloc.dart';
-import 'package:rick_and_morty_app/features/auth/presentation/screens/screens.dart';
+import 'package:rick_and_morty_app/features/auth/auth.dart';
 import 'package:rick_and_morty_app/features/characters/characters.dart';
 import 'package:rick_and_morty_app/features/episodes/episodes.dart';
 import 'package:rick_and_morty_app/features/home/home.dart';
-import 'package:rick_and_morty_app/features/shared/shared.dart';
+import 'package:rick_and_morty_app/features/settings/settings.dart';
 
 class AppRouter {
   late final GoRouterNotifier goRouterNotifier;
