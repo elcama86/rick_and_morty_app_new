@@ -8,7 +8,7 @@ class FavoritesEpisodesState extends Equatable {
   final bool showIcon;
   final bool isFirstLoad;
 
-  const FavoritesEpisodesState({
+  const FavoritesEpisodesState.initial({
     this.favoritesEpisodes = const {},
     this.totalFavorites = 0,
     this.offset = 0,
@@ -25,7 +25,7 @@ class FavoritesEpisodesState extends Equatable {
     bool? showIcon,
     bool? isFirstLoad,
   }) =>
-      FavoritesEpisodesState(
+      FavoritesEpisodesState.initial(
         favoritesEpisodes: favoritesEpisodes ?? this.favoritesEpisodes,
         totalFavorites: totalFavorites ?? this.totalFavorites,
         offset: offset ?? this.offset,
