@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rick_and_morty_app/features/auth/auth.dart';
 import 'package:rick_and_morty_app/features/characters/characters.dart';
 import 'package:rick_and_morty_app/features/episodes/episodes.dart';
+import 'package:rick_and_morty_app/features/settings/settings.dart';
 import 'package:rick_and_morty_app/features/shared/shared.dart';
 
 final List<RepositoryProvider> repositoryProviders = [
