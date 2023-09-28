@@ -102,5 +102,7 @@
     "password_format_error": "Debe de tener mayúscula, letras y un número",
     "length_error": "Mínimo 6 caracteres",
     "password_match_error": "La contraseña no coincide",
-    "system_language": "Idioma predeterminado por sistema"
+    "system_language": "Idioma predeterminado por sistema",
+    "selected_favorites": "Episodios favoritos seleccionados",
+    "delete_favorites": "Eliminar favoritos"
 }

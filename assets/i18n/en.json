@@ -102,5 +102,7 @@
     "password_format_error": "It must have a capital letter, letters and a number",
     "length_error": "Min 6 characters",
     "password_match_error": "Password does not match",
-    "system_language": "System default language"
+    "system_language": "System default language",
+    "selected_favorites": "Selected favorite episodes",
+    "delete_favorites": "Delete favorites"
 }
