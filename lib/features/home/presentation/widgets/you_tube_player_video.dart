@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rick_and_morty_app/config/config.dart';
-import 'package:rick_and_morty_app/features/shared/shared.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:rick_and_morty_app/config/config.dart';
+import 'package:rick_and_morty_app/features/settings/settings.dart';
 
 class YouTubePlayerVideo extends StatefulWidget {
   const YouTubePlayerVideo({
