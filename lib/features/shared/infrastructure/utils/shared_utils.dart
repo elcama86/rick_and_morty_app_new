@@ -308,4 +308,60 @@ class SharedUtils {
 
     return contain;
   }
+
+  static Future<void> showAlertDialog({
+    required BuildContext context,
+    required String title,
+    required String message,
+    required void Function() acceptAction,
+    Color? iconColor,
+    Color? cancelButtonColor,
+    Color? acceptButtonColor,
+  }) async {
+    final textThemes = Theme.of(context).textTheme;
+    final colors = Theme.of(context).colorScheme;
+
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => AlertDialog(
+        icon: const Icon(Icons.warning_amber),
+        iconColor: iconColor,
+        titleTextStyle: textThemes.titleMedium,
+        title: Text(
+          AppLocalizations.of(context).translate(title),
+        ),
+        contentTextStyle: textThemes.titleSmall,
+        content: Text(
+          AppLocalizations.of(context).translate(message),
+          textAlign: TextAlign.justify,
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(
+              AppLocalizations.of(context).translate('cancel'),
+              style: textThemes.titleSmall?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: cancelButtonColor ?? colors.primary,
+              ),
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              acceptAction();
+              Navigator.pop(context);
+            },
+            child: Text(
+              AppLocalizations.of(context).translate('accept'),
+              style: textThemes.titleSmall?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: acceptButtonColor ?? colors.primary,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
