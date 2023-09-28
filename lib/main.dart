@@ -4,8 +4,8 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 import 'package:rick_and_morty_app/config/config.dart';
 import 'package:rick_and_morty_app/config/router/app_router_notifier.dart';
-import 'package:rick_and_morty_app/features/auth/presentation/presentation.dart';
-import 'package:rick_and_morty_app/features/shared/shared.dart';
+import 'package:rick_and_morty_app/features/auth/auth.dart';
+import 'package:rick_and_morty_app/features/settings/settings.dart';
 
 Future<void> main() async {
   await AppInitialization.initialize();
