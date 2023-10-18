@@ -99,10 +99,7 @@ class FavoritesEpisodesBloc
   void _clearFavorites(
       ClearFavorites event, Emitter<FavoritesEpisodesState> emit) {
     emit(
-      state.isFirstLoad
-          ? const FavoritesEpisodesState.initial()
-          : const FavoritesEpisodesState.initial()
-              .copyWith(isFirstLoad: state.isFirstLoad),
+      const FavoritesEpisodesState.initial(),
     );
   }
 
