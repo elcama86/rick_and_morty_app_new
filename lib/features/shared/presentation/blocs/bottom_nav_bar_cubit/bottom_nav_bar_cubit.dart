@@ -110,4 +110,12 @@ class BottomNavBarCubit extends Cubit<BottomNavBarState> {
       ),
     );
   }
+
+  void updateFavoritesPosition(int totalFavortes) {
+    if (totalFavortes % 3 != 0) return;
+
+    final position = state.finalPosition - state.appBarHeight;
+
+    if (position < state.appBarHeight) showAfterRemoveFavorite();
+  }
 }
