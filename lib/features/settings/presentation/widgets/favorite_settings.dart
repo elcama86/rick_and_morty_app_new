@@ -49,12 +49,19 @@ class FavoritesSettings extends StatelessWidget {
                         context: context,
                         title: 'attention',
                         message: 'confirm_delete_favorites_message',
-                        acceptAction: context
-                            .read<FavoritesEpisodesBloc>()
-                            .clearEpisodesDb,
                         iconColor: colors.error,
                         acceptButtonColor: colors.error,
-                      )
+                      ).then((value) {
+                        if (value != null && value) {
+                          context
+                              .read<FavoritesEpisodesBloc>()
+                              .clearEpisodesDb()
+                              .then(
+                                (_) => SharedUtils.showSnackbar(
+                                    context, 'favorites_deleted'),
+                              );
+                        }
+                      })
                   : null,
               icon: const Icon(Icons.delete_forever),
               label: Text(
