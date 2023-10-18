@@ -25,7 +25,7 @@ class BottomNavBarCubit extends Cubit<BottomNavBarState> {
   }
 
   void showAfterRemoveFavorite() {
-    if (state.currentIndex != 1 || state.isVisible) return;
+    if (state.currentIndex != 1) return;
 
     emit(
       state.copyWith(
