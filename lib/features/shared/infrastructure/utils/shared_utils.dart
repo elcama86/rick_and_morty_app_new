@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:animate_do/animate_do.dart';
 import 'package:rick_and_morty_app/config/config.dart';
 import 'package:rick_and_morty_app/features/characters/characters.dart';
 import 'package:rick_and_morty_app/features/episodes/episodes.dart';
@@ -187,15 +188,18 @@ class SharedUtils {
   }
 
   static String specialTranslate(String text, BuildContext context) {
-    List<String> textArray = text.split(',');
+    List<String> keyArray = text.split(',');
 
-    String firstText = AppLocalizations.of(context).translate(textArray[0]);
-    String otherText =
-        AppLocalizations.of(context).translate(textArray[1]).isNotEmpty
-            ? AppLocalizations.of(context).translate(textArray[1])
-            : textArray[1];
+    String translatedText = '';
 
-    return '$firstText $otherText';
+    for (String key in keyArray) {
+      String text = AppLocalizations.of(context).translate(key).isNotEmpty
+          ? AppLocalizations.of(context).translate(key)
+          : key;
+      translatedText = '$translatedText $text';
+    }
+
+    return translatedText;
   }
 
   static Widget actionSearchWidget<T>(
@@ -309,11 +313,10 @@ class SharedUtils {
     return contain;
   }
 
-  static Future<void> showAlertDialog({
+  static Future<bool?> showAlertDialog({
     required BuildContext context,
     required String title,
     required String message,
-    required void Function() acceptAction,
     Color? iconColor,
     Color? cancelButtonColor,
     Color? acceptButtonColor,
@@ -321,11 +324,18 @@ class SharedUtils {
     final textThemes = Theme.of(context).textTheme;
     final colors = Theme.of(context).colorScheme;
 
-    return showDialog<void>(
+    return await showDialog<bool?>(
       context: context,
       barrierDismissible: false,
       builder: (context) => AlertDialog(
-        icon: const Icon(Icons.warning_amber),
+        icon: Flash(
+          duration: const Duration(milliseconds: 1500),
+          infinite: true,
+          child: const Icon(
+            Icons.warning_amber,
+            size: 36.0,
+          ),
+        ),
         iconColor: iconColor,
         titleTextStyle: textThemes.titleMedium,
         title: Text(
@@ -338,7 +348,7 @@ class SharedUtils {
         ),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => Navigator.pop(context, false),
             child: Text(
               AppLocalizations.of(context).translate('cancel'),
               style: textThemes.titleSmall?.copyWith(
@@ -348,10 +358,7 @@ class SharedUtils {
             ),
           ),
           TextButton(
-            onPressed: () {
-              acceptAction();
-              Navigator.pop(context);
-            },
+            onPressed: () => Navigator.pop(context, true),
             child: Text(
               AppLocalizations.of(context).translate('accept'),
               style: textThemes.titleSmall?.copyWith(
