@@ -43,7 +43,7 @@ class SideMenu extends StatelessWidget {
             style: textThemes.titleLarge,
           ),
         ),
-        ...menuOptions.sublist(0, 2).map(
+        ...menuOptions.sublist(0, 3).map(
               (option) => NavigationDrawerDestination(
                 icon: _IconOption(
                   option: option,
@@ -67,7 +67,7 @@ class SideMenu extends StatelessWidget {
             style: textThemes.titleLarge,
           ),
         ),
-        ...menuOptions.sublist(2).map(
+        ...menuOptions.sublist(3).map(
               (option) => NavigationDrawerDestination(
                 icon: _IconOption(
                   option: option,
