@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:rick_and_morty_app/config/constants/environment.dart';
 import 'package:rick_and_morty_app/features/episodes/episodes.dart';
@@ -14,19 +12,6 @@ class EpisodeDatasourceImpl extends EpisodesDatasource {
 
   String currentQuery = '';
 
-  void _checkDioException(DioException e) {
-    if (e.response?.statusCode == 404) {
-      throw EpisodeNotFound();
-    }
-    if (e.type == DioExceptionType.connectionTimeout) {
-      throw CustomError("check_connection");
-    }
-    if (e.type == DioExceptionType.unknown &&
-        e.error.runtimeType == SocketException) {
-      throw CustomError("no_internet");
-    }
-  }
-
   @override
   Future<Episode> getEpisodeById(String id) async {
     try {
@@ -40,7 +25,7 @@ class EpisodeDatasourceImpl extends EpisodesDatasource {
 
       return episode;
     } on DioException catch (e) {
-      _checkDioException(e);
+      SharedUtils.checkDioException(e, 'episode');
       throw Exception();
     } catch (e) {
       throw Exception();
@@ -69,7 +54,7 @@ class EpisodeDatasourceImpl extends EpisodesDatasource {
 
       return _jsonToEpisodes(response.data);
     } on DioException catch (e) {
-      _checkDioException(e);
+      SharedUtils.checkDioException(e, 'episode');
       throw Exception();
     } catch (e) {
       throw Exception();
@@ -94,7 +79,7 @@ class EpisodeDatasourceImpl extends EpisodesDatasource {
 
       return _jsonToEpisodes(response.data);
     } on DioException catch (e) {
-      _checkDioException(e);
+      SharedUtils.checkDioException(e, 'episode');
       throw Exception();
     } catch (e) {
       throw Exception();
@@ -111,7 +96,7 @@ class EpisodeDatasourceImpl extends EpisodesDatasource {
 
       return episodes;
     } on DioException catch (e) {
-      _checkDioException(e);
+      SharedUtils.checkDioException(e, 'episode');
       throw Exception();
     } catch (e) {
       throw Exception();

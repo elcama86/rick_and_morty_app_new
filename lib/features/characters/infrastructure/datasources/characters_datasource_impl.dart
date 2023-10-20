@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:rick_and_morty_app/config/constants/environment.dart';
 import 'package:rick_and_morty_app/features/characters/domain/domain.dart';
@@ -13,19 +12,6 @@ class CharactersDatasourceImpl extends CharactersDatasource {
   );
 
   String currentQuery = '';
-
-  void _checkDioException(DioException e) {
-    if (e.response?.statusCode == 404) {
-      throw CharacterNotFound();
-    }
-    if (e.type == DioExceptionType.connectionTimeout) {
-      throw CustomError("check_connection");
-    }
-    if (e.type == DioExceptionType.unknown &&
-        e.error.runtimeType == SocketException) {
-      throw CustomError("no_internet");
-    }
-  }
 
   List<Character> _jsonToCharacters(Map<String, dynamic> json) {
     final charactersResponse = CharactersResponse.fromJson(json);
@@ -51,7 +37,7 @@ class CharactersDatasourceImpl extends CharactersDatasource {
 
       return character;
     } on DioException catch (e) {
-      _checkDioException(e);
+      SharedUtils.checkDioException(e, 'character');
       throw Exception();
     } catch (e) {
       throw Exception();
@@ -70,7 +56,7 @@ class CharactersDatasourceImpl extends CharactersDatasource {
 
       return _jsonToCharacters(response.data);
     } on DioException catch (e) {
-      _checkDioException(e);
+      SharedUtils.checkDioException(e, 'character');
       throw Exception();
     } catch (e) {
       throw Exception();
@@ -95,7 +81,7 @@ class CharactersDatasourceImpl extends CharactersDatasource {
 
       return _jsonToCharacters(response.data);
     } on DioException catch (e) {
-      _checkDioException(e);
+      SharedUtils.checkDioException(e, 'character');
       throw Exception();
     } catch (e) {
       throw Exception();
