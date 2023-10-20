@@ -26,6 +26,11 @@ const List<MenuOption> menuOptions = [
     link: '/episodes',
   ),
   MenuOption(
+    title: 'locations',
+    image: 'assets/images/locations.webp',
+    link: '/locations',
+  ),
+  MenuOption(
     title: 'settings',
     image: '',
     icon: Icons.settings,
