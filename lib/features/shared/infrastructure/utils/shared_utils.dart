@@ -1,4 +1,6 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:rick_and_morty_app/config/config.dart';
@@ -370,5 +372,25 @@ class SharedUtils {
         ],
       ),
     );
+  }
+
+  static void checkDioException(DioException e, String entity) {
+    if (e.response?.statusCode == 404) {
+      switch (entity) {
+        case 'character':
+          throw CharacterNotFound();
+        case 'episode':
+          throw EpisodeNotFound();
+        case 'location':
+          throw LocationNotFound();
+      }
+    }
+    if (e.type == DioExceptionType.connectionTimeout) {
+      throw CustomError("check_connection");
+    }
+    if (e.type == DioExceptionType.unknown &&
+        e.error.runtimeType == SocketException) {
+      throw CustomError("no_internet");
+    }
   }
 }
