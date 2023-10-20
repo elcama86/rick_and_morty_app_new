@@ -110,5 +110,6 @@
     "attention": "Attention!",
     "confirm_delete_favorites_message": "Are you sure you want to delete all selected favorite episodes?",
     "favorites_deleted": "Selected favorite episodes have been removed.",
-    "episode_deleted": "has been removed."
+    "episode_deleted": "has been removed.",
+    "locations": "Locations"
 }
