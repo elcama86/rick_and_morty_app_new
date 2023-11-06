@@ -10,12 +10,9 @@ import 'package:rick_and_morty_app/features/shared/presentation/widgets/widgets.
 class CharactersView extends StatefulWidget {
   final List<Character> characters;
 
-  final VoidCallback? loadNextPage;
-
   const CharactersView({
     super.key,
     required this.characters,
-    this.loadNextPage,
   });
 
   @override
@@ -59,7 +56,8 @@ class _CharactersViewState extends State<CharactersView> {
                 delegate: SearchElementsDelegate(
                   searchElements: searchCharacters,
                   initialElements: searchCharactersState.results,
-                  label: AppLocalizations.of(context).translate('search_character'),
+                  label: AppLocalizations.of(context)
+                      .translate('search_character'),
                 ),
               );
             },
@@ -67,7 +65,7 @@ class _CharactersViewState extends State<CharactersView> {
           ),
         ),
       ],
-      loadNextPage: widget.loadNextPage,
+      loadNextPage: context.read<CharactersBloc>().loadNextPage,
     );
   }
 }
