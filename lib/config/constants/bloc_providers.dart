@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rick_and_morty_app/features/auth/auth.dart';
 import 'package:rick_and_morty_app/features/characters/characters.dart';
 import 'package:rick_and_morty_app/features/episodes/episodes.dart';
+import 'package:rick_and_morty_app/features/locations/locations.dart';
 import 'package:rick_and_morty_app/features/settings/settings.dart';
 import 'package:rick_and_morty_app/features/shared/shared.dart';
 
@@ -29,6 +30,11 @@ final List<RepositoryProvider> repositoryProviders = [
   ),
   RepositoryProvider<KeyValueStorageService>(
     create: (context) => KeyValueStorageServiceImpl(),
+  ),
+  RepositoryProvider<LocationsRepository>(
+    create: (context) => LocationsRepositoryImpl(
+      LocationsDatasourceImpl(),
+    ),
   ),
 ];
 
@@ -95,6 +101,17 @@ final List<BlocProvider> blocProviders = [
   BlocProvider<SettingsCubit>(
     create: (context) => SettingsCubit(
       keyValueStorageService: context.read<KeyValueStorageService>(),
+    ),
+  ),
+  BlocProvider<LocationsBloc>(
+    create: (context) => LocationsBloc(
+      getLocationsByPage:
+          context.read<LocationsRepository>().getLocationsByPage,
+    ),
+  ),
+  BlocProvider<SearchLocationsBloc>(
+    create: (context) => SearchLocationsBloc(
+      searchLocations: context.read<LocationsRepository>().searchLocations,
     ),
   ),
 ];
