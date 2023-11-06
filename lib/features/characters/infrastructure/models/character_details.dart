@@ -17,8 +17,8 @@ class CharacterDetails {
     final String species;
     final String type;
     final String gender;
-    final Location origin;
-    final Location location;
+    final LocationOrigin origin;
+    final LocationOrigin location;
     final String image;
     final List<String> episode;
     final String url;
@@ -46,8 +46,8 @@ class CharacterDetails {
         species: json["species"],
         type: json["type"],
         gender: json["gender"],
-        origin: Location.fromJson(json["origin"]),
-        location: Location.fromJson(json["location"]),
+        origin: LocationOrigin.fromJson(json["origin"]),
+        location: LocationOrigin.fromJson(json["location"]),
         image: json["image"],
         episode: List<String>.from(json["episode"].map((x) => x)),
         url: json["url"],
