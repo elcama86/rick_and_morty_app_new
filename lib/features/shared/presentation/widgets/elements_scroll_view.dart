@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:rick_and_morty_app/config/config.dart';
-
-import 'elements_mansory.dart';
+import 'package:rick_and_morty_app/features/shared/shared.dart';
 
 class ElementsScrollView<T> extends StatefulWidget {
   final ScrollController controller;
@@ -69,19 +67,11 @@ class _ElementsScrollViewState<T> extends State<ElementsScrollView<T>> {
 
   @override
   Widget build(BuildContext context) {
-    final appBarTitleTheme = Theme.of(context).appBarTheme.titleTextStyle;
-
     return CustomScrollView(
       controller: widget.controller,
       slivers: [
-        SliverAppBar(
-          floating: true,
-          flexibleSpace: FlexibleSpaceBar(
-            title: Text(
-              AppLocalizations.of(context).translate(widget.title),
-              style: appBarTitleTheme,
-            ),
-          ),
+        CustomSliverAppBar(
+          title: widget.title,
           leading: widget.leading,
           actions: widget.actions,
         ),
