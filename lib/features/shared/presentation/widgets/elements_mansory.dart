@@ -3,6 +3,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:rick_and_morty_app/features/characters/domain/domain.dart';
 import 'package:rick_and_morty_app/features/characters/presentation/widgets/widgets.dart';
 import 'package:rick_and_morty_app/features/episodes/episodes.dart';
+import 'package:rick_and_morty_app/features/locations/locations.dart';
 
 class ElementsMansory<T> extends StatelessWidget {
   final List<T> elements;
@@ -30,6 +31,10 @@ class ElementsMansory<T> extends StatelessWidget {
             case Episode:
               return EpisodePoster(
                 episode: elements[index] as Episode,
+              );
+            case Location:
+              return LocationPoster(
+                location: elements[index] as Location,
               );
             default:
               return const SizedBox();
