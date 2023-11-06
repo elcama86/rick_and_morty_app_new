@@ -70,7 +70,7 @@ class LocationsDatasourceImpl extends LocationsDatasource {
       if (query.isEmpty) return [];
 
       final response = await dio.get(
-        'location',
+        '/location',
         queryParameters: {
           'name': query,
         },
