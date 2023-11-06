@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:rick_and_morty_app/config/config.dart';
 import 'package:rick_and_morty_app/features/locations/locations.dart';
@@ -14,20 +15,31 @@ class LocationSearchedItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FadeIn(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-        child: Row(
-          children: [
-            LocationCard(
-              location: location,
-            ),
-            const SizedBox(
-              height: 10.0,
-            ),
-            _LocationDetails(
-              location: location,
-            ),
-          ],
+      child: GestureDetector(
+        onTap: () => context.push(
+          Uri(
+            path: '/locations/location',
+            queryParameters: {
+              'id': '${location.id}',
+              'name': location.name,
+            },
+          ).toString(),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+          child: Row(
+            children: [
+              LocationCard(
+                location: location,
+              ),
+              const SizedBox(
+                height: 10.0,
+              ),
+              _LocationDetails(
+                location: location,
+              ),
+            ],
+          ),
         ),
       ),
     );
