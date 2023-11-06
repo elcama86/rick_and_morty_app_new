@@ -5,6 +5,7 @@ import 'package:rick_and_morty_app/features/auth/auth.dart';
 import 'package:rick_and_morty_app/features/characters/characters.dart';
 import 'package:rick_and_morty_app/features/episodes/episodes.dart';
 import 'package:rick_and_morty_app/features/home/home.dart';
+import 'package:rick_and_morty_app/features/locations/locations.dart';
 import 'package:rick_and_morty_app/features/settings/settings.dart';
 
 class AppRouter {
@@ -118,6 +119,13 @@ class AppRouter {
                 ],
               ),
             ],
+          ),
+          GoRoute(
+            path: 'locations',
+            pageBuilder: (context, state) => transitionAnimationPage(
+              key: state.pageKey,
+              child: const LocationsScreen(),
+            ),
           ),
           GoRoute(
             path: 'settings',
