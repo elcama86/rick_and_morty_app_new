@@ -67,8 +67,8 @@ class Result {
   final String species;
   final String type;
   final String gender;
-  final Location origin;
-  final Location location;
+  final LocationOrigin origin;
+  final LocationOrigin location;
   final String image;
   final List<String> episode;
   final String url;
@@ -96,8 +96,8 @@ class Result {
         species: json["species"],
         type: json["type"],
         gender: json["gender"],
-        origin: Location.fromJson(json["origin"]),
-        location: Location.fromJson(json["location"]),
+        origin: LocationOrigin.fromJson(json["origin"]),
+        location: LocationOrigin.fromJson(json["location"]),
         image: json["image"],
         episode: List<String>.from(json["episode"].map((x) => x)),
         url: json["url"],
@@ -120,16 +120,16 @@ class Result {
       };
 }
 
-class Location {
+class LocationOrigin {
   final String name;
   final String url;
 
-  Location({
+  LocationOrigin({
     required this.name,
     required this.url,
   });
 
-  factory Location.fromJson(Map<String, dynamic> json) => Location(
+  factory LocationOrigin.fromJson(Map<String, dynamic> json) => LocationOrigin(
         name: json["name"],
         url: json["url"],
       );
