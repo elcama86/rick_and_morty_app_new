@@ -6,6 +6,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:rick_and_morty_app/config/config.dart';
 import 'package:rick_and_morty_app/features/characters/characters.dart';
 import 'package:rick_and_morty_app/features/episodes/episodes.dart';
+import 'package:rick_and_morty_app/features/locations/locations.dart';
 import 'package:rick_and_morty_app/features/shared/shared.dart';
 
 class SharedUtils {
@@ -209,17 +210,18 @@ class SharedUtils {
     switch (T) {
       case Character:
         return BlocBuilder<SearchCharactersBloc, SearchCharactersState>(
-          builder: (context, state) {
-            return actionSearchStateWidget(
-                state.isLoading, loadingSpinner, closeSearch);
-          },
+          builder: (context, state) => actionSearchStateWidget(
+              state.isLoading, loadingSpinner, closeSearch),
         );
       case Episode:
         return BlocBuilder<SearchEpisodesBloc, SearchEpisodesState>(
-          builder: (context, state) {
-            return actionSearchStateWidget(
-                state.isLoading, loadingSpinner, closeSearch);
-          },
+          builder: (context, state) => actionSearchStateWidget(
+              state.isLoading, loadingSpinner, closeSearch),
+        );
+      case Location:
+        return BlocBuilder<SearchLocationsBloc, SearchLocationsState>(
+          builder: (context, state) => actionSearchStateWidget(
+              state.isLoading, loadingSpinner, closeSearch),
         );
       default:
         return const SizedBox();
@@ -293,6 +295,18 @@ class SharedUtils {
         );
 
         return BlocBuilder<SearchEpisodesBloc, SearchEpisodesState>(
+          builder: (context, state) => suggestionsAndResultsContain(
+              elements, state.errorMessage, listContain),
+        );
+      case Location:
+        final listContain = ListView.builder(
+          itemCount: elements.length,
+          itemBuilder: (context, index) => LocationSearchedItem(
+            location: elements[index] as Location,
+          ),
+        );
+
+        return BlocBuilder<SearchLocationsBloc, SearchLocationsState>(
           builder: (context, state) => suggestionsAndResultsContain(
               elements, state.errorMessage, listContain),
         );
@@ -388,7 +402,7 @@ class SharedUtils {
     if (e.type == DioExceptionType.connectionTimeout) {
       throw CustomError("check_connection");
     }
-    if (e.type == DioExceptionType.unknown &&
+    if (e.type == DioExceptionType.connectionError &&
         e.error.runtimeType == SocketException) {
       throw CustomError("no_internet");
     }
