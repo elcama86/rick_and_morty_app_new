@@ -21,7 +21,7 @@ class CharacterPoster extends StatelessWidget {
 
     return FadeInUp(
       from: random.nextInt(100) + 80,
-      delay: Duration(milliseconds: random.nextInt(450) + 0),
+      delay: Duration(milliseconds: random.nextInt(450)),
       child: GestureDetector(
         onTap: () => context.push(
           Uri(
