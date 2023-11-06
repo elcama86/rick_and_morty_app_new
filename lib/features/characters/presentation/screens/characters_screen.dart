@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rick_and_morty_app/features/characters/domain/domain.dart';
 
 import 'package:rick_and_morty_app/features/characters/presentation/blocs/blocs.dart';
-import 'package:rick_and_morty_app/features/characters/presentation/views/views.dart';
 import 'package:rick_and_morty_app/features/shared/shared.dart';
 
 class CharactersScreen extends StatefulWidget {
@@ -35,13 +34,11 @@ class _CharactersScreenState extends State<CharactersScreen> {
       },
       child: BlocBuilder<CharactersBloc, CharactersState>(
         bloc: BlocProvider.of<CharactersBloc>(context),
-        builder: (context, state) {
-          return _ScaffoldScreen(
-            characters: state.characters,
-            isLoading: state.isLoading,
-            hasError: state.errorMessage.isNotEmpty,
-          );
-        },
+        builder: (context, state) => _ScaffoldScreen(
+          characters: state.characters,
+          isLoading: state.isLoading,
+          hasError: state.errorMessage.isNotEmpty,
+        ),
       ),
     );
   }
@@ -62,9 +59,11 @@ class _ScaffoldScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: SharedUtils.appBarContain(characters, "characters", context),
-      body: _ScaffoldBody(
-        characters: characters,
+      body: ScaffoldBodyList(
+        elements: characters,
         isLoading: isLoading,
+        loadingMessage: 'loading_characters',
+        emptyMessage: 'no_characters_loaded',
       ),
       floatingActionButton: hasError && !isLoading && characters.isEmpty
           ? FloatingActionButton(
@@ -74,36 +73,6 @@ class _ScaffoldScreen extends StatelessWidget {
               ),
             )
           : null,
-    );
-  }
-}
-
-class _ScaffoldBody extends StatelessWidget {
-  final List<Character> characters;
-  final bool isLoading;
-
-  const _ScaffoldBody({
-    required this.characters,
-    required this.isLoading,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    if (isLoading && characters.isEmpty) {
-      return const LoadingSpinner(
-        message: 'loading_characters',
-      );
-    }
-
-    if (characters.isEmpty) {
-      return const CustomMessage(
-        message: 'no_characters_loaded',
-      );
-    }
-
-    return CharactersView(
-      characters: characters,
-      loadNextPage: context.read<CharactersBloc>().loadNextPage,
     );
   }
 }
