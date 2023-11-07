@@ -114,4 +114,9 @@ final List<BlocProvider> blocProviders = [
       searchLocations: context.read<LocationsRepository>().searchLocations,
     ),
   ),
+  BlocProvider<LocationCubit>(
+    create: (context) => LocationCubit(
+      getLocationById: context.read<LocationsRepository>().getLocationById,
+    ),
+  ),
 ];
