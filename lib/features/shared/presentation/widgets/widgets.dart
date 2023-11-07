@@ -8,6 +8,7 @@ export 'element_horizontal_listview.dart';
 export 'elements_by_entity.dart';
 export 'elements_mansory.dart';
 export 'elements_scroll_view.dart';
+export 'item_to_show.dart';
 export 'loading_spinner.dart';
 export 'scaffold_background.dart';
 export 'scaffold_body_list.dart';
