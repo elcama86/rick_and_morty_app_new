@@ -127,21 +127,21 @@ class _EpisodeDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        _ItemToShow(
+        ItemToShow(
           title: 'name',
           subtitle: episode.name,
           icon: Icons.video_label_outlined,
         ),
-        _ItemToShow(
+        ItemToShow(
           title: 'season',
           subtitle: EpisodeUtils.getSeason(episode.episode),
           icon: Icons.videocam_outlined,
         ),
-        _ItemToShow(
+        ItemToShow(
           title: 'episode_number',
           subtitle: EpisodeUtils.getEpisode(episode.episode),
         ),
-        _ItemToShow(
+        ItemToShow(
           title: 'air_date',
           subtitle: context.select(
             (SettingsCubit settingsCubit) => EpisodeUtils.transformAirDate(
@@ -159,39 +159,6 @@ class _EpisodeDetails extends StatelessWidget {
           entity: episode,
         ),
       ],
-    );
-  }
-}
-
-class _ItemToShow extends StatelessWidget {
-  final String title;
-  final String subtitle;
-  final IconData? icon;
-
-  const _ItemToShow({
-    required this.title,
-    required this.subtitle,
-    this.icon,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final textThemes = Theme.of(context).textTheme;
-
-    return ListTile(
-      leading: icon != null
-          ? Icon(
-              icon,
-            )
-          : const SizedBox(),
-      title: Text(
-        AppLocalizations.of(context).translate(title),
-        style: textThemes.titleMedium,
-      ),
-      subtitle: Text(
-        subtitle,
-        style: textThemes.titleSmall,
-      ),
     );
   }
 }
