@@ -126,6 +126,25 @@ class AppRouter {
               key: state.pageKey,
               child: const LocationsScreen(),
             ),
+            routes: [
+              GoRoute(
+                path: 'location',
+                parentNavigatorKey: _rootNavigatorKey,
+                pageBuilder: (context, state) {
+                  final locationId = state.queryParameters['id'] ?? 'no-id';
+                  final locationName =
+                      state.queryParameters['name'] ?? 'no-name';
+
+                  return transitionAnimationPage(
+                    key: state.pageKey,
+                    child: LocationScreen(
+                      locationId: locationId,
+                      locationName: locationName,
+                    ),
+                  );
+                },
+              ),
+            ],
           ),
           GoRoute(
             path: 'settings',
