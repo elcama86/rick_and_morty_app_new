@@ -244,6 +244,8 @@ class SharedUtils {
       case Episode:
         context.read<EpisodeBloc>().getEpisode(id);
         break;
+      case Location:
+        context.read<LocationCubit>().getLocation(id);
       default:
         throw UnimplementedError();
     }
@@ -255,6 +257,8 @@ class SharedUtils {
         return 'loading_character';
       case Episode:
         return 'loading_episode';
+      case Location:
+        return 'loading_location';
       default:
         return '';
     }
@@ -266,6 +270,8 @@ class SharedUtils {
         return 'error_loading_character';
       case Episode:
         return 'error_loading_episode';
+      case Location:
+        return 'error_loading_location';
       default:
         return '';
     }
