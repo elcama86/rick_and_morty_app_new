@@ -158,5 +158,13 @@
     "police_department": "Departamento de policía",
     "country": "País",
     "consciousness": "Conciencia",
-    "memory": "Memoria"
+    "memory": "Memoria",
+    "location_id_message": "No existe ubicación con id:",
+    "loading_location": "Cargando ubicación...",
+    "error_loading_location": "No se pudo cargar la ubicación seleccionada",
+    "residents": "Residentes",
+    "error_loading_residents": "Los residentes no pudieron ser cargados",
+    "no_characters": "No existen personajes que aparecen en este episodio",
+    "no_episodes": "No existen episodios en los que aparece este personaje",
+    "no_residents": "No existen residentes en esta ubicación"
 }

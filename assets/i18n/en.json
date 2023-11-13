@@ -158,5 +158,13 @@
     "police_department": "Police department",
     "country": "Country",
     "consciousness": "Consciousness",
-    "memory": "Memory"
+    "memory": "Memory",
+    "location_id_message": "It does not exist location with id:",
+    "loading_location": "Loading location...",
+    "error_loading_location": "The selected location could not be loaded",
+    "residents": "Residents",
+    "error_loading_residents": "Residents could not be loaded",
+    "no_characters": "There are no characters that appear in this episode",
+    "no_episodes": "There are no episodes in which this character appears",
+    "no_residents": "There are no residents at this location"
 }
