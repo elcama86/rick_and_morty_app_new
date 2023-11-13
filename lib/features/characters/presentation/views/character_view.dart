@@ -222,8 +222,6 @@ class _CustomSliverAppBar extends StatelessWidget {
           title: character.name,
           textStyle: textStyle,
           gradientColor: scaffoldBackgroundColor,
-          bottom: 10.0,
-          left: 60.0,
         ),
         background: Stack(
           children: [

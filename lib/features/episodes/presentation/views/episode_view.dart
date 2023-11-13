@@ -88,8 +88,6 @@ class _CustomSliverAppBar extends StatelessWidget {
               '${AppLocalizations.of(context).translate('episode')} ${episode.id}',
           textStyle: textStyle,
           gradientColor: scaffoldBackgroundColor,
-          bottom: 10.0,
-          left: 60.0,
         ),
         background: Stack(
           children: [
