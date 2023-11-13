@@ -12,6 +12,7 @@ class CharactersByEpisodeBloc
     extends Bloc<CharactersByEpisodeEvent, CharactersByEpisodeState> {
   final Future<List<Character>> Function(List<String> ids)
       getCharactersByEpisode;
+
   CharactersByEpisodeBloc({
     required this.getCharactersByEpisode,
   }) : super(const CharactersByEpisodeState()) {
