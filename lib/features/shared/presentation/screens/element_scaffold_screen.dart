@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rick_and_morty_app/features/characters/characters.dart';
 import 'package:rick_and_morty_app/features/episodes/episodes.dart';
+import 'package:rick_and_morty_app/features/locations/locations.dart';
 import 'package:rick_and_morty_app/features/shared/shared.dart';
 
 class ElementScaffoldScreen<T> extends StatelessWidget {
@@ -70,6 +71,10 @@ class _ScaffoldBody<T> extends StatelessWidget {
       case Episode:
         return EpisodeView(
           episode: element! as Episode,
+        );
+      case Location:
+        return LocationView(
+          location: element! as Location,
         );
       default:
         return const SizedBox();
