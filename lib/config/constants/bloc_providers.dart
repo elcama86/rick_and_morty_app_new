@@ -119,4 +119,10 @@ final List<BlocProvider> blocProviders = [
       getLocationById: context.read<LocationsRepository>().getLocationById,
     ),
   ),
+  BlocProvider<ResidentsByLocationBloc>(
+    create: (context) => ResidentsByLocationBloc(
+      getResidentsByLocation:
+          context.read<CharactersRepository>().getCharactersByList,
+    ),
+  ),
 ];
