@@ -3,14 +3,12 @@ import 'package:flutter/rendering.dart';
 import 'package:go_router/go_router.dart';
 import 'package:animate_do/animate_do.dart';
 
-import 'package:rick_and_morty_app/features/characters/characters.dart';
-import 'package:rick_and_morty_app/features/episodes/episodes.dart';
 import 'package:rick_and_morty_app/features/shared/shared.dart';
 
 class ElementHorizontalListview<T, K> extends StatefulWidget {
   final List<T> elements;
   final K entity;
-  final void Function(K entity, BuildContext context) loadNextElements;
+  final void Function<K>(K entity, BuildContext context) loadNextElements;
 
   const ElementHorizontalListview({
     super.key,
@@ -20,12 +18,12 @@ class ElementHorizontalListview<T, K> extends StatefulWidget {
   });
 
   @override
-  State<ElementHorizontalListview<T, K>> createState() =>
+  State<ElementHorizontalListview> createState() =>
       _ElementHorizontalListviewState<T, K>();
 }
 
 class _ElementHorizontalListviewState<T, K>
-    extends State<ElementHorizontalListview<T, K>> {
+    extends State<ElementHorizontalListview> {
   final controller = ScrollController();
 
   @override
@@ -38,7 +36,7 @@ class _ElementHorizontalListviewState<T, K>
 
       if ((controller.position.pixels + 200) >=
           controller.position.maxScrollExtent) {
-        widget.loadNextElements(widget.entity, context);
+        widget.loadNextElements<K>(widget.entity, context);
       }
     });
   }
@@ -58,18 +56,9 @@ class _ElementHorizontalListviewState<T, K>
         scrollDirection: Axis.horizontal,
         physics: const BouncingScrollPhysics(),
         itemBuilder: (context, index) {
-          switch (T) {
-            case Episode:
-              return _Element(
-                element: widget.elements[index] as Episode,
-              );
-            case Character:
-              return _Element(
-                element: widget.elements[index] as Character,
-              );
-            default:
-              return const SizedBox();
-          }
+          return _Element<T>(
+            element: widget.elements[index],
+          );
         },
       ),
     );
@@ -88,21 +77,21 @@ class _Element<T> extends StatelessWidget {
     final textStyle = Theme.of(context).textTheme.titleSmall;
 
     return GestureDetector(
-      onTap: () => context.push(SharedUtils.getElementRoute(element)),
+      onTap: () => context.push(SharedUtils.getElementRoute<T>(element)),
       child: Container(
         padding: const EdgeInsets.all(8.0),
         width: 135.0,
         child: Column(
           children: [
             FadeInRight(
-              child: SharedUtils.getChildWidget(element),
+              child: SharedUtils.getChildWidget<T>(element),
             ),
             const SizedBox(
               height: 5.0,
             ),
             Expanded(
               child: Text(
-                SharedUtils.getElementName(element),
+                SharedUtils.getElementName<T>(element),
                 textAlign: TextAlign.center,
                 style: textStyle,
                 overflow: TextOverflow.ellipsis,
