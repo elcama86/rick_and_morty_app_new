@@ -5,16 +5,12 @@ class TitleSliverAppBar extends StatelessWidget {
   final String title;
   final TextStyle? textStyle;
   final Color gradientColor;
-  final double bottom;
-  final double left;
 
   const TitleSliverAppBar({
     super.key,
     required this.title,
     required this.textStyle,
     required this.gradientColor,
-    required this.bottom,
-    required this.left,
   });
 
   @override
