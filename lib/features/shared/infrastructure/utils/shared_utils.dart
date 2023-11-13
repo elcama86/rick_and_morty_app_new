@@ -46,27 +46,30 @@ class SharedUtils {
     }
   }
 
-  static getElements<T>(T entity, BuildContext context) {
-    switch (entity.runtimeType) {
+  static List<dynamic>? getElements<T>(String id, BuildContext context) {
+    switch (T) {
       case Character:
-        final Character character = entity as Character;
         return context
             .read<EpisodesByCharacterBloc>()
             .state
-            .episodesByCharacter[character.id.toString()]?['episodes'];
+            .episodesByCharacter[id]?['episodes'];
       case Episode:
-        final Episode episode = entity as Episode;
         return context
             .read<CharactersByEpisodeBloc>()
             .state
-            .charactersByEpisode[episode.id.toString()]?['characters'];
+            .charactersByEpisode[id]?['characters'];
+      case Location:
+        return context
+            .read<ResidentsByLocationBloc>()
+            .state
+            .residentsByLocation[id]?['residents'];
       default:
         return [];
     }
   }
 
   static void loadElements<T>(T entity, BuildContext context) {
-    switch (entity.runtimeType) {
+    switch (T) {
       case Character:
         final Character character = entity as Character;
         final ids = getIdsFromUrl(character.episodes);
@@ -81,55 +84,68 @@ class SharedUtils {
             .read<CharactersByEpisodeBloc>()
             .loadCharacters(episode.id.toString(), ids);
         break;
+      case Location:
+        final Location location = entity as Location;
+        final ids = getIdsFromUrl(location.residents);
+        context
+            .read<ResidentsByLocationBloc>()
+            .loadResidents(location.id.toString(), ids);
+        break;
       default:
         throw UnimplementedError();
     }
   }
 
-  static watchElements<T>(T entity, BuildContext context) {
-    switch (entity.runtimeType) {
+  static List<dynamic>? watchElements<T>(String id, BuildContext context) {
+    switch (T) {
       case Character:
-        final Character character = entity as Character;
         return context
             .watch<EpisodesByCharacterBloc>()
             .state
-            .episodesByCharacter[character.id.toString()]?['episodes'];
-
+            .episodesByCharacter[id]?['episodes'];
       case Episode:
-        final Episode episode = entity as Episode;
         return context
             .watch<CharactersByEpisodeBloc>()
             .state
-            .charactersByEpisode[episode.id.toString()]?['characters'];
+            .charactersByEpisode[id]?['characters'];
+      case Location:
+        return context
+            .watch<ResidentsByLocationBloc>()
+            .state
+            .residentsByLocation[id]?['residents'];
       default:
         return [];
     }
   }
 
-  static bool watchElementHasError<T>(T entity, BuildContext context) {
-    switch (entity.runtimeType) {
+  static bool watchElementHasError<T>(BuildContext context) {
+    switch (T) {
       case Character:
         return context.watch<EpisodesByCharacterBloc>().state.hasError;
       case Episode:
         return context.watch<CharactersByEpisodeBloc>().state.hasError;
+      case Location:
+        return context.watch<ResidentsByLocationBloc>().state.hasError;
       default:
         return false;
     }
   }
 
-  static String loadingElementsMessageError<T>(T entity) {
-    switch (entity.runtimeType) {
+  static String loadingElementsMessageError<T>() {
+    switch (T) {
       case Character:
         return 'error_loading_episodes';
       case Episode:
         return 'error_loading_characters';
+      case Location:
+        return 'error_loading_residents';
       default:
         return '';
     }
   }
 
   static String getElementRoute<T>(T element) {
-    switch (element.runtimeType) {
+    switch (T) {
       case Character:
         final Character character = element as Character;
 
@@ -150,7 +166,7 @@ class SharedUtils {
   }
 
   static String getElementName<T>(T element) {
-    switch (element.runtimeType) {
+    switch (T) {
       case Character:
         final Character character = element as Character;
         return character.name;
@@ -163,7 +179,7 @@ class SharedUtils {
   }
 
   static Widget getChildWidget<T>(T element) {
-    switch (element.runtimeType) {
+    switch (T) {
       case Character:
         return CharacterCard(
           character: element as Character,
@@ -411,6 +427,19 @@ class SharedUtils {
     if (e.type == DioExceptionType.connectionError &&
         e.error.runtimeType == SocketException) {
       throw CustomError("no_internet");
+    }
+  }
+
+  static String elementsEmptyMessage<T>() {
+    switch (T) {
+      case Character:
+        return 'no_episodes';
+      case Episode:
+        return 'no_characters';
+      case Location:
+        return 'no_residents';
+      default:
+        return '';
     }
   }
 }
