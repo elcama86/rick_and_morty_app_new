@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:go_router/go_router.dart';
 import 'package:animate_do/animate_do.dart';
+import 'package:rick_and_morty_app/features/characters/characters.dart';
+import 'package:rick_and_morty_app/features/episodes/episodes.dart';
 
 import 'package:rick_and_morty_app/features/shared/shared.dart';
 
@@ -84,7 +86,9 @@ class _Element<T> extends StatelessWidget {
         child: Column(
           children: [
             FadeInRight(
-              child: SharedUtils.getChildWidget<T>(element),
+              child: _ElementCard(
+                element: element,
+              ),
             ),
             const SizedBox(
               height: 5.0,
@@ -102,5 +106,30 @@ class _Element<T> extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class _ElementCard<T> extends StatelessWidget {
+  final T element;
+
+  const _ElementCard({
+    super.key,
+    required this.element,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    switch (T) {
+      case Character:
+        return CharacterCard(
+          character: element as Character,
+        );
+      case Episode:
+        return EpisodeCard(
+          episode: element as Episode,
+        );
+      default:
+        return const SizedBox();
+    }
   }
 }
