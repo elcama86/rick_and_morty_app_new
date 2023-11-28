@@ -46,25 +46,42 @@ class SharedUtils {
     }
   }
 
-  static List<dynamic>? getElements<T>(String id, BuildContext context) {
+  static List<dynamic>? getElements<T>(
+      String id, bool isReading, BuildContext context) {
     switch (T) {
       case Character:
-        return context
-            .read<EpisodesByCharacterBloc>()
-            .state
-            .episodesByCharacter[id]?['episodes'];
+        return isReading
+            ? (context
+                .read<EpisodesByCharacterBloc>()
+                .state
+                .episodesByCharacter[id]?['episodes'])
+            : context
+                .watch<EpisodesByCharacterBloc>()
+                .state
+                .episodesByCharacter[id]?['episodes'];
+
       case Episode:
-        return context
-            .read<CharactersByEpisodeBloc>()
-            .state
-            .charactersByEpisode[id]?['characters'];
+        return isReading
+            ? (context
+                .read<CharactersByEpisodeBloc>()
+                .state
+                .charactersByEpisode[id]?['characters'])
+            : context
+                .watch<CharactersByEpisodeBloc>()
+                .state
+                .charactersByEpisode[id]?['characters'];
       case Location:
-        return context
-            .read<ResidentsByLocationBloc>()
-            .state
-            .residentsByLocation[id]?['residents'];
+        return isReading
+            ? (context
+                .read<ResidentsByLocationBloc>()
+                .state
+                .residentsByLocation[id]?['residents'])
+            : context
+                .watch<ResidentsByLocationBloc>()
+                .state
+                .residentsByLocation[id]?['residents'];
       default:
-        return [];
+        return null;
     }
   }
 
@@ -93,28 +110,6 @@ class SharedUtils {
         break;
       default:
         throw UnimplementedError();
-    }
-  }
-
-  static List<dynamic>? watchElements<T>(String id, BuildContext context) {
-    switch (T) {
-      case Character:
-        return context
-            .watch<EpisodesByCharacterBloc>()
-            .state
-            .episodesByCharacter[id]?['episodes'];
-      case Episode:
-        return context
-            .watch<CharactersByEpisodeBloc>()
-            .state
-            .charactersByEpisode[id]?['characters'];
-      case Location:
-        return context
-            .watch<ResidentsByLocationBloc>()
-            .state
-            .residentsByLocation[id]?['residents'];
-      default:
-        return [];
     }
   }
 
@@ -176,34 +171,6 @@ class SharedUtils {
       default:
         return '';
     }
-  }
-
-  static Widget getChildWidget<T>(T element) {
-    switch (T) {
-      case Character:
-        return CharacterCard(
-          character: element as Character,
-        );
-      case Episode:
-        return EpisodeCard(
-          episode: element as Episode,
-        );
-      default:
-        return const SizedBox();
-    }
-  }
-
-  static PreferredSizeWidget? appBarContain<T>(
-      List<T> elements, String title, BuildContext context) {
-    if (elements.isEmpty) {
-      return AppBar(
-        title: Text(
-          AppLocalizations.of(context).translate(title),
-        ),
-      );
-    }
-
-    return null;
   }
 
   static String specialTranslate(String text, BuildContext context) {
