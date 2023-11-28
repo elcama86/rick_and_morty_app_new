@@ -21,7 +21,11 @@ class LocationsScreen extends StatelessWidget {
           final errorLoading = state.errorMessage.isNotEmpty;
 
           return Scaffold(
-            appBar: SharedUtils.appBarContain(locations, 'locations', context),
+            appBar: locations.isEmpty
+                ? const AppBarContain(
+                    title: 'locations',
+                  )
+                : null,
             body: ScaffoldBodyList(
               elements: locations,
               isLoading: isLoading,
