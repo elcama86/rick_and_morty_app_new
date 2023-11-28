@@ -1,3 +1,3 @@
-# rick_and_morty_app
+# rick_and_morty_app_new
 
-A new Flutter project.
+Versión mejorada de la anterior aplicación sobre la serie animada Rick y Morty.
