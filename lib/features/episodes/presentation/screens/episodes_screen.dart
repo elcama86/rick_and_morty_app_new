@@ -26,25 +26,26 @@ class EpisodesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final index = navigationShell.currentIndex;
 
-    late PreferredSizeWidget? appBar;
+    PreferredSizeWidget? appBar;
 
     switch (index) {
       case 0:
         appBar = context.select(
-          (EpisodesBloc episodesBloc) => SharedUtils.appBarContain(
-            episodesBloc.state.episodes,
-            "episodes",
-            context,
-          ),
+          (EpisodesBloc episodesBloc) => episodesBloc.state.episodes.isEmpty
+              ? const AppBarContain(
+                  title: "episodes",
+                )
+              : null,
         );
         break;
       case 1:
         appBar = context.select(
-          (FavoritesEpisodesBloc favoritesBloc) => SharedUtils.appBarContain(
-            favoritesBloc.state.favoritesEpisodes.values.toList(),
-            "favorites",
-            context,
-          ),
+          (FavoritesEpisodesBloc favoritesBloc) =>
+              favoritesBloc.state.favoritesEpisodes.values.toList().isEmpty
+                  ? const AppBarContain(
+                      title: "favorites",
+                    )
+                  : null,
         );
         break;
       default:

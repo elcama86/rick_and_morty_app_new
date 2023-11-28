@@ -58,7 +58,11 @@ class _ScaffoldScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: SharedUtils.appBarContain(characters, "characters", context),
+      appBar: characters.isEmpty
+          ? const AppBarContain(
+              title: "characters",
+            )
+          : null,
       body: ScaffoldBodyList(
         elements: characters,
         isLoading: isLoading,
