@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rick_and_morty_app/config/localizations/app_localizations.dart';
 import 'package:rick_and_morty_app/features/characters/characters.dart';
-import 'package:rick_and_morty_app/features/episodes/domain/domain.dart';
+import 'package:rick_and_morty_app/features/episodes/episodes.dart';
+import 'package:rick_and_morty_app/features/locations/locations.dart';
 import 'package:rick_and_morty_app/features/shared/shared.dart';
 
 class ElementsByEntity<T> extends StatelessWidget {
@@ -23,7 +24,7 @@ class ElementsByEntity<T> extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
+          Padding(
             padding:
                 const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
             child: Text(
@@ -48,64 +49,88 @@ class _ElementList<T> extends StatefulWidget {
   });
 
   @override
-  State<_ElementList> createState() => _ElementListState();
+  State<_ElementList> createState() => _ElementListState<T>();
 }
 
-class _ElementListState extends State<_ElementList> {
+class _ElementListState<T> extends State<_ElementList> {
   @override
   void initState() {
     super.initState();
-    final elements = SharedUtils.getElements(widget.entity, context);
-    if (elements == null) {
-      SharedUtils.loadElements(widget.entity, context);
+    if (SharedUtils.getElements<T>(
+            widget.entity.id.toString(), true, context) ==
+        null) {
+      SharedUtils.loadElements<T>(widget.entity, context);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final elements = SharedUtils.watchElements(widget.entity, context);
+    final elements =
+        SharedUtils.getElements<T>(widget.entity.id.toString(), false, context);
 
-    final hasError = SharedUtils.watchElementHasError(widget.entity, context);
-
-    final textStyle = Theme.of(context).textTheme.titleSmall;
+    final hasError = SharedUtils.watchElementHasError<T>(context);
 
     if (elements == null) {
       if (hasError) {
-        return SizedBox(
-          height: 200.0,
-          child: Center(
-            child: Text(
-              AppLocalizations.of(context).translate(
-                SharedUtils.loadingElementsMessageError(widget.entity),
-              ),
-              style: textStyle,
-            ),
+        return _NoElementsMessage(
+          message: AppLocalizations.of(context).translate(
+            SharedUtils.loadingElementsMessageError<T>(),
           ),
         );
       }
+
       return const SizedBox(
         height: 200.0,
-        child: Center(
-          child: LoadingSpinner(),
+        child: LoadingSpinner(),
+      );
+    }
+
+    if (elements.isEmpty) {
+      return _NoElementsMessage(
+        message: AppLocalizations.of(context).translate(
+          SharedUtils.elementsEmptyMessage<T>(),
         ),
       );
     }
 
-    switch (widget.entity.runtimeType) {
+    switch (T) {
       case Character:
-        return ElementHorizontalListview(
+        return ElementHorizontalListview<Episode, T>(
           elements: List<Episode>.from(elements),
-          entity: widget.entity as Character,
+          entity: widget.entity,
           loadNextElements: SharedUtils.loadElements,
         );
-      case Episode:
-        return ElementHorizontalListview(
+      case Episode || Location:
+        return ElementHorizontalListview<Character, T>(
           elements: List<Character>.from(elements),
-          entity: widget.entity as Episode,
+          entity: widget.entity,
           loadNextElements: SharedUtils.loadElements,
         );
       default:
         return const SizedBox();
     }
+  }
+}
+
+class _NoElementsMessage extends StatelessWidget {
+  final String message;
+
+  const _NoElementsMessage({
+    required this.message,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final textStyle = Theme.of(context).textTheme.titleSmall;
+
+    return SizedBox(
+      height: 200.0,
+      child: Center(
+        child: Text(
+          message,
+          style: textStyle,
+        ),
+      ),
+    );
   }
 }
